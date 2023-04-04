@@ -24,7 +24,7 @@ function get_user_info($login='', $password='', $database='', $setcookies = fals
     }
     if ($setcookies)
     {
-        $two_weeks = time()+60*60*24*365;
+        $two_weeks = time()+60*60*24*14;
         setcookie('webvisor_login', $login, $two_weeks);
         setcookie('webvisor_password', $password, $two_weeks);
     }
@@ -60,33 +60,3 @@ function all_users(){
 }
 
 //Get journal entry associated with a student
-function get_journal( $user_id, $student_id, $class_id, $program_id, $major_id){
-    global $db;
-    $query = "
-    SELECT
-        Journal.date,
-        Users.name AS user_name,
-        CONCAT(Students.last, \", \", Students.first) AS student_name,
-        Classes.name AS class_name,
-        Programs.year AS program_name,
-        Majors.name AS major_name,
-        note
-    FROM 
-        journal as j
-        LEFT JOIN users ON journal.user_id=Users.id
-        LEFT JOIN students ON journal.student_id=Students.id
-        LEFT JOIN classes ON journal.class_id=Classes.id
-        LEFT JOIN programs ON journal.program_id=Programs.id
-        LEFT JOIN majors ON journal.major_id=Majors.id
-    ORDER BY
-        date DESC
-    WHERE 
-        j.user_id = 
-    LIMIT
-        100;
-    ";
-
-    $statement = $db->prepare($query);
-    $statement
-
-}

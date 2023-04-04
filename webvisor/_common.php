@@ -1,3 +1,4 @@
+//THIS FILE IS PRETTY MUCH USELESS IT HAS 3 methods THAT ARE USED
 <?php
 	
 	$SECRETARY_NAME = "Brenda Bland";

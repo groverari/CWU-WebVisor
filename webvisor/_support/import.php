@@ -1,7 +1,9 @@
+//THIS FILE IS NOT USED
 <html>
+
 <body>
-	
-<?php
+
+    <?php
 	include_once('_sql.php');
 	include_once('_html.php');
 		
@@ -68,7 +70,8 @@
 	}	
 ?>
 
-<?php echo(messages()); ?>
+    <?php echo(messages()); ?>
 
 </body>
+
 </html>

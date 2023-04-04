@@ -131,6 +131,7 @@
 	$PRINT_SQL = false;
 	$EXECUTE_SQL = true;
 	
+	/* THIS CODE HAS NO REFERENCES
 	function print_sql()
 	{
 		global $PRINT_SQL;
@@ -154,7 +155,8 @@
 		global $EXECUTE_SQL;
 		$EXECUTE_SQL = false;
 	}
-		
+	*/
+	/*
 	function my_query($query_string, $print)
 	{
 		global $PRINT_SQL;
@@ -180,6 +182,8 @@
 		
 		return $result;
 	}
+
+	*/
 
 //-----------------------------------------------------	
 //! JOURNAL
@@ -223,7 +227,7 @@
 //-----------------------------------------------------	
 //! MAJORS
 //-----------------------------------------------------	
-
+/* UNREFERENCED METHOD
 	function record_update($user_id, $note)
 	{
 			$query_string = "
@@ -234,6 +238,7 @@
 			;";
 			$query_result = my_query($query_string);
 	}
+*/
 	
 	function record_update_major($user_id, $major_id, $note)
 	{

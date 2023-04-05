@@ -54,7 +54,13 @@ function get_program_info($program_id){
 function get_program_roster($program_id){
     global $db;
     $query = "SELECT
-                s.last,
-                s.first,
-                CONCAT("
+                    s.last,
+                    s.first,
+                    CONCAT(s.last, \",\", s.first),
+                    Students.cwu_id,
+                    Students.email,
+                    Users.name AS advisor
+                
+                    ";
+            
 }

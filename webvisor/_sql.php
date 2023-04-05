@@ -390,6 +390,7 @@
 		return $row['id'];
 	}
 	
+	/* NON REFERENCED METHOD
 	function get_program_name($program_id)
 	{
 		$query_string = "
@@ -408,7 +409,7 @@
 		SELECT 
 		";
 	}
-
+*/
 //! @todo program credits should be calculated from class credits + elective credits
 
 	function all_programs($user_id = 0)

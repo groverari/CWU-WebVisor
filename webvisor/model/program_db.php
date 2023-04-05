@@ -50,3 +50,11 @@ function get_program_info($program_id){
     }
     else return $program;
 }
+
+function get_program_roster($program_id){
+    global $db;
+    $query = "SELECT
+                s.last,
+                s.first,
+                CONCAT("
+}

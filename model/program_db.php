@@ -51,16 +51,44 @@ function get_program_info($program_id){
     else return $program;
 }
 
+//TODO This has a YES/NO comparision BUT if we change database then it will need to be updated 
 function get_program_roster($program_id){
     global $db;
     $query = "SELECT
                     s.last,
                     s.first,
                     CONCAT(s.last, \",\", s.first),
-                    Students.cwu_id,
-                    Students.email,
-                    Users.name AS advisor
-                
+                    s.cwu_id,
+                    s.email,
+                    u.name AS advisor
+                FROM Students s
+                    JOIN Student_Programs sp ON s.student_id = sp.student_id
+                    JOIN Users u ON sp.user_id = u.id
+                WHERE
+                    sp.program_id = :program_id
+                    AND
+                    s.active = 'YES'
+                ORDER BY
+                    s.last, s.first ASC
                     ";
+    $statement = $db->prepare($query);
+    $statement-> bindValue(':program_id', $program_id);
+    $statement->execute();
+    $roster = $statement->fetchAll();
+    $statement->closeCursor();
+
+    if(!$roster){
+        $error = "Cound not generate program roster";
+        include ('../errors/error.php');
+    }
+    else return $roster;
             
+}
+
+function add_program($user_id, $major_id, $year, $tempate_id){
+    $program_id = 0;
+    global $db;
+    if($tempate_id == 0){
+        
+    }
 }

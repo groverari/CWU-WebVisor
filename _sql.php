@@ -216,7 +216,7 @@
 		$query_result = my_query($query_string);
 		
 		$result = array();
-		while ($row = mysql_fetch_assoc($query_result))
+		while ($row = mysqli_fetch_assoc($query_result))
 		{
 			$result[] = $row;
 		}
@@ -301,7 +301,7 @@
 		$query_result = my_query($query_string);
 		
 		$all_majors = array();
-		while ($row = mysql_fetch_assoc($query_result))
+		while ($row = mysqlii_fetch_assoc($query_result))
 		{
 			$all_majors[$row['id']] = $row['name'];
 		}

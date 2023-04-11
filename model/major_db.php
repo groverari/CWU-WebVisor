@@ -4,10 +4,7 @@ function all_majors(){
     global $db;
     $query = "SELECT * FROM majors
             ORDER BY name";
-    $statement = $db-> prepare($query);
-    $statement->execute();
-    $majors = $statement->fetchAll();
-    $statement->closeCursor();
+   $majors = get_from_db($query);
 
     if($majors == false){
         $error = "Could not find any majors";
@@ -20,13 +17,9 @@ function add_major($user_id, $name, $active){
     global $db;
     $query = "INSERT INTO majors(name, active)
                 VALUES(:name, :active)";
-    
-    $statement = $db->prepare($query);
-    $statement->bindValue(':name', $name);
-    $statement->bindValue(':active', $active);
-    $success = $statement->execute();
+    $data_array = [":active" => $active, ":name" => $name];
+    $success = add_db($query, $data_array);
     $id = $db->lastInsertId();
-    $statement->closeCursor();
 
     if(!$success){
         $error = "Could not add the new major";
@@ -51,32 +44,28 @@ function update_major($user_id, $major_id, $name, $active)
 				active= :active
 			WHERE
 				id= :major_id";
-		$statement = $db->prepare($query);
-        $statement-> bindValue(":name", $name);
-        $statement->bindValue(":active", $active);
-        $statement-> bindValue(":major_id", $major_id);
-        $statement-> execute();
-        $rows = $statement->rowCount();
-        $statement->closeCursor();
-
+        $data_array = [":name"=> $name, ":active"=> $active, ":major_id"=> $major_id];
+        $rows = add_db_rows($query, $data_array);
+        
 
 		if ($rows > 0)
 		{
 			$note = "<major:$major_id> updated.";
 			record_update_major($user_id, $major_id, $note);
+            return true;
 		}
-        return true;
+        else{
+            $error = "Could not update the major";
+            include ('../errors/error.php');
+            return false;
+        }
+        
 	}
 function get_major_info($major_id){
-    global $db;
     $query = "Select name, active
                 FROM majors
                 WHERE id= :major_id";
-    $statement = $db->prepare($query);
-    $statement->bindValue(":major_id", $major_id);
-    $statement->execute();
-    $major = $statement->fetch();
-    $statement->closeCursor();
+    $major = get_from_db($query, [':major_id' => $major_id]);
 
     if($major == false){
         $error = "Could not get Major info";

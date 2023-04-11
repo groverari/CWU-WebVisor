@@ -5,12 +5,8 @@ function get_program_id($major_id, $catalog_year){
     $query = "SELECT id FROM programs
                 WHERE major_id = :major_id
                     AND year = :year";
-    $statement = $db->prepare($query);
-    $statement->bindValue(":major_id", $major_id);
-    $statement->bindValue(":year", $catalog_year);
-    $statement->execute();
-    $program = $statement->fetch();
-    $statement->closeCursor();
+    $data_array = [":major_id"=> $major_id, ":year"=> $catalog_year];
+    $program = get_from_db($query, $data_array);
 }
 
 /*TODO the original code adds user programs 
@@ -25,10 +21,7 @@ function all_programs($user_id){
                 FROM programs
                 JOIN majors ON p.major_id = majors.id
                 ORDER BY name";
-    $statement = $db->prepare($query);
-    $statement->execute();
-    $programs = $statement->fetchAll();
-    $statement-> closeCursor();
+    $programs = get_from_db($query);
     return $programs;
 }
 
@@ -38,10 +31,8 @@ function get_program_info($program_id){
                 FROM programs p 
                 JOIN majors m ON p.major_id = m.id
                 WHERE p.id = :program_id";
-    $statement = $db-> prepare($query);
-    $statement->bindValue(":program_id", $program_id);
-    $statement-> execute();
-    $program = $statement->fetch();
+    $program = get_from_db($query, [":program_id"=> $program_id]);
+
 
     if(!$program){
         $error= "Could not get program info";
@@ -71,11 +62,8 @@ function get_program_roster($program_id){
                 ORDER BY
                     s.last, s.first ASC
                     ";
-    $statement = $db->prepare($query);
-    $statement-> bindValue(':program_id', $program_id);
-    $statement->execute();
-    $roster = $statement->fetchAll();
-    $statement->closeCursor();
+    $roster = get_from_db($query, [':program_id'=> $program_id]);
+    
 
     if(!$roster){
         $error = "Cound not generate program roster";
@@ -85,10 +73,19 @@ function get_program_roster($program_id){
             
 }
 
-function add_program($user_id, $major_id, $year, $tempate_id){
+function add_program($user_id, $major_id, $year, $template_id){
     $program_id = 0;
-    global $db;
-    if($tempate_id == 0){
-        
+    if($template_id == 0){
+        $query = " INSERT INTO 
+                    Programs(major_id, year)
+                    VALUES
+                    :major_id, :year";
+        $data_array = [":major_id" => $major_id, ":year" => $year];
+        add_db($query, $data_array);
+    }
+    else{
+        $query = "INSERT INTO 
+                    Programs(major_id, year, credits, elective_credits)
+                    "
     }
 }

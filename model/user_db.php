@@ -10,12 +10,9 @@ function get_user_info($login='', $password='', $database='', $setcookies = fals
     $query = "SELECT * FROM users
                 WHERE login = :login AND
                 password == :password";
-    $statement = $db->prepare($query);
-    $statement->bindValue(':login', $login);
-    $statement-> bindValue(':password', $password);
-    $statement ->execute();
-    $user = $statement->fetch();
-    $statement->closeCursor();
+    $data_array = [':login'=> $login, ':password'=>$password ];
+    $user = get_from_db($query, $data_array);
+    
 
     if(!$user){
         $error = "Could not verify user info please check username and password again";
@@ -38,12 +35,12 @@ function update_user($user_id, $password, $name, $program_id){
                 SET name = :name , 
                     program_id = :programid
                 WHERE user_id = :user_id";
-    $statement = $db->prepare($query);
-    $statement-> bindValue(':name', $name);
-    $statement-> bindValue(':program_id', $program_id);
-    $statement-> bindValue(':user_id', $user_id);
-    $success = $statement ->execute();
-    $statement->closeCursor();
+    $data_array = [":program_id" => $program_id, ":user_id"=> $user_id];
+    
+    if( !add_db($query, $data_array)){
+        $error = "Could not update user info";
+        include ('../errors/error.php');
+    }    
 }
 
 //Get All Users in Database
@@ -52,11 +49,7 @@ function all_users(){
     $query = "SELECT *
                 From users
                 ORDER BY name ASC";
-    $statement = $db->prepare($query);
-    $statement->execute();
-    $users = $statement->fetchAll();
+    $users = get_from_db($query);
 
     return $users;
 }
-
-//Get journal entry associated with a student

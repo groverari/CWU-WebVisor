@@ -1,7 +1,9 @@
+<?php
+
 //TWO METHODS ONE TO HASH PASSWODS ANOTHER TO UNSHASH
 
 function hash($password){
-$hash = ""
+$hash = "";
 // do hashing
 return $hash;
 }

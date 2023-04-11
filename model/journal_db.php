@@ -27,72 +27,68 @@ function get_journal( $user_id, $student_id, $class_id, $program_id, $major_id){
         100;
     ";
 
-    $statement = $db->prepare($query);
-    $statement-> execute();
-    $journals = $statement->fetchAll();
-    return $journals;
+   $journals = get_from_db($query);
+   if(!$journals){
+    $error = "Could not get the journals from database";
+    include("../errors/error.php");
+   }
+   else return $journals;
 }
 
 function record_update_major($user_id, $major_id, $note){
-    global $db;
+    
     $query = "INSERT INTO journal (user_id, major_id, note)
                 VALUES (:user_id, :major_id, :note)";
-    $statement = $db-> prepare($query);
-    $statement-> bindValue(":user_id", $user_id);
-    $statement-> bindValue(":major_id", $major_id);
-    $statement-> bindValue(":note", $note);
-    $success = $statement-> execute();
-    $statement->closeCursor();
+    $data_array = [":user_id" =>$user_id, ":major_id" => $major_id, ":note"=> $note];
+    $success = add_db($query, $data_array);
     if(!$success){
         $error = "Could not update journal";
         include("../errors/error.php");
+        return false;
     }
+    else return true;
 }
 
 function record_update_program($user_id, $program_id, $note){
     global $db;
     $query = "INSERT INTO journal (user_id, program_id, note)
                 VALUES (:user_id, :program_id, :note)";
-    $statement = $db-> prepare($query);
-    $statement-> bindValue(":user_id", $user_id);
-    $statement-> bindValue(":program_id", $program_id);
-    $statement-> bindValue(":note", $note);
-    $success = $statement-> execute();
-    $statement->closeCursor();
+    $data_array = [":user_id" =>$user_id, ":program_id" => $program_id, ":note"=> $note];
+    $success = add_db($query, $data_array);
     if(!$success){
         $error = "Could not update journal";
         include("../errors/error.php");
+        return false;
     }
+    else return true;
 }
 
 function record_update_class($user_id, $class_id, $note){
     global $db;
     $query = "INSERT INTO journal (user_id, class_id, note)
                 VALUES (:user_id, :class_id, :note)";
-    $statement = $db-> prepare($query);
-    $statement-> bindValue(":user_id", $user_id);
-    $statement-> bindValue(":class_id", $class_id);
-    $statement-> bindValue(":note", $note);
-    $success = $statement-> execute();
-    $statement->closeCursor();
-    if(!$success){
-        $error = "Could not update journal";
-        include("../errors/error.php");
-    }
+   $data_array = [":user_id" =>$user_id, ":class_id" => $class_id, ":note"=> $note];
+   $success = add_db($query, $data_array);
+   if(!$success){
+       $error = "Could not update journal";
+       include("../errors/error.php");
+       return false;
+   }
+   else return true;
+    
 }
 
 function record_update_student($user_id, $student_id, $note){
     global $db;
     $query = "INSERT INTO journal (user_id, student_id, note)
                 VALUES (:user_id, :student_id, :note)";
-    $statement = $db-> prepare($query);
-    $statement-> bindValue(":user_id", $user_id);
-    $statement-> bindValue(":student_id", $student_id);
-    $statement-> bindValue(":note", $note);
-    $success = $statement-> execute();
-    $statement->closeCursor();
+    $data_array = [":user_id" =>$user_id, ":student_id" => $student_id, ":note"=> $note];
+    $success = add_db($query, $data_array);
     if(!$success){
         $error = "Could not update journal";
         include("../errors/error.php");
+        return false;
     }
+    else return true;
+    
 }

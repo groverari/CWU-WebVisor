@@ -86,6 +86,6 @@ function add_program($user_id, $major_id, $year, $template_id){
     else{
         $query = "INSERT INTO 
                     Programs(major_id, year, credits, elective_credits)
-                    "
+                    ";
     }
 }

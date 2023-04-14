@@ -3,9 +3,9 @@
 //username and password are default. This can change to whatever is required for wherever the db is hosted
 
 
-$dsn = 'mysql:host=localhost;dbname=advising';
+$dsn = 'mysql:host=localhost;dbname=webvisor';
 
-$username = 'ts_user';
+$username = 'root';
 $password = "";
 
 //$db is a the connection to the database object

@@ -4,13 +4,14 @@
 //$data array is an associative array of all the variables to include in the query
 
 
-
+//Returns True or false depending on success
 function add_db($query, $data_array = []){
 global $db;
 return $db-> prepare($query)->execute($data_array);
 
 }
 
+//Returns rows affected
 function add_db_rows($query, $data_array = []){
     global $db;
     $statement =  $db-> prepare($query);
@@ -18,6 +19,8 @@ function add_db_rows($query, $data_array = []){
     return $statement -> rowCount();
     
     }
+
+
 
 function get_from_db($query, $data_array = []){
 global $db;

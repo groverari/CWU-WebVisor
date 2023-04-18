@@ -1,12 +1,12 @@
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 const Login = () => {
-  console.log("im in the login page");
+  console.log('im in the login page')
   return (
     <>
       <div className="username-container">
         <label className="username-label">Username</label>
-        <input placeholder="username" className="username-field" type-="text" />
+        <input placeholder="username" className="username-field" type="text" />
       </div>
       <div className="password-contianer">
         <label className="password-label">Password</label>
@@ -22,7 +22,7 @@ const Login = () => {
         </Link>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

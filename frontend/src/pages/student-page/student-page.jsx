@@ -1,4 +1,5 @@
-import { Route, Outlet } from "react-router-dom";
+import { Link, Outlet } from 'react-router-dom'
+import React from 'react'
 
 const StudentPage = () => {
   return (
@@ -16,6 +17,6 @@ const StudentPage = () => {
       </div>
       <Outlet />
     </>
-  );
-};
-export default StudentPage;
+  )
+}
+export default StudentPage

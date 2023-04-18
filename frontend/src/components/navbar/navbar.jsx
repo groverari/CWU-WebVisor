@@ -1,4 +1,5 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet } from 'react-router-dom'
+import React from 'react'
 
 const NavBar = () => {
   return (
@@ -20,6 +21,6 @@ const NavBar = () => {
 
       <Outlet />
     </>
-  );
-};
-export default NavBar;
+  )
+}
+export default NavBar

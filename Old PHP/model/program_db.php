@@ -42,7 +42,7 @@ function get_program_info($program_id){
     else return $program;
 }
 
-//TODO This has a YES/NO comparision BUT if we change database then it will need to be updated 
+
 function get_program_roster($program_id){
     global $db;
     $query = "SELECT

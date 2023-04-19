@@ -9,6 +9,9 @@ import StudentSearch from './pages/students/student-search/student-search'
 import AddStudent from './pages/students/student-add/student-add'
 import ArchivedStudents from './pages/students/students-archived/student-archived'
 import LostStudents from './pages/students/student-lost/student-lost'
+import ClassPage from './pages/classes/class-page/class'
+import ClassSearch from './pages/classes/class-search/class-search'
+import AddClass from './pages/classes/class-add/class-add'
 
 function App() {
   return (
@@ -23,8 +26,10 @@ function App() {
           <Route path="archived" element={<ArchivedStudents />} />
           <Route path="lost" element={<LostStudents />} />
         </Route>
-        <Route path = "classes" element = {}>
+        <Route path="class" element={<ClassPage />}>
           {/* This is where all the class sub menus go */}
+          <Route path="search" element={<ClassSearch />} />
+          <Route path="add" element={<AddClass />} />
         </Route>
       </Route>
     </Routes>

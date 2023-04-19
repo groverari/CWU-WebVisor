@@ -7,10 +7,10 @@ const ClassPage = () => {
     <>
       <div className="submenu">
         <Link className="Search Link" to="/home/class/search">
-          <button className="sub-menu-button">Student Search</button>
+          <button className="sub-menu-button">Class Search</button>
         </Link>
         <Link className="Search Link" to="/home/class/add">
-          <button className="sub-menu-button">Add Student</button>
+          <button className="sub-menu-button">Add Class</button>
         </Link>
       </div>
       <Outlet />

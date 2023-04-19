@@ -104,7 +104,7 @@
 			$query_result = my_query($query_string);
 		}
 	}
-	
+
 	function all_users()
 	{
 		$query_string = "
@@ -2003,7 +2003,7 @@
 		
 	}
 
-	function update_plan($user_id, $student_id, $program_id, $classes)
+	function update_plan($user_id, $student_id, $program_id, $classes)////////////////////////////////////////////////////////////////////////////////////////
 	{
 		$note = "Begin Update: <student:$student_id> plan.";
 		record_update_student($user_id, $student_id, $note);

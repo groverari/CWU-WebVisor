@@ -1,20 +1,20 @@
 import { Link, Outlet } from 'react-router-dom'
 import React from 'react'
-import './class.styles.scss'
+import './major.page.styles.scss'
 import SubMenu from '../../../components/submenu/submenu'
 
-const ClassPage = () => {
-  const baseurl = '/home/class'
+const MajorPage = () => {
+  const baseurl = '/home/major'
   const links = [
     {
       key: 1,
-      name: 'Class Search',
+      name: 'Edit Major',
       path: ''
     },
     {
       key: 2,
-      name: 'Add class',
-      path: '/add'
+      name: 'Edit Program',
+      path: '/program'
     }
   ]
   return (
@@ -24,4 +24,4 @@ const ClassPage = () => {
     </>
   )
 }
-export default ClassPage
+export default MajorPage

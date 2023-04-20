@@ -1,0 +1,35 @@
+@use '../../App.scss';
+
+.submenu-container {
+  padding: 25px 10px;
+  margin-top: 10%;
+  width: 15%;
+  justify-content: center;
+
+  background: App.$background;
+  border-radius: 12px;
+}
+.submenu-link-container {
+  margin: 25px 0px;
+  text-align: center;
+  height: 40px;
+
+  display: flex;
+}
+.submenu-link {
+  text-decoration: none;
+  width: 200px;
+  font-size: 20px;
+  margin-left: 10px;
+  padding: 10px;
+  color: App.$text;
+  background-color: App.$button-color;
+  border-radius: 12px;
+  transition: scale 0.2s;
+  &:hover {
+    scale: 1.1;
+    font-size: 22px;
+    background-color: App.$button-highlight;
+    border-radius: 12;
+  }
+}

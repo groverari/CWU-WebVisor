@@ -14,7 +14,7 @@ const StudentPage = () => {
     {
       key: 2,
       name: 'Add Student',
-      path: '/sdd'
+      path: '/add'
     },
     {
       key: 3,
@@ -28,10 +28,10 @@ const StudentPage = () => {
     }
   ]
   return (
-    <>
-      <SubMenu baseurl={baseurl} links={links} />
-      <Outlet />
-    </>
+    <div className="page-container">
+      <SubMenu className="submenu" baseurl={baseurl} links={links} />
+      <Outlet className="page-content" />
+    </div>
   )
 }
 export default StudentPage

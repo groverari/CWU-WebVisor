@@ -18,10 +18,10 @@ const MajorPage = () => {
     }
   ]
   return (
-    <>
-      <SubMenu baseurl={baseurl} links={links} />
-      <Outlet />
-    </>
+    <div className="page-container">
+      <SubMenu className="submenu" baseurl={baseurl} links={links} />
+      <Outlet className="page-content" />
+    </div>
   )
 }
 export default MajorPage

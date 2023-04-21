@@ -18,10 +18,12 @@ const ClassPage = () => {
     }
   ]
   return (
-    <>
-      <SubMenu baseurl={baseurl} links={links} />
-      <Outlet />
-    </>
+    <div className="page-container">
+      <SubMenu className="submenu" baseurl={baseurl} links={links} />
+      <div className="page-content">
+        <Outlet />
+      </div>
+    </div>
   )
 }
 export default ClassPage

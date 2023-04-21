@@ -2,11 +2,7 @@
     class Majors
     {
         private $conn;
-        private $table ='majors';
-
-        //major properties
-        public $name;
-        public $active;
+        private $table ='Majors';
 
         //constructor
         public function __construct($db)
@@ -33,13 +29,13 @@
              return $stmt;
         }
 
-        public function create()
+        public function create($name, $active)
         {
             $query = "
 			INSERT INTO
 				Majors(name, active)
 			VALUES
-				('$this->name', '$this->active')
+				('$name', '$active')
 			;";
 
             $stmt = $this->conn->prepare($query);
@@ -53,5 +49,51 @@
             printf("Error: %s.\n", $stmt->error);
     
             return false;
+        }
+
+        public function update($id, $name, $active)
+        {
+            $query = "
+			UPDATE
+				Majors
+			SET
+				name='$name',
+				active='$active'
+			WHERE
+				id=$id
+			;";
+
+            $stmt = $this->conn->prepare($query);
+  
+            // Execute query
+            if($stmt->execute()) {
+              return true;
+            }
+  
+            // Print error if something goes wrong
+            printf("Error: %s.\n", $stmt->error);
+    
+            return false;
+        }
+
+        public function readSingle($id)
+        {
+            $query= "
+            SELECT
+                name, active
+            FROM
+                Majors
+            WHERE id=$id
+            ;";
+
+            $stmt = $this->conn->prepare($query);
+  
+            //prepare stmt
+            $stmt = $this->conn->prepare($query);
+
+            //execute query
+            $stmt->execute();
+
+            return $stmt;
         }
     }

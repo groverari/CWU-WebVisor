@@ -224,22 +224,7 @@
 		return $result;
 	}
 
-//-----------------------------------------------------	
-//! MAJORS
-//-----------------------------------------------------	
-/* UNREFERENCED METHOD
-	function record_update($user_id, $note)
-	{
-			$query_string = "
-			INSERT INTO
-				Journal(user_id, note)
-			VALUES
-				($user_id, '$note')
-			;";
-			$query_result = my_query($query_string);
-	}
-*/
-	
+
 	function record_update_major($user_id, $major_id, $note)
 	{
 			$query_string = "
@@ -1054,6 +1039,8 @@
 		
 		return $row;
 	}
+	//-----
+	// Template_classes
 	
 	function get_template_classes($template_id)
 	{
@@ -2042,7 +2029,8 @@
 				
 		return array('by term' => $classes_by_term, 'by id' => $classes_by_id);
 	}
-	
+	//***********
+	//       Notes     */
 	function get_notes($student_id)
 	{
 		$query_string = "
@@ -2302,7 +2290,7 @@
 		
 		return array('electives' => $electives, 'credits' => $credits);
 	}
-	
+	//templates_class
 	function fill_template($user_id, $student_id, $template_id, $template_year)
 	{
 		$changed = false;

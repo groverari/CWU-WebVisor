@@ -764,7 +764,7 @@
 
 		return $program_classes;
 	}
-	
+	//replacement classe starts here
 	function add_replacement($user_id, $program_id, $replaced_id, $replacement_id)
 	{
 		$query_string = "
@@ -838,7 +838,7 @@
 		
 		return $replacement_classes;
 	}
-	
+	//here ends the replacement class
 	function get_checklist($program_id)
 	{
 		$checklist = array();
@@ -1279,68 +1279,9 @@
 			record_update_class($user_id, $class_id, $note);
 		}
 	}
+	//prerrequisites(niranjan is working for this )
 	
-	function update_prereqs($class_id, $prereq_ids, $required_grades)
-	{
-		$query_string = "
-		DELETE FROM
-			Prerequisites
-		WHERE
-			class_id=$class_id
-		;";
-		$query_result = my_query($query_string);
-		
-		foreach($prereq_ids as $prereq_id)
-		{
-			$query_string = "
-			INSERT INTO Prerequisites
-				(class_id, prerequisite_id)
-			VALUES
-				($class_id, $prereq_id)
-			;";
-			$query_result = my_query($query_string);
-		}
-		
-		foreach ($required_grades as $prereq_id => $minimum_grade)
-		{
-			if ($minimum_grade > 0)
-			{
-				$query_string = "
-				INSERT INTO Prerequisites
-					(class_id, prerequisite_id, minimum_grade)
-				VALUES
-					($class_id, $prereq_id, $minimum_grade)
-				;";
-				
-				$query_result = my_query($query_string);
-			}
-		}
-	}
-	
-	function get_prereqs($class_id)
-	{
-		$query_string = "
-		SELECT
-			Prerequisites.prerequisite_id,
-			Classes.name,
-			Prerequisites.minimum_grade
-		FROM
-			Prerequisites
-			JOIN Classes ON Prerequisites.prerequisite_id=Classes.id
-		WHERE
-			Prerequisites.class_id = $class_id
-		;";
-		$query_result = my_query($query_string);
-		
-		$prereqs = array();
-		while ($row = mysql_fetch_assoc($query_result))
-		{
-			$prereqs[$row['prerequisite_id']] = $row;
-		}
-		
-		return $prereqs;
-	}
-	
+	//prereq ends here.
 	// returns the class info of the class
 	function get_class_info($id, $program_id=0)
 	{

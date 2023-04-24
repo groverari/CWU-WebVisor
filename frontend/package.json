@@ -13,7 +13,9 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.10.0",
-    "sass": "^1.62.0"
+    "react-select": "^5.7.2",
+    "sass": "^1.62.0",
+    "select": "^1.1.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

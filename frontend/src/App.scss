@@ -1,0 +1,19 @@
+//App Colors
+$background: #ece2fb;
+$button-color: #745cab;
+$button-highlight: #b092ff;
+$text: #000000;
+html {
+  background-color: #888297;
+}
+.page-container {
+  display: flex;
+}
+.submenu {
+  float: left;
+  width: 20%;
+}
+.page-content {
+  float: right;
+  width: 80%;
+}

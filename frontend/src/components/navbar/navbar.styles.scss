@@ -1,0 +1,57 @@
+@use 'sass:color';
+@use '../../App.scss';
+
+.header {
+  height: 70px;
+  width: 100%;
+  border-radius: 12px;
+  justify-content: space-between;
+  margin: 0;
+  padding-bottom: 25px;
+  //background-color: App.$background;
+  color: App.$text;
+}
+.title {
+  position: fixed;
+  margin-left: 30px;
+  left: 0;
+}
+.username-container {
+  width: 50%;
+  position: fixed;
+  display: flex;
+  justify-content: right;
+  right: 0;
+  height: 70px;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+.username {
+  width: 50%;
+  margin: 5px;
+  text-align: right;
+}
+.settings-logo {
+  font-size: 30px;
+}
+.nav-link-container {
+  display: flex;
+  height: 50px;
+}
+.nav-link {
+  width: 25%;
+  //background-color: App.$button-color;
+  text-align: center;
+  margin: 2px;
+  border-radius: 12px;
+  font-size: 20px;
+  text-decoration: none;
+  color: black;
+  padding-top: 10px;
+  transition-timing-function: ease-in;
+  transition: scale 0.2s;
+  &:hover {
+    background-color: App.$button-highlight;
+    scale: 1.05;
+  }
+}

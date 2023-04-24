@@ -21,11 +21,12 @@
             SELECT
                 *
             FROM
-                ' . $this->table . '
+                users
             ORDER BY
                 name ASC
             ;';
 
+            return get_from_db($query);
             //prepare stmt
             $stmt = $this->conn->prepare($query);
 

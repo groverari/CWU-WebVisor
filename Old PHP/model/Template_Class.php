@@ -16,7 +16,7 @@ class Template_Class
     {
         $this->conn = $db;
     }
-//Retrieves template classes based on the template ID.
+    //Retrieves template classes based on the template ID.
     public function get_template_classes($template_id)
     {
         $query_string = "SELECT class_id, quarter, year FROM template_classes WHERE template_id = :template_id";
@@ -36,7 +36,7 @@ class Template_Class
         }
         return $template_classes;
     }
-//Updates the template name and associated template classes.
+    //Updates the template name and associated template classes.
     public function update_template($template_id, $name, $template)
     {
         try {

@@ -79,7 +79,10 @@ class Replacement_Classes{
 
         return $replacement_classes;
     }
-//Record program update
+
+    //should instead use the function from Journals. Will require you to include the journal class
+    //and then use the corresponding method
+    //Record program update
     private function record_update_program($user_id, $program_id, $note)
     {
         // I am not too sure if we have to do this--- may be Arish can help here.

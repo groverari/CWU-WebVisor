@@ -103,6 +103,8 @@
 			;";
 			$query_result = my_query($query_string);
 		}
+
+
 	}
 
 	//done
@@ -190,6 +192,7 @@
 //! JOURNAL
 //-----------------------------------------------------	
 
+	//done-Josh
 	function get_journal($cleanup = false, $user_id = 0, $student_id = 0, $class_id = 0, $program_id = 0, $major_id = 0)
 	{
 		$query_string = "
@@ -225,7 +228,7 @@
 		return $result;
 	}
 
-
+	//done
 	function record_update_major($user_id, $major_id, $note)
 	{
 			$query_string = "
@@ -237,6 +240,7 @@
 			$query_result = my_query($query_string);
 	}
 	
+	//done
 	function record_update_program($user_id, $program_id, $note)
 	{
 			$query_string = "
@@ -248,6 +252,7 @@
 			$query_result = my_query($query_string);
 	}
 	
+	//done
 	function record_update_class($user_id, $class_id, $note)
 	{
 			$query_string = "
@@ -259,6 +264,7 @@
 			$query_result = my_query($query_string);
 	}
 	
+	//done
 	function record_update_student($user_id, $student_id, $note)
 	{
 			$query_string = "
@@ -274,7 +280,7 @@
 //! MAJORS
 //-----------------------------------------------------	
 
-	//done
+	//done-Josh
 	function all_majors()
 	{
 		$query_string = "
@@ -296,7 +302,7 @@
 		return $all_majors;
 	}
 	
-	//done
+	//InProcess-Josh
 	function add_major($user_id, $name, $active)
 	{		
 		$query_string = "
@@ -318,6 +324,7 @@
 		return $major_id;
 	}
 	
+	//InProcess-Josh
 	function update_major($user_id, $major_id, $name, $active)
 	{		
 		$query_string = "
@@ -338,7 +345,7 @@
 		}
 	}
 	
-	//done
+	//done-Josh
 	function get_major_info($major_id)
 	{
 		$query_string = "
@@ -753,6 +760,8 @@
 
 		return $program_classes;
 	}
+
+	//INProcess - Nirunjan
 	//replacement classe starts here
 	function add_replacement($user_id, $program_id, $replaced_id, $replacement_id)
 	{
@@ -771,6 +780,7 @@
 		}
 	}
 	
+	//INProcess - Nirunjan
 	function remove_replacement($program_id, $replaced_id, $replacement_id)
 	{
 		$query_string = "
@@ -790,7 +800,8 @@
 			record_update_program($user_id, $program_id, $note);
 		}
 	}
-	
+
+	//INProcess - Nirunjan
 	function get_replacement_classes($program_id)
 	{
 		$replacement_classes = array();
@@ -827,6 +838,7 @@
 		
 		return $replacement_classes;
 	}
+
 	//here ends the replacement class
 	function get_checklist($program_id)
 	{
@@ -939,6 +951,7 @@
 //! TEMPLATE
 //-----------------------------------------------------	
 
+	//INProcess - Nirunjan
 	function get_templates($program_id)
 	{
 		$query_string = "
@@ -964,6 +977,7 @@
 		return $templates;
 	}
 	
+	//INProcess - Nirunjan
 	function get_named_templates($program_id)
 	{
 		$query_string = "
@@ -991,6 +1005,7 @@
 		return $templates;
 	}
 	
+	//INProcess - Nirunjan
 	function create_template($user_id, $program_id, $name, $mimic_id)
 	{
 		$query_string = "
@@ -1026,7 +1041,8 @@
 		
 		return $template_id;
 	}
-	
+
+	//INProcess - Nirunjan
 	function get_template_info($template_id)
 	{
 		$query_string = "
@@ -1045,7 +1061,8 @@
 	}
 	//-----
 	// Template_classes
-	
+
+	//INProcess - Nirunjan
 	function get_template_classes($template_id)
 	{
 		$query_string = "
@@ -1071,7 +1088,8 @@
 
 		return $template_classes;
 	}
-
+	
+	//INProcess - Nirunjan
 	function update_template($template_id, $name, $template)
 	{
 		//! @bug this may not be working correctly, the DELETE FROM needs to be checked
@@ -2035,6 +2053,8 @@
 	}
 	//***********
 	//       Notes     */
+
+	//INProcess - Nirunjan
 	function get_notes($student_id)
 	{
 		$query_string = "
@@ -2071,7 +2091,8 @@
 				
 		return $notes;
 	}
-	
+
+	//INProcess - Nirunjan
 	function add_note($user_id, $student_id, $note, $flagged)
 	{
 		global $YES;
@@ -2097,6 +2118,7 @@
 		}
 	}
 	
+	//INProcess - Nirunjan
 	function update_notes($student_id, $flagged_ids)
 	{
 		global $YES;

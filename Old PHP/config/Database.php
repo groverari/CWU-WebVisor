@@ -4,7 +4,7 @@
         private $host = 'localhost';
         private $db_name = 'advising';
         private $username = 'root';
-        private $password = '';
+        private $password = 'buttons93';
         private $conn;
        
         public function connect()

@@ -1,61 +1,61 @@
 <?php
-    //headers
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: POST');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
     
     include_once '../config/Database.php';
-    include_once '../model/Users.php';
+    include_once '../model/Journals.php';
 
     $database = new Database();
     $db = $database->connect();
 
-    $users = new Users($db);
+    $journal = new Journals($db);
 
     $request;
 
-    //attribute of table
+    //table properties
     $id;
-    $login;
-    $password;
-    $name;
+    $user_id;
+    $date;
+    $note;
+    $student_id;
+    $class_id;
     $program_id;
-    $superuser;
-    $last;
-    $first;
-    
+    $major_id;
+
     if(isset($_GET['id']))
     {
         $id = $_GET['id'];
     }
-    if(isset($_GET['login']))
+    if(isset($_GET['user_id']))
     {
-        $login = $_GET['login'];
+        $user_id = $_GET['user_id'];
     }
-    if(isset($_GET['password']))
+    if(isset($_GET['date']))
     {
-        $password = $_GET['password'];
+        $date = $_GET['date'];
     }
-    if(isset($_GET['name']))
+    if(isset($_GET['note']))
     {
-        $name = $_GET['name'];
+        $note = $_GET['note'];
     }
-    if(isset($_GET['program_info']))
+    if(isset($_GET['student_id']))
     {
-        $program_info = $_GET['program_info'];
+        $student_id = $_GET['student_id'];
     }
-    if(isset($_GET['superuser']))
+    if(isset($_GET['class_id']))
     {
-        $superuser = $_GET['superuser'];
+        $class_id = $_GET['class_id'];
     }
-    if(isset($_GET['last']))
+    if(isset($_GET['program_id']))
     {
-        $last = $_GET['last'];
+        $program_id = $_GET['program_id'];
+        
     } 
-    if(isset($_GET['first']))
+    if(isset($_GET['major_id']))
     {
-        $first = $_GET['first'];
+        $major_id = $_GET['major_id'];
     }
 
     if(isset($_GET['request']))
@@ -63,9 +63,9 @@
         $request = $_GET['request'];
     }
 
-    if($request = 'read')
+    if($request == 'read')
     {
-        $result = $users->read();
+        $result = $journal->read();
         $data = $result->fetchAll();
         echo json_encode($data);
     }

@@ -105,7 +105,8 @@
 		}
 	}
 
-	function all_users()
+	//done
+	function all_users() 
 	{
 		$query_string = "
 		SELECT
@@ -273,6 +274,7 @@
 //! MAJORS
 //-----------------------------------------------------	
 
+	//done
 	function all_majors()
 	{
 		$query_string = "
@@ -294,6 +296,7 @@
 		return $all_majors;
 	}
 	
+	//done
 	function add_major($user_id, $name, $active)
 	{		
 		$query_string = "
@@ -335,6 +338,7 @@
 		}
 	}
 	
+	//done
 	function get_major_info($major_id)
 	{
 		$query_string = "

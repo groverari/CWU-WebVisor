@@ -2,7 +2,7 @@ import React from 'react'
 import './student-search.styles.scss'
 import SearchBox from '../../../components/search-box/search-box'
 import { useState, useEffect } from 'react'
-import StudentInfo from '../../../components/student-info/student-info'
+import StudentOverview from '../../../components/student-overview/student-overview'
 const s = [
   { label: 'Ariesh', value: 1 },
   { label: 'Josh', value: 2 },
@@ -11,6 +11,18 @@ const s = [
   { label: 'Ryan', value: 5 },
   { label: 'John Doe', value: 7 },
   { label: 'Billy Eilish', value: 8 }
+]
+
+const studentInfo = [
+  {
+    fName: 'Ariesh',
+    lName: 'Grover',
+    id: 12345678,
+    email: 'ag@cwu.edu',
+    phone: '123-456-7890',
+    address: 'this street in ellensburg',
+    nonStem: 'Maybe'
+  }
 ]
 
 const StudentSearch = () => {
@@ -25,14 +37,16 @@ const StudentSearch = () => {
       return a.label.localeCompare(b.label)
     })
   }
+  //const searchHandler = () => ({})
 
   return (
-    <div>
+    <div className="student-search-container">
       <SearchBox
         list={students}
         placeholder="Search for a Student"
         value="Search"
       />
+      <StudentOverview student={studentInfo[0]} />
     </div>
   )
 }

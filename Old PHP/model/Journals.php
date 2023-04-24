@@ -1,5 +1,7 @@
 <?php
 
+include_once 'PDO-methods.php';
+
 class Journals 
 {
     private $conn;
@@ -21,9 +23,9 @@ class Journals
     }
 // Retrieves a list of journal entries, 
 //including details about the user, student, class, program, major, and note.
-    public function get_journal($cleanup = false, $user_id = 0, $student_id = 0, $class_id = 0, $program_id = 0, $major_id = 0)
+    public function read()
     {
-        $query_string = "
+        $query = "
             SELECT
                 journal.date,
                 users.name AS user_name,
@@ -45,65 +47,60 @@ class Journals
                 100;
         ";
 
-        $stmt = $this->conn->prepare($query_string);
-        $stmt->execute();
-        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $result = get_from_db($query);
         return $result;
     }
-//Inserts a new journal entry indicating that a user updated a major, including 
-//the user ID, major ID, and note.
-    public function record_update_major($user_id, $major_id, $note)
+
+    //the journal is only ever updated within the program, so all update functions can be private
+    
+    //Inserts a new journal entry indicating that a user updated a major, including 
+    //the user ID, major ID, and note.
+    private function record_update_major($user_id, $major_id, $note)
     {
-        $query_string = "
+        $query = "
             INSERT INTO journal (user_id, major_id, note)
             VALUES (:user_id, :major_id, :note)
         ";
-        $stmt = $this->conn->prepare($query_string);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':major_id', $major_id);
-        $stmt->bindParam(':note', $note);
-        $stmt->execute();
+        
+        $dataArr = [':user_id'=>$user_id, ':major_id'=>$major_id, ':note'=>$note];
+        $result = add_db($query, $dataArr);
+        return $result;
     }
 // Inserts a new journal entry indicating that a user updated a program, 
 //including the user ID, program ID, and note.
-    public function record_update_program($user_id, $program_id, $note)
+    private function record_update_program($user_id, $program_id, $note)
     {
-        $query_string = "
+        $query = "
             INSERT INTO journal (user_id, program_id, note)
             VALUES (:user_id, :program_id, :note)
         ";
-        $stmt = $this->conn->prepare($query_string);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':program_id', $program_id);
-        $stmt->bindParam(':note', $note);
-        $stmt->execute();
+
+        $dataArr = [':user_id'=>$user_id, ':program_id'=>$program_id, ':note'=>$note];
+        $result = add_db($query, $dataArr);
+        return $result;
     }
 //Inserts a new journal entry indicating that a user updated a class,
 // including the user ID, class ID, and note.
-    public function record_update_class($user_id, $class_id, $note)
+    private function record_update_class($user_id, $class_id, $note)
     {
-        $query_string = "
+        $query = "
             INSERT INTO journal (user_id, class_id, note)
             VALUES (:user_id, :class_id, :note)
         ";
-        $stmt = $this->conn->prepare($query_string);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':class_id', $class_id);
-        $stmt->bindParam(':note', $note);
-        $stmt->execute();
+        $dataArr = [':user_id'=>$user_id, ':class_id'=>$class_id, ':note'=>$note];
+        $result = add_db($query, $dataArr);
+        return $result
     }
 //Inserts a new journal entry indicating that a user updated a student, 
 //including the user ID, student ID, and note.
-    public function record_update_student($user_id, $student_id, $note)
+    private function record_update_student($user_id, $student_id, $note)
     {
-        $query_string = "
+        $query = "
             INSERT INTO journal (user_id, student_id, note)
             VALUES (:user_id, :student_id, :note)
         ";
-        $stmt = $this->conn->prepare($query_string);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':student_id', $student_id);
-        $stmt->bindParam(':note', $note);
-        $stmt->execute();
+        $dataArr = [':user_id'=>$user_id, ':student_id'=>$student_id, ':note'=>$note];
+        $result = add_db($query, $dataArr);
+        return $result
     }
 }

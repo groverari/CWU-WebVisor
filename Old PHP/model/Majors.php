@@ -1,4 +1,6 @@
 <?php
+    include_once 'PDO-methods.php';
+
     class Majors
     {
         private $conn;
@@ -20,13 +22,7 @@
             ORDER BY
                 name
             ;";
-		     //prepare stmt
-             $stmt = $this->conn->prepare($query);
-
-             //execute query
-             $stmt->execute();
- 
-             return $stmt;
+            return get_from_db($query);
         }
 
         public function create($name, $active)
@@ -35,20 +31,11 @@
 			INSERT INTO
 				Majors(name, active)
 			VALUES
-				('$name', '$active')
+				(:name, :active)
 			;";
-
-            $stmt = $this->conn->prepare($query);
-  
-            // Execute query
-            if($stmt->execute()) {
-              return true;
-            }
-  
-            // Print error if something goes wrong
-            printf("Error: %s.\n", $stmt->error);
-    
-            return false;
+            
+            $dataArr = [':name'=>$name, ':active'=>$active];
+            return add_db($query, $dataArr);
         }
 
         public function update($id, $name, $active)
@@ -57,21 +44,14 @@
 			UPDATE
 				Majors
 			SET
-				name='$name',
-				active='$active'
+				name=:name,
+				active=:active
 			WHERE
-				id=$id
+				id=:id
 			;";
 
-            $stmt = $this->conn->prepare($query);
-  
-            // Execute query
-            if($stmt->execute()) {
-              return true;
-            }
-  
-            // Print error if something goes wrong
-            printf("Error: %s.\n", $stmt->error);
+            $dataArr = [':name'=>$name, ':active'=>$active, ':id'=>$id];
+            return add_db($query, $dataArr);
     
             return false;
         }
@@ -83,17 +63,12 @@
                 name, active
             FROM
                 Majors
-            WHERE id=$id
+            WHERE id=:id
             ;";
 
-            $stmt = $this->conn->prepare($query);
-  
-            //prepare stmt
-            $stmt = $this->conn->prepare($query);
+            $dataArr = [':id'=>$id];
+            $result = get_from_db($query, $dataArr);
 
-            //execute query
-            $stmt->execute();
-
-            return $stmt;
+            return $result;
         }
     }

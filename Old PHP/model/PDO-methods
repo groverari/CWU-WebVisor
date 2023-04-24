@@ -1,6 +1,0 @@
-<?php
-
-function get_from_db($query, $data_array = []){
-    global $db;
-    return $db-> prepare($query) -> execute($data_array);
-}

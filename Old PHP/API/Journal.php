@@ -63,9 +63,20 @@
         $request = $_GET['request'];
     }
 
-    if($request == 'read')
+    // if($request == 'read')
+    // {
+    //     $result = $journal->read();
+    //     echo json_encode($result);
+    // }
+
+    switch ($request) 
     {
-        $result = $journal->read();
-        $data = $result->fetchAll();
-        echo json_encode($data);
+        case 'read':
+            $result = $journal->read();
+            echo json_encode($result);
+            break;
+        default:
+            echo 'request incorrrect';
+            break;
     }
+                   

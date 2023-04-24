@@ -63,9 +63,13 @@
         $request = $_GET['request'];
     }
 
-    if($request = 'read')
+    switch ($request) 
     {
-        $result = $users->read();
-        $data = $result->fetchAll();
-        echo json_encode($data);
+        case 'read':
+            $result = $users->read();
+            echo json_encode($result);
+            break;
+        default:
+            echo 'request incorrrect';
+            break;
     }

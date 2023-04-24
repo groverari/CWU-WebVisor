@@ -1,4 +1,5 @@
 <?php
+    include_once 'PDO-methods.php';
     class Users
     {
         // DB stuff
@@ -26,14 +27,9 @@
                 name ASC
             ;';
 
-            return get_from_db($query);
-            //prepare stmt
-            $stmt = $this->conn->prepare($query);
+            $result = get_from_db($query);
 
-            //execute query
-            $stmt->execute();
-
-            return $stmt;
+            return $result;
         }
     }
 

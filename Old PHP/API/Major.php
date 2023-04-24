@@ -41,25 +41,25 @@
         $request = $_GET['request'];
     }
 
-    if($request == 'read')
+    switch ($request) 
     {
-        $result = $majors->read();
-        $data = $result->fetchAll();
-        echo json_encode($data);
-    }
-    else if($request == 'readSingle')
-    {
-        $result = $majors->readSingle($id);
-        $data = $result->fetchAll();
-        echo json_encode($data);
-    }
-    else if($request == "create")
-    {
-        $majors->create($name, $active);
-    }
-    else if($request == "update")
-    {
-        $majors->update($id, $name, $active);
+        case 'read':
+            $result = $majors->read();
+            echo json_encode($result);
+            break;
+        case 'readSingle':
+            $result = $majors->readSingle($id);
+            echo json_encode($result);
+            break;
+        case 'create':
+            $majors->create($name, $active);
+            break;
+        case 'update':
+            $majors->update($id, $name, $active);
+            break;
+        default:
+            echo 'request incorrrect';
+            break;
     }
     
 

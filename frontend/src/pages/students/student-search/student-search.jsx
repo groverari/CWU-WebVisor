@@ -2,6 +2,7 @@ import React from 'react'
 import './student-search.styles.scss'
 import SearchBox from '../../../components/search-box/search-box'
 import { useState, useEffect } from 'react'
+import StudentInfo from '../../../components/student-info/student-info'
 const s = [
   { label: 'Ariesh', value: 1 },
   { label: 'Josh', value: 2 },
@@ -26,11 +27,13 @@ const StudentSearch = () => {
   }
 
   return (
-    <SearchBox
-      list={students}
-      placeholder="Search for a Students"
-      value="Search"
-    />
+    <div>
+      <SearchBox
+        list={students}
+        placeholder="Search for a Student"
+        value="Search"
+      />
+    </div>
   )
 }
 

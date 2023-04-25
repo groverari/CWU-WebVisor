@@ -11,7 +11,6 @@ function StudentOverview({ student }) {
     setPlan(planchange)
   }
 
-  console.log('rendering' + info)
   return (
     <div>
       <button

@@ -1,70 +1,43 @@
 <?php
+ include_once 'PDO-methods.php';
 
 class Templates 
 {
-    private $conn;
+    private $db;
     private $table = 'templates';
-
-    public $id;
-    public $program_id;
-    public $name;
 
     public function __construct($db) 
     {
-        $this->conn = $db;
+        $this->db = $db;
     }
-//Retrieves templates for a given programID
+
+    // Retrieves templates for a given program ID.
     public function getTemplates($program_id)
     {
         $query = "SELECT id, name FROM " . $this->table . " WHERE program_id = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $program_id);
-        $stmt->execute();
-
-        $templates = array();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $id = $row['id'];
-            $name = $row['name'];
-            $templates[$id] = $name;
-        }
-
+        $templates = $this->db->get_from_db($query, [$program_id]);
         return $templates;
     }
-// Retrieves named templates (excluding the "** New **" template) for a given program ID.
+
+    // Retrieves named templates (excluding the "** New **" template) for a given program ID.
     public function getNamedTemplates($program_id)
     {
         $query = "SELECT id, name FROM " . $this->table . " WHERE program_id = ? AND name != '** New **'";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $program_id);
-        $stmt->execute();
-
-        $templates = array();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $id = $row['id'];
-            $name = $row['name'];
-            $templates[$id] = $name;
-        }
-
+        $templates = $this->db->get_from_db($query, [$program_id]);
         return $templates;
     }
-//Creates a new template with the given program ID, name, and optional mimic ID.
+
+    // Creates a new template with the given program ID, name, and optional mimic ID.
     public function createTemplate($user_id, $program_id, $name, $mimic_id)
     {
         $query = "INSERT INTO " . $this->table . " (program_id, name) VALUES (?, ?)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $program_id);
-        $stmt->bindParam(2, $name);
-        $stmt->execute();
-
-        $template_id = $this->conn->lastInsertId();
+        $this->db->add_db($query, [$program_id, $name]);
+        $template_id = $this->db->lastInsertId();
 
         if ($mimic_id != 0)
         {
             $query = "INSERT INTO Template_Classes (template_id, class_id, quarter, year) SELECT ?, class_id, quarter, year FROM Template_Classes WHERE template_id = ?";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(1, $template_id);
-            $stmt->bindParam(2, $mimic_id);
-            $stmt->execute();
+            $this->db->add_db($query, [$template_id, $mimic_id]);
         }
 
         if ($template_id > 0)
@@ -75,15 +48,12 @@ class Templates
 
         return $template_id;
     }
-// Retrieves information (program ID and name) for a given template ID.
+
+    // Retrieves information (program ID and name) for a given template ID.
     public function getTemplateInfo($template_id)
     {
         $query = "SELECT program_id, name FROM " . $this->table . " WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $template_id);
-        $stmt->execute();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $row;
+        $template_info = $this->db->get_from_db($query, [$template_id]);
+        return $template_info[0];
     }
 }

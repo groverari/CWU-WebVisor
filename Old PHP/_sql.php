@@ -2203,7 +2203,7 @@
 
 		return $all_students;
 	}
-	
+	//Niranjan
 	function students_for_user($user_id)
 	{
 		$query_string = "
@@ -2235,7 +2235,7 @@
 
 		return $all_students;
 	}
-	
+	//nirnjan
 	function all_students($active_only = false)
 	{
 		$query_string = "
@@ -2278,7 +2278,7 @@
 
 		return $all_students;
 	}
-	
+	//niranjan
 	function get_electives_credits($student_id, $program_id)
 	{
 		$query_string = "
@@ -2316,7 +2316,7 @@
 		
 		return array('electives' => $electives, 'credits' => $credits);
 	}
-	//templates_class
+	//templates_class niranjan
 	function fill_template($user_id, $student_id, $template_id, $template_year)
 	{
 		$changed = false;
@@ -2358,7 +2358,7 @@
 			record_update_student($user_id, $student_id, $note);
 		}
 	}
-	
+	//niranjan
 	function get_checked_items($student_id, $program_id)
 	{
 		$query_string = "
@@ -2381,7 +2381,7 @@
 		
 		return $checked_items;
 	}
-	
+	//niranjan
 	function clear_checklist($user_id, $student_id, $program_id)
 	{
 		$query_string = "
@@ -2402,7 +2402,7 @@
 			record_update_student($user_id, $student_id, $note);
 		}
 	}
-	
+	//niranjan
 	function check_checklist($user_id, $student_id, $checklist_id)
 	{
 		$query_string = "
@@ -2419,7 +2419,7 @@
 			record_update_student($user_id, $student_id, $note);
 		}
 	}
-	
+	//niranjan
 	function update_checklist($user_id, $student_id, $program_id, $checklist_ids)
 	{
 		clear_checklist($user_id, $student_id, $program_id);
@@ -2429,7 +2429,7 @@
 			check_checklist($user_id, $student_id, $checklist_id);
 		}
 	}
-	
+	//niranjan
 	function get_lost_students()
 	{
 		global $NO, $YES;
@@ -2485,7 +2485,7 @@
 		
 		return $info;
 	}
-	
+	//niranjan
 	function get_bad_cwu_ids()
 	{
 		$query_string = "
@@ -2520,7 +2520,7 @@
 //-----------------------------------------------------	
 //! TERMS
 //-----------------------------------------------------	
-	
+	//niranjan
 	function get_enrollments($year)
 	{
 		global $YES;

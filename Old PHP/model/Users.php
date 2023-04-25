@@ -27,10 +27,12 @@
                 name ASC
             ;';
 
-            $result = get_from_db($query);
+            $result = get_from_db($this->conn, $query);
 
             return $result;
         }
+
+
     }
 
     // function get_user_info($login='', $password='', $database='', $setcookies = false){

@@ -1,10 +1,10 @@
 <?php   
     class Database
     {
-        private $host = 'webvisor.cofhp51rtxvh.us-east-2.rds.amazonaws.com';
+        private $host = 'localhost';
         private $db_name = 'advising';
-        private $username = 'admin';
-        private $password = 'webvisor';
+        private $username = 'root';
+        private $password = 'buttons93';
         private $conn;
        
         public function connect()

@@ -22,7 +22,7 @@
             ORDER BY
                 name
             ;";
-            return get_from_db($query);
+            return get_from_db($this->conn, $query);
         }
 
         public function create($name, $active)
@@ -35,7 +35,7 @@
 			;";
             
             $dataArr = [':name'=>$name, ':active'=>$active];
-            return add_db($query, $dataArr);
+            return add_db($this->conn, $query, $dataArr);
         }
 
         public function update($id, $name, $active)
@@ -51,7 +51,7 @@
 			;";
 
             $dataArr = [':name'=>$name, ':active'=>$active, ':id'=>$id];
-            return add_db($query, $dataArr);
+            return add_db($this->conn, $query, $dataArr);
     
             return false;
         }
@@ -67,7 +67,7 @@
             ;";
 
             $dataArr = [':id'=>$id];
-            $result = get_from_db($query, $dataArr);
+            $result = get_from_db($this->conn, $query, $dataArr);
 
             return $result;
         }

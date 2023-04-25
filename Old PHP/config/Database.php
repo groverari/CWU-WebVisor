@@ -1,28 +1,26 @@
 <?php   
-    class Database
-    {
-        private $host = 'localhost';
-        private $db_name = 'advising';
-        private $username = 'root';
-        private $password = 'buttons93';
-        private $conn;
+    
+    
+         $host = 'localhost';
+         $db_name = 'advising';
+         $username = 'root';
+         $password = 'buttons93';
+         $conn;
        
-        public function connect()
-        {
-            $this->conn = null;
+            $conn = null;
 
             try
             {
-                $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->username, $this->password);
-                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $conn = new PDO('mysql:host=' . $host . ';dbname=' . $db_name, $username, $password);
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
             catch(PDOException $e)
             {
                 echo 'it\'s all fucked cuz ' . $e->getMessage();
             }
 
-            return $this->conn;
-        }
-    }
+            $db = $conn;
+        
+    
         
     

@@ -47,7 +47,7 @@ class Journals
                 100;
         ";
 
-        $result = get_from_db($this->conn, $query);
+        $result = get_from_db( $query);
         return $result;
     }
 
@@ -63,7 +63,7 @@ class Journals
         ";
         
         $dataArr = [':user_id'=>$user_id, ':major_id'=>$major_id, ':note'=>$note];
-        $result = add_db($this->conn, $query, $dataArr);
+        $result = add_db( $query, $dataArr);
         return $result;
     }
 // Inserts a new journal entry indicating that a user updated a program, 
@@ -76,7 +76,7 @@ class Journals
         ";
 
         $dataArr = [':user_id'=>$user_id, ':program_id'=>$program_id, ':note'=>$note];
-        $result = add_db($this->conn, $query, $dataArr);
+        $result = add_db( $query, $dataArr);
         return $result;
     }
 //Inserts a new journal entry indicating that a user updated a class,
@@ -88,7 +88,7 @@ class Journals
             VALUES (:user_id, :class_id, :note)
         ";
         $dataArr = [':user_id'=>$user_id, ':class_id'=>$class_id, ':note'=>$note];
-        $result = add_db($this->conn, $query, $dataArr);
+        $result = add_db( $query, $dataArr);
         return $result;
     }
 //Inserts a new journal entry indicating that a user updated a student, 
@@ -100,7 +100,7 @@ class Journals
             VALUES (:user_id, :student_id, :note)
         ";
         $dataArr = [':user_id'=>$user_id, ':student_id'=>$student_id, ':note'=>$note];
-        $result = add_db($this->conn, $query, $dataArr);
+        $result = add_db( $query, $dataArr);
         return $result;
     }
 }

@@ -4,7 +4,7 @@ include_once 'PDO-methods.php';
 class Template_Class 
 {
     private $db;
-    private $table = 'Template_Class';
+    private $table = 'template_classes';
 
     public function __construct($db) 
     {

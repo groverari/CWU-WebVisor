@@ -6,11 +6,6 @@
         private $conn;
         private $table ='users';
 
-        //constructor
-        public function __construct($db)
-        {
-            $this->conn = $db;
-        }
 
         // 
 
@@ -27,7 +22,7 @@
                 name ASC
             ;';
 
-            $result = get_from_db($this->conn, $query);
+            $result = get_from_db( $query);
 
             return $result;
         }

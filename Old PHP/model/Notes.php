@@ -6,10 +6,6 @@ class Notes
     private $db;
     private $table = 'notes';
 
-    public function __construct($db) 
-    {
-        $this->db = $db;
-    }
 
     // Retrieves all notes for a given student.
     public function get_notes($student_id) 

@@ -7,4 +7,4 @@
     header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
     
     include_once '../config/Database.php';
-    include_once '../model/Student.php';
+    include_once '../model/Student_classes.php';

@@ -43,5 +43,27 @@ class Checklists
             $this->checkChecklist($user_id, $student_id, $checklist_id);
         }
     }
+//Retrive a list of checked checklist items for  a given student and program
+    public function get_checked_items($user_id, $student_id, $program_id)
+    {
+        $query = "SELECT Student_Checklists.checklist_id
+                  FROM Student_Checklists
+                  JOIN Checklists ON Student_Checklists.checklist_id=Checklists.id
+                  WHERE student_id=?
+                  AND program_id=?";
+        $stmt = $this->db->get_from_db($query, [$student_id, $program_id]);
+        
+        $checked_items = array();
+        foreach ($stmt as $row)
+        {
+            $checked_items[] = $row['checklist_id'];
+        }
+
+        $note = "Retrieved checked items for <student:$student_id>.";
+        record_update_student($user_id, $student_id, $note);
+
+        return $checked_items;
+    }
+
 }
 

@@ -47,6 +47,62 @@ class Template_Class
             throw $e;
         }
     }
+//    Runction fills a student's class schedule with the classes 
+//    defined in a given template for a specified year.
+    public function fill_template($user_id, $student_id, $template_id, $template_year)
+{
+    try {
+        $this->db->beginTransaction();
+
+        $changed = false;
+
+        if ($template_id != 0)
+        {
+            $query = "
+                SELECT
+                    class_id, quarter, year
+                FROM
+                    Template_Classes
+                WHERE
+                    template_id=:template_id
+                    AND
+                    year > 0
+            ";
+
+            $query_result = $this->db->select($query, ['template_id' => $template_id]);
+
+            foreach ($query_result as $row)
+            {
+                $class_id = $row['class_id'];
+                $qtr = $row['quarter'];
+                $yr = $template_year + ($row['year'] - 1);
+                $term = "$yr$qtr";
+
+                $query = "
+                    INSERT INTO
+                        Student_Classes(student_id, class_id, term)
+                    VALUES
+                        (:student_id, :class_id, :term)
+                ";
+
+                $this->db->add_db($query, ['student_id' => $student_id, 'class_id' => $class_id, 'term' => $term]);
+                $changed = $changed || ($this->db->rowCount() > 0);
+            }
+        }
+
+        if ($changed)
+        {
+            $note = "Filled <student:$student_id> with <template:$template_id>";
+            $this->record_update_student($user_id, $student_id, $note);
+        }
+
+        $this->db->commit();
+    } catch (PDOException $e) {
+        $this->db->rollBack();
+        throw $e;
+    }
+}
+
 }
 
 

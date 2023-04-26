@@ -6,10 +6,6 @@ class Electives
     private $db;
     private $table = 'electives';
 
-    public function __construct($db) 
-    {
-        $this->db = $db;
-    }
 
     public function get_electives_credits($student_id, $program_id)
     {
@@ -47,5 +43,19 @@ class Electives
         }
 
         return array('electives' => $electives, 'credits' => $credits);
+    }
+
+    public function add_student_elective($student_class_id, $program_id)
+    {
+        $query =
+        "
+            INSERT INTO Electives
+                (student_class_id, program_id)
+            VALUES
+                (:student_class_id, :program_id)
+        "
+
+        $dataArr = [':student_class_id'=>$student_class_id, ':user_id'=>$user_id];
+        return add_db($query, $dataArr);
     }
 }

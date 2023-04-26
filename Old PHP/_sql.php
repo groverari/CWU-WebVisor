@@ -1726,8 +1726,8 @@
 		return $student_id;
 	}
 	
+	//done
 	function update_student($user_id, $student_id, $first, $last, $cwu_id, $email, $phone, $address, $postbaccalaureate, $withdrawing, $veterans_benefits, $active)
-
 	{
 		$query_string = "
 		UPDATE
@@ -1756,6 +1756,7 @@
 		}
 	}
 	
+	//done
 	function update_student_advisor($user_id, $student_id, $program_id, $advisor_id)
 	{
 		$query_string = "
@@ -1778,6 +1779,7 @@
 		}
 	}
 	
+	//no student majors table
 	function update_student_program($student_id, $major_id, $advisor, $catalog_year, $graduation_year)
 	{
 		remove_student_major($student_id, $major_id);
@@ -1849,6 +1851,7 @@
 		}
 	}
 	
+	//student_majors table doesn't exist?
 	function remove_student_major($student_id, $major_id)
 	{
 		$query_string = "
@@ -1902,6 +1905,7 @@
 		$query_result = my_query($query_string);
 	}
 	
+	//done--user_id removed in model--might need to be reconsidered
 	function clear_plan($user_id, $student_id)
 	{
 		$query_string = "
@@ -1920,6 +1924,7 @@
 		}
 	}
 	
+	//done--user_id removed in model--if statement removed--might need to be reconsidered
 	function add_student_class($user_id, $student_id, $class_id, $term)
 	{
 			$query_string = "
@@ -1941,6 +1946,7 @@
 			return $student_class_id;
 	}
 	
+	//done--might need to be reconisdered User_id
 	function add_student_elective($user_id, $student_class_id, $program_id)
 	{
 		$query_string = "
@@ -2170,6 +2176,7 @@
 		}
 	}
 	
+	//done
 	function students_in_program($program_id)
 	{
 		//! FIX ME this is failing and causing students.php to fail

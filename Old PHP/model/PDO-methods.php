@@ -10,6 +10,12 @@
         return $db-> prepare($query)->execute($data_array);
     }
 
+    function remove_db($query, $data_array = [])
+    {
+        global $db;
+        return $db-> prepare($query)->execute($data_array);
+    }
+
     //Returns rows affected
     function add_db_rows($query, $data_array = []){
         global $db;

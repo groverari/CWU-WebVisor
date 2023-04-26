@@ -5,16 +5,17 @@
   height: 70px;
   width: 100%;
   border-radius: 12px;
-  justify-content: space-between;
+  display: flex;
+  justify-content: center;
   margin: 0;
   padding-bottom: 25px;
   //background-color: App.$background;
   color: App.$text;
+  text-align: center;
+  //border: 2px solid black;
 }
 .title {
-  position: fixed;
-  margin-left: 30px;
-  left: 0;
+  margin: 5 auto;
 }
 .username-container {
   width: 50%;
@@ -46,12 +47,15 @@
   border-radius: 12px;
   font-size: 20px;
   text-decoration: none;
-  color: black;
+  color: App.$text;
+  border: 2px solid black;
   padding-top: 10px;
   transition-timing-function: ease-in;
-  transition: scale 0.2s;
+  transition: scale, font-size 0.2s;
   &:hover {
     background-color: App.$button-highlight;
+    color: black;
+    font-size: 22px;
     scale: 1.05;
   }
 }

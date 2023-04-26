@@ -1,18 +1,18 @@
 <?php
-<?php
 include_once 'PDO-methods.php';
 
 class Student_classes 
 {
-      private $db;
-      private $table = 'student_classes';
 
-      public function __construct($db) 
-      {
-          $this->db = $db;
-      }
-      public function students_for_user($user_id)
-  {
+    private $db;
+    private $table = 'student_classes';
+
+    public function __construct($db) 
+    {
+        $this->db = $db;
+    }
+    public function students_for_user($user_id)
+    {
       try {
           $query = "SELECT
                       Students.id,
@@ -49,5 +49,5 @@ class Student_classes
           $this->db->rollBack();
           throw $e;
       }
-  }
+    }
 }

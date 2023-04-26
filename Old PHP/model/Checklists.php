@@ -6,10 +6,6 @@ class Checklists
     private $db;
     private $table = 'checklists';
 
-    public function __construct($db) 
-    {
-        $this->db = $db;
-    }
 
     // Clears all checklists for a given student and program ID.
     public function clearChecklist($user_id, $student_id, $program_id)

@@ -9,10 +9,7 @@
     include_once '../config/Database.php';
     include_once '../model/Majors.php';
 
-    $database = new Database();
-    $db = $database->connect();
-
-    $majors = new Majors($db);
+    $majors = new Majors();
 
     //$method = $_SERVER['REQUEST_METHOD'];
     $request;
@@ -22,7 +19,7 @@
     $active;
     $id;
 
-
+    //checks url for table variables
     if(isset($_GET['name']))
     {
         $name = $_GET['name'];
@@ -35,12 +32,14 @@
     {
         $id = $_GET['id'];
     }
-
+    
+    //checks url for request variable
     if(isset($_GET['request']))
     {
         $request = $_GET['request'];
     }
-
+    
+    //calls function based on url request
     switch ($request) 
     {
         case 'read':

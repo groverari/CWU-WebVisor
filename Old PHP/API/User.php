@@ -8,10 +8,7 @@
     include_once '../config/Database.php';
     include_once '../model/Users.php';
 
-    $database = new Database();
-    $db = $database->connect();
-
-    $users = new Users($db);
+    $users = new Users();
 
     $request;
 
@@ -25,6 +22,7 @@
     $last;
     $first;
     
+    //checks url for table variables
     if(isset($_GET['id']))
     {
         $id = $_GET['id'];
@@ -58,11 +56,13 @@
         $first = $_GET['first'];
     }
 
+    //checks url for request variable
     if(isset($_GET['request']))
     {
         $request = $_GET['request'];
     }
 
+    //calls function based on url request
     switch ($request) 
     {
         case 'read':

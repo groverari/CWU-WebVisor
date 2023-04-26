@@ -35,7 +35,7 @@ class Students
             $rowAffected = add_db_row($query, $dataArr);
             if($rowAffected > 0)
             {
-                $journ = new Journal()
+                $journ = new Journal();
                 $note = "Updated <student:$student_id>.";
                 $journ->record_update_student($user_id, $student_id, $note);
             }

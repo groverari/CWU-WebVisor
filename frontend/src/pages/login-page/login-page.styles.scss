@@ -1,0 +1,21 @@
+.login-page {
+  position: relative;
+  height: 100vh;
+}
+.login-container {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border: 5px solid slateblue;
+  padding: 200px 150px;
+  display: grid;
+  row-gap: 10px;
+}
+
+.username-label {
+  margin: 5px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

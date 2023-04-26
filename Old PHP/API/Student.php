@@ -92,6 +92,9 @@
         case 'student_in_program':
             $result = $student->update_student($user_id, $student_id, $first, $last, $cwu_id, $email, $phone, $address, $postbaccalaureate, $withdrawing, $veterans_benefits, $active);
             break;
+        case 'add_student':
+            $result = $student->add_student($user_id, $cwu_id, $email, $first, $last);
+            break;
         default:
             echo 'request incorrrect';
             break;

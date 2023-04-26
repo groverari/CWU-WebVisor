@@ -43,17 +43,19 @@ class Students
 
         function add_student($user_id, $cwu_id, $email, $first='', $last='')
 	    {
-            if ($cwu_id != 0)
-            {
-                $query_string = "
-                SELECT
-                    id
-                FROM
-                    Students
-                WHERE
-                    cwu_id=$cwu_id
-                ;";
-            }
+        
+            $query_string = "
+            INSERT INTO Students
+                (cwu_id, email, first, last)
+            VALUES
+                (:cwu_id, :email, :first, :last)
+            ;";
+            
+            $dataArr = [':cwu_id'=>$cwu_id, ':email'=$email, ':first'=>$first, ':last'=>$last];
+
+            record_update_student($user_id, $student_id, "Added <student:$student_id>");
+
+            return $student_id;
         }
 
     public function all_students($active_only = false)

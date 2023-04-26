@@ -1678,6 +1678,8 @@
 		return mysql_fetch_assoc($query_result);
 	}
 	
+	//Note: removed first if and else-if statment. I don't know what it has to do with adding a student
+	//Note: removed check of id
 	function add_student($user_id, $cwu_id, $email, $first='', $last='')
 	{
 		if ($cwu_id != 0)

@@ -58,6 +58,10 @@
         case 'update_student_advisor':
             $result = $studentProgram->update_student_advisor($user_id, $student_id, $program_id, $advisor_id);
             break;
+        case 'get_student_program_advisor':
+            $result = $studentProgram->get_student_program_advisor($student_id, $program_id)
+            echo json_encode($result)
+            break;
         default:
             echo 'request incorrrect';
             break;

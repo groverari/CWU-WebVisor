@@ -19,6 +19,27 @@
             return get_from_db($query, $dataArr);
         }
 
+        function get_student_program_advisor($student_id, $program_id)
+        {
+            $query ="
+                SELECT
+                Users.id,
+                Users.name,
+                Users.login
+            FROM
+                Student_Programs
+                JOIN Users ON Student_Programs.user_id=Users.id
+            WHERE
+                student_id=$student_id
+                AND
+                Student_Programs.program_id=$program_id
+            ;";
+
+            $dataArr = [':student_id'=>$student_id, ':program_id'=>$program_id];
+
+            return get_from_db($query, $dataArr);
+        }
+
         function update_student_advisor($user_id, $student_id, $program_id, $advisor_id)
         {
             $query = "

@@ -6,10 +6,6 @@ class Templates
     private $db;
     private $table = 'templates';
 
-    public function __construct($db) 
-    {
-        $this->db = $db;
-    }
 
     // Retrieves templates for a given program ID.
     public function getTemplates($program_id)

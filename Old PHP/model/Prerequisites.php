@@ -5,9 +5,6 @@ class Prerequisites {
     private $db;
     private $table = 'prerequisites';
 
-    public function __construct($db) {
-        $this->db = $db;
-    }
 
     public function updatePrerequisites($class_id, $prereq_ids, $required_grades) {
         try {

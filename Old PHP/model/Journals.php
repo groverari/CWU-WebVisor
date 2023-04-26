@@ -17,10 +17,6 @@ class Journals
     public $major_id;
    
 
-    public function __construct($db) 
-    {
-        $this->conn = $db;
-    }
 // Retrieves a list of journal entries, 
 //including details about the user, student, class, program, major, and note.
     public function read()

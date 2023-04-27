@@ -4,13 +4,13 @@ import SearchBox from '../../../components/search-box/search-box'
 import { useState, useEffect } from 'react'
 import StudentOverview from '../../../components/student-overview/student-overview'
 const s = [
-  { label: 'Ariesh', value: 1 },
-  { label: 'Josh', value: 2 },
-  { label: 'Andrew', value: 3 },
-  { label: 'Nirunjan', value: 4 },
-  { label: 'Ryan', value: 5 },
-  { label: 'John Doe', value: 7 },
-  { label: 'Billy Eilish', value: 8 }
+  { label: 'Grover, Ariesh 12345678', value: 1 },
+  { label: 'Martinez, Josh 123456456', value: 2 },
+  { label: 'Franco-Munoz, Andrew 98752365', value: 3 },
+  { label: 'Malla, Nirunjan 98632582', value: 4 },
+  { label: 'Golob, Ryan 96321458', value: 5 },
+  { label: 'Doe, John 12547856', value: 7 },
+  { label: 'Eilish, Billy 92563578', value: 8 }
 ]
 
 const studentInfo = [

@@ -8,7 +8,7 @@ const links = [
   {
     key: 1,
     name: 'Student Search',
-    path: ''
+    path: '/search'
   },
   {
     key: 2,
@@ -29,8 +29,12 @@ const links = [
 const StudentPage = () => {
   return (
     <div className="page-container">
-      <SubMenu className="submenu" baseurl={baseurl} links={links} />
-      <Outlet className="page-content" />
+      <div className="submenu-page-container">
+        <SubMenu className="submenu" baseurl={baseurl} links={links} />
+      </div>
+      <div className="page-content-container">
+        <Outlet className="page-content" />
+      </div>
     </div>
   )
 }

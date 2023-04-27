@@ -16,6 +16,8 @@ import MajorPage from './pages/majors/major-page/major-page'
 import EditMajor from './pages/majors/major-edit/major-edit'
 import EditProgram from './pages/majors/program-edit/program-edit'
 import Enrollments from './pages/enrollments/enrollment-page.jsx/enrollment-page'
+import StudentInfo from './components/student-info/student-info'
+import StudentPlan from './components/student-plan/student-plan'
 
 function App() {
   return (
@@ -28,6 +30,10 @@ function App() {
           <Route path="students" element={<StudentPage />}>
             {/* This is where all the submenu navigation goes */}
             <Route index element={<StudentSearch />} />
+            <Route path="search" element={<StudentSearch />}>
+              <Route path="info" element={<StudentInfo />} />
+              <Route path="plan" element={<StudentPlan />} />
+            </Route>
             <Route path="add" element={<AddStudent />} />
             <Route path="archived" element={<ArchivedStudents />} />
             <Route path="lost" element={<LostStudents />} />

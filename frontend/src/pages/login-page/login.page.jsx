@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import { PasswordField } from '@aws-amplify/ui-react'
+
 import './login-page.styles.scss'
-import '@aws-amplify/ui-react/styles.css'
 
 const Login = () => {
   return (

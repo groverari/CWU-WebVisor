@@ -1,11 +1,13 @@
 import React from 'react'
 import './student-info.styles.scss'
 
-function StudentInfo(props) {
-  const { student } = props
-  if (props.active) {
-    return (
-      <form>
+function StudentInfo() {
+  return <h1>Hi I am the student info page</h1>
+}
+
+export default StudentInfo
+/**
+ * <form>
         <h3>Student: </h3>
         <label>First Name</label>
         <input type="text" value={student.fName} />
@@ -23,18 +25,14 @@ function StudentInfo(props) {
         <input type="text" value={student.address} /> <br />
         <h3>Program: </h3>
         <label>Program</label>
-        {/* This is where dropdown of all programs will go */}
+        
         <br />
         <label>Advisor</label>
-        {/* This where the advisor drop down will go */}
+        
         <br />
         <label>Non Stem</label>
         <input type="text" value={student.nonStem} /> <br />
         <button>Update</button>
         <button>Deactivate</button>
       </form>
-    )
-  }
-}
-
-export default StudentInfo
+      */

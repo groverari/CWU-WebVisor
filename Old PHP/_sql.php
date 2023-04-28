@@ -360,7 +360,7 @@
 		$row = mysql_fetch_assoc($query_result);
 		return $row;
 	}
-	
+
 //-----------------------------------------------------	
 //! PROGRAMS
 //-----------------------------------------------------	
@@ -408,7 +408,7 @@
 */
 //! @todo program credits should be calculated from class credits + elective credits
 
-	function all_programs($user_id = 0)
+	function all_programs()
 	{
 		$query_string = "
 		SELECT
@@ -429,7 +429,7 @@
 		{
 			$all_programs[$row['id']] = $row['name']." (".$row['year'].")";
 		}
-		
+	
 		if ($user_id != 0)
 		{
 			$query_string = "
@@ -1438,7 +1438,8 @@
 	{
 		global $YES;
 		
-		$sql_result = my_query("SELECT DISTINCT
+		$sql_result = my_query("
+		SELECT DISTINCT
 			Students.id,
 			Students.cwu_id,
 			Students.first,
@@ -1523,6 +1524,7 @@
 		return $programs;
 	}
 	
+	//done
 	function student_in_program($student_id, $program_id)
 	{
 		$query_string = "

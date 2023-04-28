@@ -5,6 +5,12 @@
     $password = 'webvisor';
     $conn = null;
 
+    // $host = 'localhost';
+    // $db_name = 'advising';
+    // $username = 'root';
+    // $password = 'buttons93';
+    // $conn = null;
+
     try
     {
         $conn = new PDO('mysql:host=' . $host . ';dbname=' . $db_name, $username, $password);

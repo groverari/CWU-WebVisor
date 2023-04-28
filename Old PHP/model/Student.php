@@ -3,32 +3,25 @@ include_once 'PDO-methods.php';
 
 class Students
 {
-    private $db;
-    private $table = 'students';
-
-    public function __construct($db) 
-    {
-        $this->db = $db;
-    }
 
     function update_student($user_id, $student_id, $first, $last, $cwu_id, $email, $phone, $address, $postbaccalaureate, $withdrawing, $veterans_benefits, $active)
         {
             $query = "
             UPDATE
-                Students
+                students
             SET
-                first='$first',
-                last='$last',
-                cwu_id=$cwu_id,
-                email='$email',
-                phone='$phone',
-                address='$address',
-                postbaccalaureate='$postbaccalaureate',
-                withdrawing='$withdrawing',
-                veterans_benefits='$veterans_benefits',
-                active='$active'
+                first=:first,
+                last=:last,
+                cwu_id=:cwu_id,
+                email=:email,
+                phone=:phone,
+                address=:address,
+                postbaccalaureate=:postbaccalaureate,
+                withdrawing=:withdrawing,
+                veterans_benefits=:veterans_benefits,
+                active=:active
             WHERE
-                id=$student_id
+                id=:student_id
                 ;";
 
             $dataArr = [':first'=>$first, ':last'=>$last, ':cwu_id'=>$cwu_id, ':email'=>$email, ':phone'=>$phone, ':address'=>$address, ':postbaccalaureate'=>$postbaccalaureate, ':withdrawing'=>$withdrawing, ':veterans_benefits'=>$veterans_benefits, ':active'=>$active, ':student_id'=>$student_id];
@@ -45,7 +38,7 @@ class Students
 	    {
         
             $query_string = "
-            INSERT INTO Students
+            INSERT INTO students
                 (cwu_id, email, first, last)
             VALUES
                 (:cwu_id, :email, :first, :last)
@@ -110,41 +103,41 @@ class Students
     
         $query_string = "
         SELECT
-            Student_Classes.term,
-            CONCAT(Classes.name, ' (', Classes.credits, ' cr)') AS class_name,
-            CONCAT(Students.first, ' ', Students.last) AS student_name,
-            Students.cwu_id,
-            Classes.id AS class_id
+            student_classes.term,
+            CONCAT(classes.name, ' (', classes.credits, ' cr)') AS class_name,
+            CONCAT(Students.first, ' ', students.last) AS student_name,
+            students.cwu_id,
+            classes.id AS class_id
         FROM
-            Student_Classes
-            JOIN Classes ON Student_Classes.class_id=Classes.id
-            JOIN Students ON Student_Classes.student_id=Students.id
+            student_classes
+            JOIN classes ON student_classes.class_id=Classes.id
+            JOIN students ON student_classes.student_id=students.id
         WHERE
             (
                 (
                     RIGHT(term,1) = '1'
-                    AND Classes.fall = ?
+                    AND classes.fall = ?
                 )
                 OR
                 (
                     RIGHT(term,1) = '2'
-                    AND Classes.winter = ?
+                    AND classes.winter = ?
                 )
                 OR
                 (
                     RIGHT(term,1) = '3'
-                    AND Classes.spring=?
+                    AND classes.spring=?
                 )
                 OR
                 (
                     RIGHT(term,1) = '4'
-                    AND Classes.summer = ?
+                    AND classes.summer = ?
                 )
             )   
             AND
                 LEFT(term,4) >= YEAR(CURDATE())    
             AND
-                Students.active = ?
+                students.active = ?
             ORDER BY
                 term
         ;";

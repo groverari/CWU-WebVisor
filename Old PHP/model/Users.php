@@ -27,6 +27,63 @@
             return $result;
         }
 
+        function find_user($cwu_id, $email, $first, $last)
+        {
+            $id = 0;
+            $dataArr;
+            $query;
+            if ($cwu_id != '')
+            {
+                $query = "
+                SELECT
+                    id
+                FROM
+                    Students
+                WHERE
+                    cwu_id=:cwu_id;";
+                $dataArr = [':cwu_id'=>$cwu_id];
+            }
+            else
+            {
+                $query = "
+                SELECT
+                    id
+                FROM
+                    Students
+                WHERE
+                    email=:email;";
+                $dataArr = [':email'=>$email];
+            }
+            $result = get_from_db($query, $data_array);
+            
+            if ($result->rowCount() == 0)
+            {
+                if ($cwu_id != 0 || $email != '')
+                {
+                    if ($cwu_id == '')
+                    {
+                        $cwu_id = 'NULL';
+                    }
+                    $query_string = "
+                    INSERT INTO
+                        students(cwu_id, email, first, last)
+                    VALUES
+                        ($cwu_id, '$email', '$first', '$last');";
+                    $result = my_query($query_string);
+                    $id = mysql_insert_id();
+                }
+                else
+                {
+                    add_message("Cannot add new user without both a CWU ID and a CWU email address.");
+                }
+            }
+            else
+            {
+                $row = mysql_fetch_assoc($result);
+                $id = $row['id'];
+            }
+            return $id;
+        }
 
     }
 

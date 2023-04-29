@@ -7,7 +7,7 @@
     header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
     
     include_once '../config/Database.php';
-    include_once '../model/Majors.php';
+    include_once '../model/Students.php';
 
     $student = new Students();
 
@@ -103,6 +103,7 @@
         case 'cwu_id_to_student_id':
             $result = $student->cwu_id_to_student_id($cwu_id);
             echo json_encode($result);
+            break;
         default:
             echo 'request incorrrect';
             break;

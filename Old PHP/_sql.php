@@ -365,6 +365,7 @@
 //! PROGRAMS
 //-----------------------------------------------------	
 
+	//only used in a function that is not in use
 	function get_program_id($major_id, $catalog_year)
 	{
 		//! @bug should use $catalog_year and do a search based on first year program was offered

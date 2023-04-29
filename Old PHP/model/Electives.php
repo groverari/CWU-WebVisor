@@ -11,26 +11,26 @@ class Electives
     {
         $query_string = "
         SELECT
-            Classes.id AS class_id,
-            Classes.name AS short_name,
-            CONCAT(Classes.name, ' (', Classes.credits, ' cr)') AS name,
-            Classes.title,
-            Classes.credits,
-            Classes.fall,
-            Classes.winter,
-            Classes.spring,
-            Classes.summer,
-            Student_Classes.term,
-            Student_Classes.id,
-            Electives.id AS elective_id
+            classes.id AS class_id,
+            classes.name AS short_name,
+            CONCAT(classes.name, ' (', classes.credits, ' cr)') AS name,
+            classes.title,
+            classes.credits,
+            classes.fall,
+            classes.winter,
+            classes.spring,
+            classes.summer,
+            student_classes.term,
+            student_classes.id,
+            electives.id AS elective_id
         FROM
-            Electives
-            JOIN Student_Classes ON Electives.student_class_id=Student_Classes.id
-            JOIN Classes ON Student_Classes.class_id = Classes.id
+            electives
+            JOIN student_classes ON electives.student_class_id=student_classes.id
+            JOIN classes ON student_classes.class_id = classes.id
         WHERE
-            Student_Classes.student_id = ?
+            student_classes.student_id = ?
             AND
-            Electives.program_id = ?
+            electives.program_id = ?
         ;";
         $query_result = $this->db->get_from_db($query_string, [$student_id, $program_id]);
 
@@ -49,7 +49,7 @@ class Electives
     {
         $query =
         "
-            INSERT INTO Electives
+            INSERT INTO electives
                 (student_class_id, program_id)
             VALUES
                 (:student_class_id, :program_id)

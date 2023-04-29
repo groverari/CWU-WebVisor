@@ -10,10 +10,10 @@ class Notes
     // Retrieves all notes for a given student.
     public function get_notes($student_id) 
     {
-        $query = "SELECT Notes.id, datetime, note, flagged, name 
-                  FROM Notes JOIN Users ON Notes.user_id=Users.id 
-                  WHERE Notes.student_id=? ORDER BY Notes.flagged, Notes.datetime DESC";
-        $notes = $this->db->get_from_db($query, [$student_id]);
+        $query = "SELECT notes.id, datetime, note, flagged, name 
+                  FROM notes JOIN users ON notes.user_id=users.id 
+                  WHERE notes.student_id=? ORDER BY notes.flagged, notes.datetime DESC";
+        $notes = $this->db->getfrom_db($query, [$student_id]);
 
         $formatted_notes = array();
         foreach ($notes as $row) 
@@ -43,11 +43,11 @@ class Notes
         $escaped_note = htmlspecialchars(strip_tags($note));
 
         $flagged_text = ($flagged ? $YES : $NO);
-        $query = "INSERT INTO Notes (user_id, student_id, note, flagged, datetime) VALUES (?, ?, ?, ?, NOW())";
+        $query = "INSERT INTO notes (user_id, student_id, note, flagged, datetime) VALUES (?, ?, ?, ?, NOW())";
         $this->db->add_db($query, [$user_id, $student_id, $escaped_note, $flagged_text]);
         $note_id = $this->db->lastInsertId();
 
-        if ($this->db->row_count() > 0) 
+        if ($this->db->rowCount() > 0) 
         {
             $note_text = "<note:$note_id> added to <student:$student_id>.";
             record_update_student($user_id, $student_id, $note_text);
@@ -60,12 +60,12 @@ class Notes
         $YES = "yes";
         $NO = "no";
 
-        $query = "UPDATE Notes SET flagged=? WHERE student_id=?";
+        $query = "UPDATE notes SET flagged=? WHERE student_id=?";
         $this->db->update_db($query, [$NO, $student_id]);
 
         foreach ($flagged_ids as $flagged_id) 
         {
-            $query = "UPDATE Notes SET flagged=? WHERE id=?";
+            $query = "UPDATE notes SET flagged=? WHERE id=?";
             $this->db->update_db($query, [$YES, $flagged_id]);
         }
     }

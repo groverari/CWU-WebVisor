@@ -18,7 +18,11 @@
     $user_id;
 
     //needed parameters for some methods
-    $advisor_id
+    $advisor_id;
+    $remove_programs;
+    $add_program_id;
+    $add_advisor_id;
+    $non_stem_majors;
 
     //checks url for table variables
     if(isset($_GET['id']))
@@ -41,6 +45,22 @@
     {
         $advisor_id = $_GET['advisor_id'];
     }
+    if(isset($_GET['remove_programs']))
+    {
+        $remove_programs = $_GET['remove_programs'];
+    }
+    if(isset($_GET['add_program_id']))
+    {
+        $add_program_id = $_GET['add_program_id'];
+    }
+    if(isset($_GET['add_advisor_id']))
+    {
+        $add_advisor_id = $_GET['add_advisor_id'];
+    }
+    if(isset($_GET['non_stem_majors']))
+    {
+        $non_stem_majors = $_GET['non_stem_majors'];
+    }
 
      //checks url for request variable
     if(isset($_GET['request']))
@@ -62,6 +82,8 @@
             $result = $studentProgram->get_student_program_advisor($student_id, $program_id)
             echo json_encode($result)
             break;
+        case 'update_student_programs':
+            $result = $studentProgram->update_student_programs($user_id, $student_id, $remove_programs, $add_program_id, $add_advisor_id, $non_stem_majors);
         default:
             echo 'request incorrrect';
             break;

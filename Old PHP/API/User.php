@@ -21,7 +21,11 @@
     $superuser;
     $last;
     $first;
-    
+
+    //required parameters for some functions
+    $cwu_id;
+    $email;
+
     //checks url for table variables
     if(isset($_GET['id']))
     {
@@ -55,6 +59,14 @@
     {
         $first = $_GET['first'];
     }
+    if(isset($_GET['cwu_id']))
+    {
+        $cwu_id = $_GET['cwu_id'];
+    }
+    if(isset($_GET['email']))
+    {
+        $email = $_GET['email'];
+    }
 
     //checks url for request variable
     if(isset($_GET['request']))
@@ -67,6 +79,10 @@
     {
         case 'read':
             $result = $users->read();
+            echo json_encode($result);
+            break;
+        case 'find_user':
+            $result = $user->find_user($cwu_id, $email, $first, $last);
             echo json_encode($result);
             break;
         default:

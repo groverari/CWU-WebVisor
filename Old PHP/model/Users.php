@@ -38,7 +38,7 @@
                 SELECT
                     id
                 FROM
-                    Students
+                    students
                 WHERE
                     cwu_id=:cwu_id;";
                 $dataArr = [':cwu_id'=>$cwu_id];
@@ -49,7 +49,7 @@
                 SELECT
                     id
                 FROM
-                    Students
+                    students
                 WHERE
                     email=:email;";
                 $dataArr = [':email'=>$email];
@@ -64,13 +64,13 @@
                     {
                         $cwu_id = 'NULL';
                     }
-                    $query_string = "
+                    $query = "
                     INSERT INTO
                         students(cwu_id, email, first, last)
                     VALUES
                         ($cwu_id, '$email', '$first', '$last');";
                     $result = my_query($query_string);
-                    $id = mysql_insert_id();
+                    $id = $row['id'];
                 }
                 else
                 {
@@ -79,7 +79,7 @@
             }
             else
             {
-                $row = mysql_fetch_assoc($result);
+                $row = get_from_db($result);
                 $id = $row['id'];
             }
             return $id;

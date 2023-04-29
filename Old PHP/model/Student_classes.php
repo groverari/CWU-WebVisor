@@ -12,51 +12,60 @@ class Student_classes
         $this->db = $db;
     }
 
-    function add_student_class($student_id, $class_id, $term)
+    function clear_plan($user_id, $student_id)
+    {
+        $query_string = "
+		DELETE FROM
+			student_classes
+		WHERE
+			student_id=:student_id
+			AND term != '000'
+			;";
+        $dataArr = [':student_id'=>$student_id];
+		$query_result_rows = remove_db_rows($query, $dataArr);
+		
+		if ($query_result_rows > 0)
+		{
+            $journ = new Journal()
+			$note = "<student:$student_id> plan cleared.";
+			$journ->record_update_student($user_id, $student_id, $note);
+		}
+    }
+
+    function add_student_class($user_id, $student_id, $class_id, $term)
     {
         $query = "
         INSERT INTO
-            Student_Classes(student_id, class_id, term)
+            student_classes(student_id, class_id, term)
         VALUES
             (:student_id, :class_id, :term)
         ;";
 
         $dataArr = [':student_id'=>$student_id, ':class_id'=>$class_id, ':term'=>$term];
-        
-        //might need to be changed--look at corresponding sql file
-        $note = "<class:$class_id> added to <student:$student_id> in <term:$term>.";
-        record_update_student($user_id, $student_id, $note);
-    }
-
-    function clear_plan($student_id)
-    {
-        $string = "
-        DELETE FROM
-            Student_Classes
-        WHERE
-            student_id='$student_id'
-            AND term != '000'
-            ;";
-        
-        $dataArr = [':student_id'=>$student_id];
-        return remove_db($query, $dataArr);
+        $result = add_db($query, $dataArr);
+        if($result['id'])
+        {
+            $journ = new Journal();
+            $note = "<class:$class_id> added to <student:$student_id> in <term:$term>.";
+            $journ->record_update_student($user_id, $student_id, $note);
+        }
     }
 
     public function students_for_user($user_id)
     {
       try {
           $query = "SELECT
-                      Students.id,
+                      students.id,
                       CONCAT(COALESCE(last,'*'), ', ', COALESCE(first,'*'), ' (', cwu_id, ')') AS name
                     FROM
-                      Students
+                      students
                       JOIN
-                      Student_Programs
-                      ON Students.id=Student_Programs.student_id
+                      student_programs
+                      ON students.id=student_programs.student_id
                     WHERE
                       cwu_id != 0
                       AND
-                      Student_Programs.user_id=?
+                      student_programs.user_id=?
                     ORDER BY
                       active, last, first ASC";
 

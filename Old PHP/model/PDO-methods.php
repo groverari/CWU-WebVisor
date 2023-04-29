@@ -12,8 +12,7 @@
 
     function remove_db($query, $data_array = [])
     {
-        global $db;
-        return $db-> prepare($query)->execute($data_array);
+        return add_db($query, $data_array);
     }
 
     //Returns rows affected
@@ -23,6 +22,12 @@
         $statement->execute($data_array);
         return $statement -> rowCount();
         
+    }
+
+    //Returns rows affected
+    function remove_db_rows($query, $data_array = [])
+    {
+        return add_db_rows($query, $data_array);
     }
 
     function get_from_db( $query, $data_array = []){

@@ -1596,6 +1596,7 @@
 		return $id;
 	}
 
+	//done
 	function cwu_id_to_student_id($cwu_id)
 	{		
 		$query_string = "
@@ -1660,6 +1661,7 @@
 		return $info;
 	}
 	
+	//done
 	function get_student_program_advisor($student_id, $program_id)
 	{
 		$query_string = "
@@ -1680,8 +1682,7 @@
 		return mysql_fetch_assoc($query_result);
 	}
 	
-	//Note: removed first if and else-if statment. I don't know what it has to do with adding a student
-	//Note: removed check of id
+	//done
 	function add_student($user_id, $cwu_id, $email, $first='', $last='')
 	{
 		if ($cwu_id != 0)
@@ -1798,6 +1799,7 @@
 		$query_result = my_query($query_string);
 	}
 	
+	//done
 	function update_student_programs($user_id, $student_id, $remove_programs, $add_program_id, $add_advisor_id, $non_stem_majors)
 	{
 		//! @todo start update
@@ -1909,7 +1911,7 @@
 		$query_result = my_query($query_string);
 	}
 	
-	//done--user_id removed in model--might need to be reconsidered
+	//done
 	function clear_plan($user_id, $student_id)
 	{
 		$query_string = "
@@ -1928,7 +1930,7 @@
 		}
 	}
 	
-	//done--user_id removed in model--if statement removed--might need to be reconsidered
+	//done
 	function add_student_class($user_id, $student_id, $class_id, $term)
 	{
 			$query_string = "
@@ -1963,7 +1965,7 @@
 		
 	}
 
-	function update_plan($user_id, $student_id, $program_id, $classes)////////////////////////////////////////////////////////////////////////////////////////
+	function update_plan($user_id, $student_id, $program_id, $classes)
 	{
 		$note = "Begin Update: <student:$student_id> plan.";
 		record_update_student($user_id, $student_id, $note);

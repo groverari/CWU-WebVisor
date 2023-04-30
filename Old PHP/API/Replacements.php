@@ -7,7 +7,7 @@
     header('Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With');
     
     include_once '../config/Database.php';
-    include_once '../model/Replacement.php';
+    include_once '../model/Replacements.php';
 
     $replacement = new Replacements();
 
@@ -60,9 +60,11 @@
             break;
         case 'removeReplacement':
             $result = $replacement ->removeReplacement($user_id, $program_id, $replaced_id, $replacement_id);
+
             break;
         case 'getReplacementClasses':
             $result = $replacement ->getReplacement($program_id);
+            echo json_encode($result);
             break;
         case 'record_update_program':
             $result = $replacement -> record_update_program($user_id, $program_id, $note);

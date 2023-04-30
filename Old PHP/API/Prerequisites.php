@@ -52,6 +52,7 @@
 
         case 'getPrerequisites':
             $restul = $prerequisites->getPrerequisites($class_id);
+            echo json_encode($result);
             break;
         default:
             echo 'request incorrrect';

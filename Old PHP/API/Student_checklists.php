@@ -47,6 +47,7 @@
             break;
         case 'get_checked_items':
             $result = $student_checklist->get_checked_items($user_id, $student_id, $program_id);
+            echo json_encode($result);
             break;
         default:
             echo 'request incorrrect';

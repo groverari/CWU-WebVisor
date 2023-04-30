@@ -97,7 +97,7 @@
             echo json_encode($result);
             break;
         case 'get_student_info'://likely won't work because function calls on non-existing tables
-            $result = $student->get_student_info($id, $cwu_id, $email)
+            $result = $student->get_student_info($id, $cwu_id, $email);
             echo json_encode($result);
             break;
         case 'cwu_id_to_student_id':

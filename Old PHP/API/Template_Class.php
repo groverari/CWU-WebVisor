@@ -54,6 +54,7 @@
 
         case 'get_template_classes':
             $result = $template_class->get_template_classes($template_id);
+            echo json_encode($result);
             break;
         case 'update_template':
             $result = $template_class->update_template($template_id, $name, $template);

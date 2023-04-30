@@ -77,6 +77,9 @@
     //calls function based on url request
     switch ($request) 
     {
+        case 'update_user':
+            $users->update_user($id, $password, $name, $program_id);
+            break;
         case 'read':
             $result = $users->read();
             echo json_encode($result);

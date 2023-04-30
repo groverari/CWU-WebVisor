@@ -1,5 +1,6 @@
 <?php
 include_once 'PDO-methods.php';
+include_once 'Journals.php';
 
 class Template_Class 
 {
@@ -62,7 +63,7 @@ class Template_Class
                 SELECT
                     class_id, quarter, year
                 FROM
-                    Template_Classes
+                    template_classes
                 WHERE
                     template_id=:template_id
                     AND
@@ -80,7 +81,7 @@ class Template_Class
 
                 $query = "
                     INSERT INTO
-                        Student_Classes(student_id, class_id, term)
+                        student_classes(student_id, class_id, term)
                     VALUES
                         (:student_id, :class_id, :term)
                 ";

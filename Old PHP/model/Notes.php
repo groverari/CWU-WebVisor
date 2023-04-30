@@ -1,5 +1,6 @@
 <?php
 include_once 'PDO-methods.php';
+include_once 'Journals.php';
 
 class Notes 
 {

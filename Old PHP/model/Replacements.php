@@ -1,5 +1,6 @@
 <?php
 include_once 'PDO-methods.php';
+include_once 'Journals.php';
 
 class Replacements {
     private $db;
@@ -29,7 +30,7 @@ class Replacements {
 
     // Gets all replacement classes for a program.
     public function getReplacementClasses($program_id) {
-        $query = "SELECT Replacement_Classes.required_id, Replacement_Classes.replacement_id, Req.name AS required_name, Rep.name AS replacement_name, Replacement_Classes.note AS note FROM " . $this->table . " JOIN classes AS Rep ON Replacement_Classes.replacement_id = Rep.id JOIN classes AS Req ON Replacement_Classes.required_id = Req.id WHERE Replacement_Classes.program_id = ?";
+        $query = "SELECT replacement_classes.required_id, replacement_classes.replacement_id, req.name AS required_name, rep.name AS replacement_name, replacement_classes.note AS note FROM " . $this->table . " JOIN classes AS rep ON replacement_classes.replacement_id = rep.id JOIN classes AS req ON replacement_classes.required_id = req.id WHERE replacement_classes.program_id = ?";
         $replacement_classes = $this->db->get_from_db($query, [$program_id]);
         return $replacement_classes;
     }

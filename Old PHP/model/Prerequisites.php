@@ -1,5 +1,6 @@
 <?php
 include_once 'PDO-methods.php';
+include_once 'Journals.php';
 
 class Prerequisites {
     private $db;
@@ -34,7 +35,7 @@ class Prerequisites {
     public function getPrerequisites($class_id) {
         try {
             // Select prerequisites and their minimum grades for the given class
-            $query = "SELECT " . $this->table . ".prerequisite_id, classes.name, " . $this->table . ".minimum_grade FROM " . $this->table . " JOIN Classes ON " . $this->table . ".prerequisite_id = Classes.id WHERE " . $this->table . ".class_id = ?";
+            $query = "SELECT " . $this->table . ".prerequisite_id, classes.name, " . $this->table . ".minimum_grade FROM " . $this->table . " JOIN classes ON " . $this->table . ".prerequisite_id = Classes.id WHERE " . $this->table . ".class_id = ?";
             $prereqs = $this->db->get_from_db($query, [$class_id]);
 
             // Return an array of prerequisites and their minimum grades

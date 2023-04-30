@@ -1,5 +1,6 @@
 <?php
     include_once 'PDO-methods.php';
+    include_once 'Journals.php';
 
     class Student_Programs
     {
@@ -35,9 +36,9 @@
                 ;";
                 
                 $dataArr = [':student_id'=>$student_id, ':program_id'=>$program_id];
-                $query_result = delete_db_rows($query_string, $dataArr);
+                $query_result = remove_db_rows($query_string, $dataArr);
                 
-                if (mysql_affected_rows() > 0)
+                if ($query_result > 0)
                 {
                     //! @todo record removal
                 }
@@ -118,7 +119,7 @@
             $rowsAffected = add_db_rows($query, $dataArr);
             if($rowsAffected > 0)
             {
-                $journ = new Journal();
+                $journ = new Journals();
                 $note = "Set advisor to <user:$advisor_id> for <student:$student_id> in <program:$program_id>.";
                 $journ->record_update_student($user_id, $student_id, $note);
             }

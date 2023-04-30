@@ -1,8 +1,11 @@
 <?php
 include_once 'PDO-methods.php';
+include_once 'Journals.php';
 
 class Students
 {
+
+    
 
     function cwu_id_to_student_id($cwu_id)
 	{		
@@ -53,6 +56,7 @@ class Students
     function add_student($user_id, $cwu_id, $email, $first='', $last='')
     {
     
+        $
         if ($cwu_id != 0)
         {
             $query_string = "

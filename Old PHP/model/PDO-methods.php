@@ -37,3 +37,11 @@
         $return_vals = $statement->fetchAll();
         return $return_vals;
     }
+
+    function get_from_db_rows( $query, $data_array = [])
+    {
+        global $db;
+        $statement = $db-> prepare($query);
+        $statement->execute($data_array);
+        return $statement->rowCount();
+    }

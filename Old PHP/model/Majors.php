@@ -1,5 +1,6 @@
 <?php
     include_once 'PDO-methods.php';
+    include_once 'Journals.php';
 
     class Majors
     {
@@ -12,7 +13,7 @@
             SELECT
                 id, name, active
             FROM
-                Majors
+                majors
             ORDER BY
                 name
             ;";
@@ -23,7 +24,7 @@
         {
             $query = "
 			INSERT INTO
-				Majors(name, active)
+				majors(name, active)
 			VALUES
 				(:name, :active)
 			;";
@@ -36,7 +37,7 @@
         {
             $query = "
 			UPDATE
-				Majors
+				majors
 			SET
 				name=:name,
 				active=:active
@@ -56,7 +57,7 @@
             SELECT
                 name, active
             FROM
-                Majors
+                majors
             WHERE id=:id
             ;";
 

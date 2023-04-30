@@ -39,9 +39,6 @@
     //calls function based on url request
     switch ($request) 
     {
-        case 'add_student_elective':
-            $result = $elective->add_student_elective($student_class_id, $program_id);
-            break;
         default:
             echo 'request incorrrect';
             break;

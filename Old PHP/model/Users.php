@@ -1,5 +1,7 @@
 <?php
     include_once 'PDO-methods.php';
+    include_once 'Journals.php';
+
     class Users
     {
         // DB stuff
@@ -8,6 +10,34 @@
 
 
         // 
+        function update_user($user_id, $password, $name, $program_id)
+        {
+            $query_string = "
+                UPDATE
+                    users
+                SET
+                    name=:name,
+                    program_id=:program_id
+                WHERE
+                    id=:user_id
+                ;";
+            $dataArr = [':name'=>$name, ':program_id'=>$program_id, ':user_id'=>$user_id];
+            $query_result = add_db($query_string, $dataArr);
+            
+            if ($password != '')
+            {
+                $query_string = "
+                    UPDATE
+                        users
+                    SET
+                        password=:password
+                    WHERE
+                        id=:user_id
+                ;";
+                $dataArr =[':password'=>$password, ':user_id'=>$user_id];
+                $query_result = add_db($query_string, $dataArr);
+            }
+        }
 
         //Get All Users in Database
         function read()
@@ -54,7 +84,7 @@
                     email=:email;";
                 $dataArr = [':email'=>$email];
             }
-            $result = get_from_db($query, $data_array);
+            $result = get_from_db($query, $dataArr);
             
             if ($result->rowCount() == 0)
             {
@@ -68,9 +98,10 @@
                     INSERT INTO
                         students(cwu_id, email, first, last)
                     VALUES
-                        ($cwu_id, '$email', '$first', '$last');";
-                    $result = my_query($query_string);
-                    $id = $row['id'];
+                        (:cwu_id, :email, :first, :last);";
+                    $dataArr = [':cwu_id'=>$cwu_id,':email'=>$email, ':first'=>$first, ':last'=>$last];
+                    $result = add_db_rows($query);
+                    $id = $result;
                 }
                 else
                 {

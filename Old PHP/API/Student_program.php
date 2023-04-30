@@ -80,7 +80,7 @@
             break;
         case 'get_student_program_advisor':
             $result = $studentProgram->get_student_program_advisor($student_id, $program_id)
-            echo json_encode($result)
+            echo json_encode($result);
             break;
         case 'update_student_programs':
             $result = $studentProgram->update_student_programs($user_id, $student_id, $remove_programs, $add_program_id, $add_advisor_id, $non_stem_majors);

@@ -1,5 +1,6 @@
 <?php
 include_once 'PDO-methods.php';
+include_once 'Journals.php';
 
 class Electives 
 {
@@ -43,19 +44,5 @@ class Electives
         }
 
         return array('electives' => $electives, 'credits' => $credits);
-    }
-
-    public function add_student_elective($student_class_id, $program_id)
-    {
-        $query =
-        "
-            INSERT INTO electives
-                (student_class_id, program_id)
-            VALUES
-                (:student_class_id, :program_id)
-        "
-
-        $dataArr = [':student_class_id'=>$student_class_id, ':user_id'=>$user_id];
-        return add_db($query, $dataArr);
     }
 }

@@ -103,8 +103,6 @@
 			;";
 			$query_result = my_query($query_string);
 		}
-
-
 	}
 
 	//done-Josh

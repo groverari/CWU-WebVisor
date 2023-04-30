@@ -123,4 +123,6 @@
                 $journ->record_update_student($user_id, $student_id, $note);
             }
         }
+
+        
     }

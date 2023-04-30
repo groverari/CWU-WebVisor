@@ -1,7 +1,7 @@
 <?php
 include_once 'PDO-methods.php';
 
-class ReplacementClasses {
+class Replacements {
     private $db;
     private $table = 'replacement_classes';
 

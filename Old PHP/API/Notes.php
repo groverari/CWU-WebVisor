@@ -9,7 +9,7 @@
     include_once '../config/Database.php';
     include_once '../model/Notes.php';
 
-    $note = new $Notes();
+    $note = new Notes();
 
     $request;
 

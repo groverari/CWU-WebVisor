@@ -10,7 +10,7 @@
 
         $studentClass = new Student_classes();
 
-        $request
+        $request;
 
         //attributes of the tables
         $id;
@@ -22,6 +22,10 @@
         $user_id;
 
         //checks url for table variables
+        if(isset($_GET['id']))
+        {
+            $id = $_GET['id'];
+        }
         if(isset($_GET['student_id']))
         {
             $student_id = $_GET['student_id'];
@@ -34,14 +38,8 @@
         {
             $term = $_GET['term'];
         }
-        if(isset($_GET['id']))
-        {
-            $id = $_GET['id'];
-        }
-        if(isset($_GET['user_id']))
-        {
-            $user_id = $_GET['user_id'];
-        }
+       
+        
 
          //checks url for request variable
         if(isset($_GET['request']))

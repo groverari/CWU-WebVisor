@@ -9,7 +9,7 @@
     include_once '../config/Database.php';
     include_once '../model/Notes.php';
 
-    $note = $new Notes();
+    $note = new $Notes();
 
     $request;
 
@@ -23,31 +23,35 @@
     $user_id;
 
 
-        //checks url for table variables
-        if(isset($_GET['id']))
-        {
-            $id = $_GET['id'];
-        }
-        if(isset($_GET['student_id']))
-        {
-            $student_id = $_GET['student_id'];
-        }
-        if(isset($_GET['datetime']))
-        {
-            $datetime = $_GET['datetime'];
-        }
-        if(isset($_GET['flagged']))
-        {
-            $flagged = $_GET['flagged'];
-        }
-        if(isset($_GET['note']))
-        {
+
+     //checks url for table variables
+    if(isset($_GET['id']))
+    {
+        $id = $_GET['id'];
+    }
+    if(isset($_GET['student_id']))
+    {
+        $student_id = $_GET['student_id'];
+    }
+    if(isset($_GET['datetime']))
+    {
+        $datetime = $_GET['datetime'];
+    }
+    if(isset($_GET['flagged']))
+    {
+        $flagged = $_GET['flagged'];
+    }
+    if(isset($_GET['note']))
+    {
         $note = $_GET['note'];
-        }
-        if(isset($_GET['user_id']))
-        {
-            $user_id = $_GET['user_id'];
-        }
+    }
+    if(isset($_GET['user_id']))
+    {
+        $user_id = $_GET['user_id'];
+    }
+
+
+       
 
         //checks url for request variable
     if(isset($_GET['request']))
@@ -68,7 +72,7 @@
         case 'update_notes':
             $result = $note ->update_notes($student_id, $flagged_ids);
             break;
-         default:
+        default:
             echo 'request incorrrect';
             break;
     }

@@ -2,7 +2,7 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class ReplacementClasses {
+class Replacements {
     private $db;
     private $table = 'replacement_classes';
 

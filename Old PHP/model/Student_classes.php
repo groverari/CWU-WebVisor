@@ -182,43 +182,63 @@ class Student_classes
         }
     }
 
-    public function students_for_user($user_id)
+
+//student_classes file
+public function get_lost_students()
+{
+    $NO = 'No';
+    $YES = 'Yes';
+
+    $query_string = "
+    SELECT
+        student_classes.term,
+        CONCAT(classes.name, ' (', classes.credits, ' cr)') AS class_name,
+        CONCAT(Students.first, ' ', students.last) AS student_name,
+        students.cwu_id,
+        classes.id AS class_id
+    FROM
+        student_classes
+        JOIN classes ON student_classes.class_id=Classes.id
+        JOIN students ON student_classes.student_id=students.id
+    WHERE
+        (
+            (
+                RIGHT(term,1) = '1'
+                AND classes.fall = ?
+            )
+            OR
+            (
+                RIGHT(term,1) = '2'
+                AND classes.winter = ?
+            )
+            OR
+            (
+                RIGHT(term,1) = '3'
+                AND classes.spring=?
+            )
+            OR
+            (
+                RIGHT(term,1) = '4'
+                AND classes.summer = ?
+            )
+        )   
+        AND
+            LEFT(term,4) >= YEAR(CURDATE())    
+        AND
+            students.active = ?
+        ORDER BY
+            term
+    ;";
+
+    $query_result = $this->db->get_from_db($query_string, [$NO, $NO, $NO, $NO, $YES]);
+
+    $info = array();
+    foreach ($query_result as $row)
     {
-      try {
-          $query = "SELECT
-                      students.id,
-                      CONCAT(COALESCE(last,'*'), ', ', COALESCE(first,'*'), ' (', cwu_id, ')') AS name
-                    FROM
-                      students
-                      JOIN
-                      student_programs
-                      ON students.id=student_programs.student_id
-                    WHERE
-                      cwu_id != 0
-                      AND
-                      student_programs.user_id=?
-                    ORDER BY
-                      active, last, first ASC";
-
-          $this->db->beginTransaction();
-
-          $this->db->add_db($query, [$user_id]);
-          $query_result = $this->db->fetchAll(PDO::FETCH_ASSOC);
-
-          $all_students = array();
-          foreach ($query_result as $row)
-          {
-              $id = $row['id'];
-              $name = $row['name'];
-              $all_students[$id] = $name;
-          }
-
-          $this->db->commit();
-
-          return $all_students;
-      } catch (PDOException $e) {
-          $this->db->rollBack();
-          throw $e;
-      }
+        $info[] = $row;
     }
+
+    return $info;
+}
+
 }

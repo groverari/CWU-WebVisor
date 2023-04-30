@@ -12,7 +12,7 @@
     $template = new Templates();
 
 
-    $request();
+    $request;
 
     //properties of table
     $id;

@@ -9,7 +9,7 @@
     include_once '../config/Database.php';
     include_once '../model/Prerequisites.php';
 
-    $prerequisites = new $Prerequisites;
+    $prerequisites = new Prerequisites;
 
     $request;
 

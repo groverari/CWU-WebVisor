@@ -53,10 +53,14 @@
         switch ($request) 
         {
             case 'add_student_class':
-                $studentClass->add_student_class($user_id, $student_id, $class_id, $term);
+                $result = $studentClass->add_student_class($user_id, $student_id, $class_id, $term);
                 break;
             case 'clear_plan':
-                $studentClass->clear_plan($student_id);
+                $result = $studentClass->clear_plan($student_id);
+                break;
+
+            case 'get_lost_students':
+                $result = get_lost_students();
                 break;
             default:
                 echo 'request incorrrect';

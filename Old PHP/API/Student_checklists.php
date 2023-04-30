@@ -9,7 +9,7 @@
     include_once '../config/Database.php';
     include_once '../model/Student_checklists.php';
 
-    $student_checklist = new $Student_checklists;
+    $student_checklist = new Student_checklists;
 
     $request;
 

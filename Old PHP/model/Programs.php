@@ -62,7 +62,7 @@ class Programs
 
     function get_program_info($program_id){
         global $db;
-        $query = "SELECT p.id, p.major_id, p.year, p.credits, p.electives, p.active, m.name 
+        $query = "SELECT p.id, p.major_id, p.year, p.credits, p.elective_credits, p.active, m.name 
                     FROM programs p 
                     JOIN majors m ON p.major_id = m.id
                     WHERE p.id = :program_id";
@@ -87,8 +87,8 @@ class Programs
                         s.cwu_id,
                         s.email,
                         u.name AS advisor
-                    FROM Students s
-                        JOIN student_programs sp ON s.student_id = sp.student_id
+                    FROM students s
+                        JOIN student_programs sp ON s.cwu_id = sp.student_id
                         JOIN users u ON sp.user_id = u.id
                     WHERE
                         sp.program_id = :program_id
@@ -102,10 +102,9 @@ class Programs
 
         if(!$roster){
             $error = "Cound not generate program roster";
-            include ('../errors/error.php');
+            //include ('../errors/error.php');
         }
         else return $roster;
-                
     }
 
     function add_program($user_id, $major_id, $year, $template_id){

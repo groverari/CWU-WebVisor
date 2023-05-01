@@ -85,7 +85,7 @@
             break;
         case 'get_program_roster':
             $result = $programs->get_program_roster($id);
-            echo json_encode(get_program_roster($id));
+            echo json_encode($result);
             break;
         case 'add_program':
             $programs->add_program($user_id, $major_id, $year, $template_id);

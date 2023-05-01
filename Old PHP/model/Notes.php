@@ -13,8 +13,8 @@ class Notes
     {
         $query = "SELECT notes.id, datetime, note, flagged, name 
                   FROM notes JOIN users ON notes.user_id=users.id 
-                  WHERE notes.student_id=? ORDER BY notes.flagged, notes.datetime DESC";
-        $notes = $this->db->getfrom_db($query, [$student_id]);
+                  WHERE notes.student_id=:student_id ORDER BY notes.flagged, notes.datetime DESC";
+        $notes = get_from_db($query, ['student_id'=>$student_id]);
 
         $formatted_notes = array();
         foreach ($notes as $row) 

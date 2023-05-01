@@ -1,14 +1,16 @@
 <?php
+include_once 'PDO-methods.php';
+include_once 'Journals.php';
+
 class Program_Classes
 {
 
-    //im here
     function get_required_classes($program_id, $required)
 	{		
 		$required_classes = array();
 		$query_string = "
 		SELECT
-			Classes.id,
+			classes.id,
 			CONCAT(classes.name, ' (', classes.credits, ' cr)') AS name_credits,
 			classes.name,
 			program_classes.minimum_grade,

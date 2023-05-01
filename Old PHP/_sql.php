@@ -104,8 +104,9 @@
 			$query_result = my_query($query_string);
 		}
 	}
-	
-	function all_users()
+
+	//done-Josh
+	function all_users() 
 	{
 		$query_string = "
 		SELECT
@@ -189,6 +190,7 @@
 //! JOURNAL
 //-----------------------------------------------------	
 
+	//done-Josh
 	function get_journal($cleanup = false, $user_id = 0, $student_id = 0, $class_id = 0, $program_id = 0, $major_id = 0)
 	{
 		$query_string = "
@@ -224,22 +226,7 @@
 		return $result;
 	}
 
-//-----------------------------------------------------	
-//! MAJORS
-//-----------------------------------------------------	
-/* UNREFERENCED METHOD
-	function record_update($user_id, $note)
-	{
-			$query_string = "
-			INSERT INTO
-				Journal(user_id, note)
-			VALUES
-				($user_id, '$note')
-			;";
-			$query_result = my_query($query_string);
-	}
-*/
-	
+	//done
 	function record_update_major($user_id, $major_id, $note)
 	{
 			$query_string = "
@@ -251,6 +238,7 @@
 			$query_result = my_query($query_string);
 	}
 	
+	//done
 	function record_update_program($user_id, $program_id, $note)
 	{
 			$query_string = "
@@ -262,6 +250,7 @@
 			$query_result = my_query($query_string);
 	}
 	
+	//done
 	function record_update_class($user_id, $class_id, $note)
 	{
 			$query_string = "
@@ -273,6 +262,7 @@
 			$query_result = my_query($query_string);
 	}
 	
+	//done
 	function record_update_student($user_id, $student_id, $note)
 	{
 			$query_string = "
@@ -288,6 +278,7 @@
 //! MAJORS
 //-----------------------------------------------------	
 
+	//done-Josh
 	function all_majors()
 	{
 		$query_string = "
@@ -309,6 +300,7 @@
 		return $all_majors;
 	}
 	
+	//InProcess-Josh
 	function add_major($user_id, $name, $active)
 	{		
 		$query_string = "
@@ -330,6 +322,7 @@
 		return $major_id;
 	}
 	
+	//InProcess-Josh
 	function update_major($user_id, $major_id, $name, $active)
 	{		
 		$query_string = "
@@ -350,6 +343,7 @@
 		}
 	}
 	
+	//done-Josh
 	function get_major_info($major_id)
 	{
 		$query_string = "
@@ -364,11 +358,12 @@
 		$row = mysql_fetch_assoc($query_result);
 		return $row;
 	}
-	
+
 //-----------------------------------------------------	
 //! PROGRAMS
 //-----------------------------------------------------	
 
+	//only used in a function that is not in use
 	function get_program_id($major_id, $catalog_year)
 	{
 		//! @bug should use $catalog_year and do a search based on first year program was offered
@@ -412,7 +407,7 @@
 */
 //! @todo program credits should be calculated from class credits + elective credits
 
-	function all_programs($user_id = 0)
+	function all_programs()
 	{
 		$query_string = "
 		SELECT
@@ -433,7 +428,7 @@
 		{
 			$all_programs[$row['id']] = $row['name']." (".$row['year'].")";
 		}
-		
+	
 		if ($user_id != 0)
 		{
 			$query_string = "
@@ -764,7 +759,9 @@
 
 		return $program_classes;
 	}
-	
+
+	//INProcess - Nirunjan
+	//replacement classe starts here
 	function add_replacement($user_id, $program_id, $replaced_id, $replacement_id)
 	{
 		$query_string = "
@@ -782,6 +779,7 @@
 		}
 	}
 	
+	//INProcess - Nirunjan
 	function remove_replacement($program_id, $replaced_id, $replacement_id)
 	{
 		$query_string = "
@@ -801,7 +799,8 @@
 			record_update_program($user_id, $program_id, $note);
 		}
 	}
-	
+
+	//INProcess - Nirunjan
 	function get_replacement_classes($program_id)
 	{
 		$replacement_classes = array();
@@ -838,7 +837,8 @@
 		
 		return $replacement_classes;
 	}
-	
+
+	//here ends the replacement class
 	function get_checklist($program_id)
 	{
 		$checklist = array();
@@ -950,6 +950,7 @@
 //! TEMPLATE
 //-----------------------------------------------------	
 
+	//INProcess - Nirunjan
 	function get_templates($program_id)
 	{
 		$query_string = "
@@ -975,6 +976,7 @@
 		return $templates;
 	}
 	
+	//INProcess - Nirunjan
 	function get_named_templates($program_id)
 	{
 		$query_string = "
@@ -1002,6 +1004,7 @@
 		return $templates;
 	}
 	
+	//INProcess - Nirunjan
 	function create_template($user_id, $program_id, $name, $mimic_id)
 	{
 		$query_string = "
@@ -1037,7 +1040,8 @@
 		
 		return $template_id;
 	}
-	
+
+	//INProcess - Nirunjan
 	function get_template_info($template_id)
 	{
 		$query_string = "
@@ -1054,7 +1058,10 @@
 		
 		return $row;
 	}
-	
+	//-----
+	// Template_classes
+
+	//INProcess - Nirunjan
 	function get_template_classes($template_id)
 	{
 		$query_string = "
@@ -1080,7 +1087,8 @@
 
 		return $template_classes;
 	}
-
+	
+	//INProcess - Nirunjan
 	function update_template($template_id, $name, $template)
 	{
 		//! @bug this may not be working correctly, the DELETE FROM needs to be checked
@@ -1279,68 +1287,9 @@
 			record_update_class($user_id, $class_id, $note);
 		}
 	}
+	//prerrequisites(niranjan is working for this )
 	
-	function update_prereqs($class_id, $prereq_ids, $required_grades)
-	{
-		$query_string = "
-		DELETE FROM
-			Prerequisites
-		WHERE
-			class_id=$class_id
-		;";
-		$query_result = my_query($query_string);
-		
-		foreach($prereq_ids as $prereq_id)
-		{
-			$query_string = "
-			INSERT INTO Prerequisites
-				(class_id, prerequisite_id)
-			VALUES
-				($class_id, $prereq_id)
-			;";
-			$query_result = my_query($query_string);
-		}
-		
-		foreach ($required_grades as $prereq_id => $minimum_grade)
-		{
-			if ($minimum_grade > 0)
-			{
-				$query_string = "
-				INSERT INTO Prerequisites
-					(class_id, prerequisite_id, minimum_grade)
-				VALUES
-					($class_id, $prereq_id, $minimum_grade)
-				;";
-				
-				$query_result = my_query($query_string);
-			}
-		}
-	}
-	
-	function get_prereqs($class_id)
-	{
-		$query_string = "
-		SELECT
-			Prerequisites.prerequisite_id,
-			Classes.name,
-			Prerequisites.minimum_grade
-		FROM
-			Prerequisites
-			JOIN Classes ON Prerequisites.prerequisite_id=Classes.id
-		WHERE
-			Prerequisites.class_id = $class_id
-		;";
-		$query_result = my_query($query_string);
-		
-		$prereqs = array();
-		while ($row = mysql_fetch_assoc($query_result))
-		{
-			$prereqs[$row['prerequisite_id']] = $row;
-		}
-		
-		return $prereqs;
-	}
-	
+	//prereq ends here.
 	// returns the class info of the class
 	function get_class_info($id, $program_id=0)
 	{
@@ -1373,6 +1322,7 @@
 
 	// $result['catalog_year']['catalog_term'] = array of students in the course that term
 	// e.g., "2016 => (1 = > (Joe Smith, Fred Johnson), 3 => (Jane Doe, Fred Johnson))"
+	//should be class id guy!
 	function get_class_rosters($id)
 	{
 		$rosters = array();
@@ -1488,7 +1438,8 @@
 	{
 		global $YES;
 		
-		$sql_result = my_query("SELECT DISTINCT
+		$sql_result = my_query("
+		SELECT DISTINCT
 			Students.id,
 			Students.cwu_id,
 			Students.first,
@@ -1573,6 +1524,7 @@
 		return $programs;
 	}
 	
+	//done
 	function student_in_program($student_id, $program_id)
 	{
 		$query_string = "
@@ -1644,6 +1596,7 @@
 		return $id;
 	}
 
+	//done
 	function cwu_id_to_student_id($cwu_id)
 	{		
 		$query_string = "
@@ -1708,6 +1661,7 @@
 		return $info;
 	}
 	
+	//done
 	function get_student_program_advisor($student_id, $program_id)
 	{
 		$query_string = "
@@ -1728,6 +1682,7 @@
 		return mysql_fetch_assoc($query_result);
 	}
 	
+	//done
 	function add_student($user_id, $cwu_id, $email, $first='', $last='')
 	{
 		if ($cwu_id != 0)
@@ -1776,8 +1731,8 @@
 		return $student_id;
 	}
 	
+	//done
 	function update_student($user_id, $student_id, $first, $last, $cwu_id, $email, $phone, $address, $postbaccalaureate, $withdrawing, $veterans_benefits, $active)
-
 	{
 		$query_string = "
 		UPDATE
@@ -1806,6 +1761,7 @@
 		}
 	}
 	
+	//done
 	function update_student_advisor($user_id, $student_id, $program_id, $advisor_id)
 	{
 		$query_string = "
@@ -1828,6 +1784,7 @@
 		}
 	}
 	
+	//no student majors table
 	function update_student_program($student_id, $major_id, $advisor, $catalog_year, $graduation_year)
 	{
 		remove_student_major($student_id, $major_id);
@@ -1842,6 +1799,7 @@
 		$query_result = my_query($query_string);
 	}
 	
+	//done
 	function update_student_programs($user_id, $student_id, $remove_programs, $add_program_id, $add_advisor_id, $non_stem_majors)
 	{
 		//! @todo start update
@@ -1899,6 +1857,7 @@
 		}
 	}
 	
+	//student_majors table doesn't exist?
 	function remove_student_major($student_id, $major_id)
 	{
 		$query_string = "
@@ -1952,6 +1911,7 @@
 		$query_result = my_query($query_string);
 	}
 	
+	//done
 	function clear_plan($user_id, $student_id)
 	{
 		$query_string = "
@@ -1970,6 +1930,7 @@
 		}
 	}
 	
+	//done
 	function add_student_class($user_id, $student_id, $class_id, $term)
 	{
 			$query_string = "
@@ -1991,6 +1952,7 @@
 			return $student_class_id;
 	}
 	
+	//done--might need to be reconisdered User_id
 	function add_student_elective($user_id, $student_class_id, $program_id)
 	{
 		$query_string = "
@@ -2101,7 +2063,10 @@
 				
 		return array('by term' => $classes_by_term, 'by id' => $classes_by_id);
 	}
-	
+	//***********
+	//       Notes     */
+
+	//INProcess - Nirunjan
 	function get_notes($student_id)
 	{
 		$query_string = "
@@ -2138,7 +2103,8 @@
 				
 		return $notes;
 	}
-	
+
+	//INProcess - Nirunjan
 	function add_note($user_id, $student_id, $note, $flagged)
 	{
 		global $YES;
@@ -2164,6 +2130,7 @@
 		}
 	}
 	
+	//INProcess - Nirunjan
 	function update_notes($student_id, $flagged_ids)
 	{
 		global $YES;
@@ -2215,6 +2182,7 @@
 		}
 	}
 	
+	//done
 	function students_in_program($program_id)
 	{
 		//! FIX ME this is failing and causing students.php to fail
@@ -2248,7 +2216,7 @@
 
 		return $all_students;
 	}
-	
+	//Niranjan
 	function students_for_user($user_id)
 	{
 		$query_string = "
@@ -2280,7 +2248,7 @@
 
 		return $all_students;
 	}
-	
+	//nirnjan
 	function all_students($active_only = false)
 	{
 		$query_string = "
@@ -2323,7 +2291,7 @@
 
 		return $all_students;
 	}
-	
+	//niranjan
 	function get_electives_credits($student_id, $program_id)
 	{
 		$query_string = "
@@ -2361,7 +2329,7 @@
 		
 		return array('electives' => $electives, 'credits' => $credits);
 	}
-	
+	//templates_class niranjan
 	function fill_template($user_id, $student_id, $template_id, $template_year)
 	{
 		$changed = false;
@@ -2403,7 +2371,7 @@
 			record_update_student($user_id, $student_id, $note);
 		}
 	}
-	
+	//niranjan
 	function get_checked_items($student_id, $program_id)
 	{
 		$query_string = "
@@ -2426,7 +2394,7 @@
 		
 		return $checked_items;
 	}
-	
+	//niranjan
 	function clear_checklist($user_id, $student_id, $program_id)
 	{
 		$query_string = "
@@ -2447,7 +2415,7 @@
 			record_update_student($user_id, $student_id, $note);
 		}
 	}
-	
+	//niranjan
 	function check_checklist($user_id, $student_id, $checklist_id)
 	{
 		$query_string = "
@@ -2464,7 +2432,7 @@
 			record_update_student($user_id, $student_id, $note);
 		}
 	}
-	
+	//niranjan
 	function update_checklist($user_id, $student_id, $program_id, $checklist_ids)
 	{
 		clear_checklist($user_id, $student_id, $program_id);
@@ -2474,7 +2442,7 @@
 			check_checklist($user_id, $student_id, $checklist_id);
 		}
 	}
-	
+	//niranjan
 	function get_lost_students()
 	{
 		global $NO, $YES;
@@ -2530,7 +2498,7 @@
 		
 		return $info;
 	}
-	
+	//niranjan
 	function get_bad_cwu_ids()
 	{
 		$query_string = "
@@ -2565,7 +2533,7 @@
 //-----------------------------------------------------	
 //! TERMS
 //-----------------------------------------------------	
-	
+	//niranjan
 	function get_enrollments($year)
 	{
 		global $YES;

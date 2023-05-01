@@ -4,12 +4,6 @@
 
     class Users
     {
-        // DB stuff
-        private $conn;
-        private $table ='users';
-
-
-        // 
         function update_user($user_id, $password, $name, $program_id)
         {
             $query_string = "

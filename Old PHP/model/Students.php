@@ -6,6 +6,7 @@ class Students
 {
 
     
+    private $db;
 
     function cwu_id_to_student_id($cwu_id)
 	{		
@@ -44,10 +45,10 @@ class Students
             ;";
 
         $dataArr = [':first'=>$first, ':last'=>$last, ':cwu_id'=>$cwu_id, ':email'=>$email, ':phone'=>$phone, ':address'=>$address, ':postbaccalaureate'=>$postbaccalaureate, ':withdrawing'=>$withdrawing, ':veterans_benefits'=>$veterans_benefits, ':active'=>$active, ':student_id'=>$student_id];
-        $rowAffected = add_db_row($query, $dataArr);
+        $rowAffected = add_db_rows($query, $dataArr);
         if($rowAffected > 0)
         {
-            $journ = new Journal();
+            $journ = new Journals();
             $note = "Updated <student:$student_id>.";
             $journ->record_update_student($user_id, $student_id, $note);
         }
@@ -56,7 +57,6 @@ class Students
     function add_student($user_id, $cwu_id, $email, $first='', $last='')
     {
     
-        $
         if ($cwu_id != 0)
         {
             $query_string = "
@@ -74,7 +74,7 @@ class Students
             if ($query_result->rowCount() > 0)
             {
                 echo ("student already exists");
-                return $result['id'];
+                return $query_result['id'];
             }
         }
         else if ($email == '')
@@ -307,7 +307,7 @@ class Students
 			$where
 			;";
         $dataArr = [':id'=>$id, ':cwu_id'=>$cwu_id, ':email'=>$email];
-		result = get_from_db($query, $dataArr);
+		$result = get_from_db($query_string, $dataArr);
 		
 		$query_string = "
 			SELECT
@@ -317,7 +317,7 @@ class Students
 			WHERE
 				$where
 			;";
-        result = get_from_db($query, $dataArr);
+        $result = get_from_db($query_string, $dataArr);
 		
 		return $result;
 	}

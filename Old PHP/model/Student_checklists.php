@@ -66,5 +66,4 @@ class Student_checklists
 
         return $checked_items;
     }
-
-    }
+}

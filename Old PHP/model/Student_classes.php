@@ -5,6 +5,8 @@ include_once 'Journals.php';
 class Student_classes 
 {
 
+	private $db;
+
 	function get_class_conflicts($class1_id, $class2_id, $term, $activeStudent)
 	{		
 		$query = "

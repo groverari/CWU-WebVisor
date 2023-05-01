@@ -104,6 +104,19 @@
             $result = $student->cwu_id_to_student_id($cwu_id);
             echo json_encode($result);
             break;
+        case 'get_enrollments':
+            $result = $student->get_enrollments($year);
+            echo json_encode($result);
+        case 'all_students':
+            $result = $student->all_students($active_only = false);
+            break;
+        case 'get_bad_cwu_ids':
+            $result = $student->get_bad_cwu_ids();
+            echo json_encode($result);
+            break;
+        case'student_for_user':
+            $result = $student->students_for_user($user_id);
+            break;
         default:
             echo 'request incorrrect';
             break;

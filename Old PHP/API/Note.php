@@ -65,6 +65,7 @@
     {
         case 'get_notes':
             $result = $note ->get_notes($student_id);
+            echo json_encode($result);
             break;
         case 'add_note':
             $result = $note ->add_note($user_id, $student_id, $note, $flagged);

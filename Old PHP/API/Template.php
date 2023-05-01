@@ -43,15 +43,18 @@
     switch($request){
         case 'getTemplates':
             $result = $template->getTemplates($program_id);
+            echo json_encode($result);
             break;
         case 'getNamedTemplates':
             $result = $template->getNamedTemplates($program_id);
+            echo json_encode($result);
             break;
         case 'createTemplate':
             $result = $template ->createTemplate($user_id, $program_id, $name, $mimic_id);
             break;
         case 'getTemplateInfo':
             $result = $template->getTemplateInfo($template_id);
+            echo json_encode($result);
             break;
         default:
             echo 'request incorrrect';

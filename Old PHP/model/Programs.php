@@ -33,12 +33,12 @@ class Programs
 	}
 
     function get_program_id($major_id, $catalog_year){
-        global $db;
         $query = "SELECT id FROM programs
                     WHERE major_id = :major_id
                         AND year = :year";
         $data_array = [":major_id"=> $major_id, ":year"=> $catalog_year];
         $program = get_from_db($query, $data_array);
+        return $program;
     }
 
     /*TODO the original code adds user programs 

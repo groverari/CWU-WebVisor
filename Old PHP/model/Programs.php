@@ -49,9 +49,12 @@ class Programs
     */
     function all_programs($user_id){
         global $db; 
-        $query = "SELECT p.id, name, year
+        $query = "SELECT 
+                        programs.id,
+                        name,
+                        year
                     FROM programs
-                    JOIN majors ON p.major_id = majors.id
+                    JOIN majors ON programs.major_id = majors.id
                     ORDER BY name";
         $programs = get_from_db($query);
         return $programs;

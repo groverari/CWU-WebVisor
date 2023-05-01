@@ -70,8 +70,9 @@ class Students
             
             $dataArr = [':cwu_id'=>$cwu_id];
             $query_result = get_from_db($query_string, $dataArr);
-            
-            if ($query_result->rowCount() > 0)
+            $query_result_rows = get_from_db_rows($query_string, $dataArr);
+
+            if ($query_result_rows > 0)
             {
                 echo ("student already exists");
                 return $query_result['id'];

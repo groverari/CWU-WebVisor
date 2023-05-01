@@ -1322,6 +1322,7 @@
 
 	// $result['catalog_year']['catalog_term'] = array of students in the course that term
 	// e.g., "2016 => (1 = > (Joe Smith, Fred Johnson), 3 => (Jane Doe, Fred Johnson))"
+	//should be class id guy!
 	function get_class_rosters($id)
 	{
 		$rosters = array();

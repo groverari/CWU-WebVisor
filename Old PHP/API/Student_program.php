@@ -71,6 +71,14 @@
      //calls function based on url request
     switch ($request) 
     {
+        case 'programs_with_student':
+            $result = $studentProgram->programs_with_student($student_id);
+            echo json_encode($result);
+            break;
+        case 'user_can_update_student':
+            $result = $studentProgram->user_can_update_student($user_id, $student_id);
+            echo json_encode($result);
+            break;
         case 'student_in_program':
             $result = $studentProgram->student_in_program($student_id, $program_id);
             echo json_encode($result);
@@ -79,7 +87,7 @@
             $result = $studentProgram->update_student_advisor($user_id, $student_id, $program_id, $advisor_id);
             break;
         case 'get_student_program_advisor':
-            $result = $studentProgram->get_student_program_advisor($student_id, $program_id)
+            $result = $studentProgram->get_student_program_advisor($student_id, $program_id);
             echo json_encode($result);
             break;
         case 'update_student_programs':

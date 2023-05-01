@@ -93,8 +93,9 @@ class Template_Class
 
         if ($changed)
         {
+            $journ = new Journals();
             $note = "Filled <student:$student_id> with <template:$template_id>";
-            $this->record_update_student($user_id, $student_id, $note);
+            $journ->record_update_student($user_id, $student_id, $note);
         }
 
         $this->db->commit();

@@ -8,7 +8,7 @@
     // $host = 'localhost';
     // $db_name = 'advising';
     // $username = 'root';
-    // $password = 'buttons93';
+    // $password = '';
     // $conn = null;
 
     try

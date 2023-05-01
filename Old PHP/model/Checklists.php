@@ -8,63 +8,122 @@ class Checklists
     private $table = 'checklists';
 
 
-    // Clears all checklists for a given student and program ID.
-    public function clearChecklist($user_id, $student_id, $program_id)
-    {
-        $query = "DELETE student_checklists FROM student_checklists JOIN checklists ON student_checklists.checklist_id = checklists.id WHERE student_id = ? AND program_id = ?";
-        $stmt = $this->db->add_db($query, [$student_id, $program_id]);
-        
-        if ($stmt->rowCount() > 0)
-        {
-            $note = "Cleared <student:$student_id> checklists for <program:$program_id>.";
-            record_update_student($user_id, $student_id, $note);
-        }
-    }
+    function add_checklist_item($user_id, $program_id, $name)
+	{
+		$query_string = "
+			SELECT
+				COUNT(id) AS count
+			FROM
+				checklists
+			WHERE
+				program_id=:program_id
+			;";
+        $dataArr = [':program_id'=>$program_id];
+		$query_result = get_from_db($query_string, $dataArr);
+		$count = $query_result['count'];
+		$sequence = $count + 1;
+		
+		$query_string = "
+			INSERT INTO
+				checklists(program_id, name, sequence)
+			VALUES
+				(:program_id, ':name', :sequence)
+			;";
+        $dataArr =[':program_id'=>$program_id, ':name'=>$name, ':sequence'=>$sequence];
+		$query_result_row = add_db_rows($query_string, $dataArr);
+		
+		if ($query_result_row > 0)
+		{
+            $journ = new Journals();
+			$note = "Added item to <checklist:$count> for <program:$program_id>.";
+			$journ->record_update_program($user_id, $program_id, $note);
+		}
+	}
 
-    // Checks a given checklist item for a given student.
-    public function checkChecklist($user_id, $student_id, $checklist_id)
-    {
-        $query = "INSERT INTO student_checklists (checklist_id, student_id) VALUES (?, ?)";
-        $stmt = $this->db->add_db($query, [$checklist_id, $student_id]);
-        
-        if ($stmt->rowCount() > 0)
-        {
-            $note = "Checked <checklist_item:$checklist_id> for <student:$student_id>.";
-            record_update_student($user_id, $student_id, $note);
-        }
-    }
+    function get_checklist($program_id)
+	{
+		$checklist = array();
 
-    // Updates all checklists for a given student and program ID, based on an array of checklist IDs.
-    public function updateChecklist($user_id, $student_id, $program_id, $checklist_ids)
-    {
-        $this->clearChecklist($user_id, $student_id, $program_id);
-        
-        foreach ($checklist_ids as $checklist_id)
-        {
-            $this->checkChecklist($user_id, $student_id, $checklist_id);
-        }
-    }
-//Retrive a list of checked checklist items for  a given student and program
-    public function get_checked_items($user_id, $student_id, $program_id)
-    {
-        $query = "SELECT student_checklists.checklist_id
-                  FROM student_checklists
-                  JOIN checklists ON student_checklists.checklist_id=Checklists.id
-                  WHERE student_id=?
-                  AND program_id=?";
-        $stmt = $this->db->get_from_db($query, [$student_id, $program_id]);
-        
-        $checked_items = array();
-        foreach ($stmt as $row)
-        {
-            $checked_items[] = $row['checklist_id'];
-        }
+		$query_string = "
+		SELECT
+			id, name, sequence
+		FROM
+			checklists
+		WHERE
+			program_id=:program_id
+		ORDER BY
+			sequence ASC
+		;";
+        $dataArr = [':program_id'=>$program_id];
+		$query_result = get_from_db($query_string, $dataArr);
+		
+		foreach ($query_result as $row)
+		{
+			$checklist[$row['id']] = $row;
+		}
+		
+		return $checklist;
+	}
 
-        $note = "Retrieved checked items for <student:$student_id>.";
-        record_update_student($user_id, $student_id, $note);
-
-        return $checked_items;
-    }
-
+    function update_checklist_sequence($user_id, $program_id, $checklist_items)
+	{
+		$changes = 0;
+		
+		asort($checklist_items);
+		$max_checklist_count = 1000;
+		
+		$query_string = "
+			UPDATE
+				checklists
+			SET
+				sequence=sequence+:max_checklist_count
+			WHERE
+				program_id=:program_id
+			;";
+        $dataArr= [':max_checklist_count'=>$max_checklist_count, ':program_id'=>$program_id];
+		$query_result_row = add_db_rows($query_string, $dataArr);
+		$changes += $query_result_row;
+		
+		$i = 1;
+        $checklist_id = 0;
+		foreach ($checklist_items as $id => $sequence)
+		{
+			if ($sequence > 0)
+			{
+                $id = 
+				$query_string = "
+				UPDATE
+					checklists
+				SET
+					sequence = :i
+				WHERE
+					id=:id
+				;";
+                $checklist = $id;
+                $dataArr = [':id'=>$id, ':i'=>$i];
+				$query_result_row = add_db_rows($query_string, $dataArr);
+				$changes += $query_result_row;
+				++$i;
+			}
+		}
+		
+		$query_string = "
+			DELETE FROM
+				checklists
+			WHERE
+				sequence > :max_checklist_count
+			;";
+            $dataArr = [':max_checklist_count'=>$max_checklist_count];
+			$query_result_rows = remove_db_rows($query_string, $dataArr);
+			$changes += $$query_result_rows;
+			
+		if ($changes > 0)
+		{
+            $journ = new Journals();
+			$note = "Updated <checklist:$checklist_id> for <program:$program_id>.";
+			$journ->record_update_program($user_id, $program_id, $note);
+		}
+	}
 }
+
 

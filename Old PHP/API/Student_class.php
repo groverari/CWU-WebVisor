@@ -21,6 +21,7 @@
         //needed variables for some functions
         $user_id;
         $requirements_taken;
+        $activeStudent;
 
         //checks url for table variables
         if(isset($_GET['student_id']))
@@ -47,6 +48,10 @@
         {
             $requirements_taken = $_GET['requirements_taken'];
         }
+        if(isset($_GET['activeStudent']))
+        {
+            $activeStudent = $_GET['activeStudent'];
+        }
 
          //checks url for request variable
         if(isset($_GET['request']))
@@ -57,6 +62,10 @@
         //calls function based on url request
         switch ($request) 
         {
+            case 'get_class_roster':
+                $result = $studentClass->get_class_roster($class_id, $term);
+                echo json_encode($result);
+                break;
             case 'get_plan':
                 $result = $studentClass->get_plan($student_id, $start_year, $end_year);
                 echo json_encode($result);
@@ -75,6 +84,18 @@
                 break;
             case 'update_requirements':
                 $studentClass->update_requirements($student_id, $requirements_taken);
+                break;
+            case 'get_class_rosters':
+                $result = $studentClass->get_class_rosters($class_id);
+                echo json_encode($result);
+                break;
+            case 'get_class_intersections':
+                $result = get_class_intersections($class_id, $term, $activeStudent);
+                echo json_encode($result);
+                break;
+            case 'get_class_conflicts':
+                $result = get_class_conflicts($class1_id, $class2_id, $term, $activeStudent);
+                echo json_encode($result);
                 break;
             default:
                 echo 'request incorrrect';

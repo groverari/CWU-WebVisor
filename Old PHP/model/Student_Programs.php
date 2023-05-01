@@ -4,6 +4,56 @@
 
     class Student_Programs
     {
+        function programs_with_student($student_id)
+        {
+            $query_string = "
+            SELECT
+                programs.id AS program_id,
+                CONCAT(majors.name, ' (', programs.year, ')') AS program_name,
+                users.id AS advisor_id,
+                users.name AS advisor_name
+            FROM
+                student_programs
+                JOIN programs ON student_programs.program_id=programs.id
+                JOIN majors ON majors.id = programs.major_id
+                LEFT JOIN users ON student_programs.user_id=Users.id
+            WHERE
+                student_id=:student_id
+            ORDER BY
+                majors.name,
+                programs.year
+            ;";
+            $dataArr = [':student_id'=>$student_id];
+            $query_result = get_from_db($query_string, $dataArr);
+            
+            $programs = array();
+            foreach($query_result as $row)
+            {
+                $programs[$row['program_id']] = $row;
+            }
+            
+            return $programs;
+        }
+
+        function user_can_update_student($user_id, $student_id)
+        {
+            $query_string = "
+            SELECT
+                id
+            FROM
+                student_programs
+            WHERE
+                user_id=:user_id
+                AND
+                student_id=:student_id
+            ;";
+            $dataArr =[':user_id'=>$user_id, ':student_id'=>$student_id];
+    
+            $query_result_rows = get_from_db_rows($query_string, $dataArr);
+            
+            return ($query_result_rows > 0);	
+        }
+
         function student_in_program($student_id, $program_id)
         {
             $query = "
@@ -92,9 +142,9 @@
                 student_programs
                 JOIN users ON student_programs.user_id=users.id
             WHERE
-                student_id=$student_id
+                student_id=:student_id
                 AND
-                student_programs.program_id=$program_id
+                student_programs.program_id=:program_id
             ;";
 
             $dataArr = [':student_id'=>$student_id, ':program_id'=>$program_id];

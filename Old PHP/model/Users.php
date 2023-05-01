@@ -60,8 +60,8 @@
         function find_user($cwu_id, $email, $first, $last)
         {
             $id = 0;
-            $dataArr;
-            $query;
+            $dataArr = [];
+            $query = "";
             if ($cwu_id != '')
             {
                 $query = "
@@ -84,9 +84,9 @@
                     email=:email;";
                 $dataArr = [':email'=>$email];
             }
-            $result = get_from_db($query, $dataArr);
+            $resultRow = get_from_db_rows($query, $dataArr);
             
-            if ($result->rowCount() == 0)
+            if ($resultRow == 0)
             {
                 if ($cwu_id != 0 || $email != '')
                 {
@@ -110,7 +110,7 @@
             }
             else
             {
-                $row = get_from_db($result);
+                $row = get_from_db($query);
                 $id = $row['id'];
             }
             return $id;

@@ -4,6 +4,152 @@ include_once 'Journals.php';
 
 class Student_classes 
 {
+
+	function get_class_conflicts($class1_id, $class2_id, $term, $activeStudent)
+	{		
+		$query = "
+		SELECT DISTINCT
+			students.id,
+			students.cwu_id,
+			students.first,
+			students.last
+		FROM
+			students,
+			student_classes AS First,
+			student_classes AS Second
+		WHERE
+			First.student_id=Second.student_id
+			AND
+			First.class_id=:class1_id
+			AND
+			Second.class_id=:class2_id
+			AND
+			First.term=:term
+			AND
+			Second.term=:term
+			AND
+			students.active=:activeStudent
+			AND
+			students.id=First.student_id
+		ORDER BY last, first ASC;";
+		
+		$dataArr = [':class1_id'=>$class1_id, ':class2_id'=>$class2_id, ':term'=>$term, ':activeStudent'=>$activeStudent];
+		$result = get_from_db($query, $dataArr);
+		foreach ($result as $row)
+		{
+			$result[$row['id']] = $row;
+		}
+		
+		return $result;
+	}
+
+	function get_class_intersections($class_id, $term, $activeStudent)
+	{		
+		$query = "
+		SELECT DISTINCT
+			classes.id,
+			classes.name,
+			Count(*) AS count
+		FROM
+			student_classes AS Hub,
+			student_classes AS Spoke,
+			classes,
+			students
+		WHERE
+			Hub.class_id=:class_id
+			AND
+			Hub.term=:term
+			AND
+			Hub.student_id=Spoke.student_id
+			AND
+			Spoke.term=Hub.term
+			AND
+			classes.id=Spoke.class_id
+			AND
+			students.id=Hub.student_id
+			AND
+			students.active=:activeStudent
+			AND
+			Hub.class_id != Spoke.class_id
+		GROUP BY
+			classes.name;";
+		$dataArr = [':class_id'=>$class_id, ':term'=>$term, ':activeStudent'=>$activeStudent];
+		$result = get_from_db($query, $dataArr);
+		
+		return $result;
+		
+	}
+
+	function get_class_roster($class_id, $term)
+	{
+		$rosters = array();
+		
+		$query_string = "
+		SELECT
+			CONCAT(students.last, ', ', students.first) AS name,
+			students.email,
+			students.cwu_id
+		FROM
+			student_classes
+			JOIN students ON student_classes.student_id=students.id
+		WHERE
+			class_id=:class_id
+			AND
+			term=:term
+			AND students.active = 'Yes'
+		ORDER BY
+			students.last, students.first ASC
+			;";
+		$dataArr =[':class_id'=>$class_id, ':term'=>$term];
+		$query_result = get_from_db($query_string, $dataArr);
+		$roster = array();
+		foreach ($query_result as $row)
+		{
+			$roster[] = $row;
+		}
+		return $roster;
+	}
+
+	function get_class_rosters($class_id)
+	{
+		$rosters = array();
+		
+		$query_string = "
+		SELECT
+			term,
+			student_id
+		FROM
+			student_classes
+			JOIN students ON students.id=student_classes.student_id
+		WHERE
+			class_id=:class_id
+			AND
+			students.active = 'Yes'
+		ORDER BY
+			term
+			;";
+		$dataArr = [':class_id'=>$class_id];
+		$result = get_from_db($query_string, $dataArr);
+		$term_ids = array();
+		foreach($result as $row)
+		{
+			$term_id = $row['term'];
+			$catalog_year = substr($term_id, 0, 4);
+			$catalog_term = substr($term_id, 4, 1);
+			if (!isset($rosters[$catalog_year]))
+			{
+				$rosters[$catalog_year] = array();
+			}
+			if (!is_array($rosters[$catalog_year][$catalog_term]))
+			{
+				$rosters[$catalog_year][$catalog_term] = array();
+			}
+			$rosters[$catalog_year][$catalog_term][] = $row['student_id'];
+		}
+		
+		return $rosters;
+	}
+
     function get_plan($student_id, $start_year, $end_year)
 	{
 		
@@ -182,63 +328,62 @@ class Student_classes
         }
     }
 
+	//student_classes file
+	public function get_lost_students()
+	{
+		$NO = 'No';
+		$YES = 'Yes';
 
-//student_classes file
-public function get_lost_students()
-{
-    $NO = 'No';
-    $YES = 'Yes';
+		$query_string = "
+		SELECT
+			student_classes.term,
+			CONCAT(classes.name, ' (', classes.credits, ' cr)') AS class_name,
+			CONCAT(Students.first, ' ', students.last) AS student_name,
+			students.cwu_id,
+			classes.id AS class_id
+		FROM
+			student_classes
+			JOIN classes ON student_classes.class_id=Classes.id
+			JOIN students ON student_classes.student_id=students.id
+		WHERE
+			(
+				(
+					RIGHT(term,1) = '1'
+					AND classes.fall = ?
+				)
+				OR
+				(
+					RIGHT(term,1) = '2'
+					AND classes.winter = ?
+				)
+				OR
+				(
+					RIGHT(term,1) = '3'
+					AND classes.spring=?
+				)
+				OR
+				(
+					RIGHT(term,1) = '4'
+					AND classes.summer = ?
+				)
+			)   
+			AND
+				LEFT(term,4) >= YEAR(CURDATE())    
+			AND
+				students.active = ?
+			ORDER BY
+				term
+		;";
 
-    $query_string = "
-    SELECT
-        student_classes.term,
-        CONCAT(classes.name, ' (', classes.credits, ' cr)') AS class_name,
-        CONCAT(Students.first, ' ', students.last) AS student_name,
-        students.cwu_id,
-        classes.id AS class_id
-    FROM
-        student_classes
-        JOIN classes ON student_classes.class_id=Classes.id
-        JOIN students ON student_classes.student_id=students.id
-    WHERE
-        (
-            (
-                RIGHT(term,1) = '1'
-                AND classes.fall = ?
-            )
-            OR
-            (
-                RIGHT(term,1) = '2'
-                AND classes.winter = ?
-            )
-            OR
-            (
-                RIGHT(term,1) = '3'
-                AND classes.spring=?
-            )
-            OR
-            (
-                RIGHT(term,1) = '4'
-                AND classes.summer = ?
-            )
-        )   
-        AND
-            LEFT(term,4) >= YEAR(CURDATE())    
-        AND
-            students.active = ?
-        ORDER BY
-            term
-    ;";
+		$query_result = $this->db->get_from_db($query_string, [$NO, $NO, $NO, $NO, $YES]);
 
-    $query_result = $this->db->get_from_db($query_string, [$NO, $NO, $NO, $NO, $YES]);
+		$info = array();
+		foreach ($query_result as $row)
+		{
+			$info[] = $row;
+		}
 
-    $info = array();
-    foreach ($query_result as $row)
-    {
-        $info[] = $row;
-    }
-
-    return $info;
-}
+		return $info;
+	}
 
 }

@@ -85,8 +85,8 @@ class Programs
                         s.email,
                         u.name AS advisor
                     FROM Students s
-                        JOIN Student_Programs sp ON s.student_id = sp.student_id
-                        JOIN Users u ON sp.user_id = u.id
+                        JOIN student_programs sp ON s.student_id = sp.student_id
+                        JOIN users u ON sp.user_id = u.id
                     WHERE
                         sp.program_id = :program_id
                         AND

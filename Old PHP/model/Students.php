@@ -73,13 +73,13 @@ class Students
             
             if ($query_result->rowCount() > 0)
             {
-                echo ("student already exists")
+                echo ("student already exists");
                 return $result['id'];
             }
         }
         else if ($email == '')
         {
-            echo ("no email")
+            echo ("no email");
             return 0;
         }
     
@@ -192,8 +192,8 @@ class Students
 
         $query_string = "
             SELECT
-                Classes.id,
-                Classes.name,
+                classes.id,
+                classes.name,
                 student_classes.term,
                 CONCAT(classes.name, ' (', classes.credits, ' cr)') AS name_credits,
                 COUNT(student_classes.student_id) AS enrollment

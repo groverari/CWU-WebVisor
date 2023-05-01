@@ -6,10 +6,6 @@ class Replacements {
     private $db;
     private $table = 'replacement_classes';
 
-    public function __construct($db) {
-        $this->db = $db;
-    }
-
     // Adds a replacement class to a program.
     public function addReplacement($user_id, $program_id, $replaced_id, $replacement_id) {
         $query = "INSERT INTO " . $this->table . " (program_id, required_id, replacement_id) VALUES (?, ?, ?)";

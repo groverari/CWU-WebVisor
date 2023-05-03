@@ -5,17 +5,14 @@ $button-highlight: #b092ff;
 $text: #ffffff;
 html {
   background-color: #888297;
+  font-family: 'merriweather', serif;
+  font-weight: 400;
+  font-style: normal;
 }
 .page-container {
   display: flex;
 }
 .submenu {
   float: left;
-  width: 20%;
-}
-.page-content {
-  float: right;
-  display: flex;
-  width: 80%;
-  justify-content: center;
+  width: 100%;
 }

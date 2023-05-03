@@ -1,18 +1,11 @@
 <?php
+    include_once 'PDO-methods.php';
+    include_once 'Journals.php';
+
     class Majors
     {
         private $conn;
-        private $table ='majors';
-
-        //major properties
-        public $name;
-        public $active;
-
-        //constructor
-        public function __construct($db)
-        {
-            $this->conn = $db;
-        }
+        private $table ='Majors';
 
         public function read()
         {
@@ -20,38 +13,57 @@
             SELECT
                 id, name, active
             FROM
-                Majors
+                majors
             ORDER BY
                 name
             ;";
-		     //prepare stmt
-             $stmt = $this->conn->prepare($query);
-
-             //execute query
-             $stmt->execute();
- 
-             return $stmt;
+            return get_from_db( $query);
         }
 
-        public function create()
+        public function create($name, $active)
         {
             $query = "
 			INSERT INTO
-				Majors(name, active)
+				majors(name, active)
 			VALUES
-				('$this->name', '$this->active')
+				(:name, :active)
+			;";
+            
+            $dataArr = [':name'=>$name, ':active'=>$active];
+            return add_db( $query, $dataArr);
+        }
+
+        public function update($id, $name, $active)
+        {
+            $query = "
+			UPDATE
+				majors
+			SET
+				name=:name,
+				active=:active
+			WHERE
+				id=:id
 			;";
 
-            $stmt = $this->conn->prepare($query);
-  
-            // Execute query
-            if($stmt->execute()) {
-              return true;
-            }
-  
-            // Print error if something goes wrong
-            printf("Error: %s.\n", $stmt->error);
+            $dataArr = [':name'=>$name, ':active'=>$active, ':id'=>$id];
+            return add_db( $query, $dataArr);
     
             return false;
+        }
+
+        public function readSingle($id)
+        {
+            $query= "
+            SELECT
+                name, active
+            FROM
+                majors
+            WHERE id=:id
+            ;";
+
+            $dataArr = [':id'=>$id];
+            $result = get_from_db( $query, $dataArr);
+
+            return $result;
         }
     }

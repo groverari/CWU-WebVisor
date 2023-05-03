@@ -1,0 +1,45 @@
+.login-page {
+  position: relative;
+  height: 100vh;
+
+  font-size: 20px;
+  text-align: center;
+  background-image: url(../../assets/CWU-logo.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  color: white;
+
+  background-position: center center;
+}
+.login-container {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border: 5px solid slateblue;
+  padding: 150px 100px;
+  display: grid;
+  row-gap: 30px;
+  &:hover {
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.5),
+      rgba(255, 0, 0, 0.5)
+    );
+  }
+}
+
+.login-label {
+  margin: 5px;
+  width: 70px;
+}
+
+.login-box {
+  display: flex;
+  gap: 30px;
+}
+.login-title {
+  text-decoration: dotted;
+}

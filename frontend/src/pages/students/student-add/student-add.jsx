@@ -8,10 +8,6 @@ const AddStudent = () => {
     cwuId: "",
     email: "",
   });
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    console.log(formData);
-  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -21,6 +17,9 @@ const AddStudent = () => {
     }));
   };
 
+  const handleAddStudentClick = () => {
+    console.log(formData);
+  };
   return (
     <div>
       <h1>Add Student</h1>
@@ -68,7 +67,10 @@ const AddStudent = () => {
           @cwu.edu
         </label>
         <br />
-        <button type="submit">Add Student</button>
+        <button type="button" onClick={handleAddStudentClick}>
+          {" "}
+          Add Student{" "}
+        </button>
       </form>
     </div>
   );

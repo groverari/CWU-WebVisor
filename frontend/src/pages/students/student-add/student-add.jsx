@@ -9,14 +9,9 @@ const AddStudent = () => {
     email: "",
   });
 
-  const handleAddStudent = () => {
-    const newStudent = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      cwuId: formData.cwuId,
-      email: `${formData.email}@cwu.edu`,
-    };
-    console.log(newStudent);
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    console.log(formData);
   };
 
   const handleInputChange = (event) => {
@@ -28,31 +23,31 @@ const AddStudent = () => {
   };
 
   return (
-    <div>
+    <div className="form-container">
       <h1>Add Student</h1>
-      <form>
-        <label>
-          First Name:
+      <form onSubmit={handleFormSubmit}>
+        <div className="form-group">
+          <label>First Name:</label>
           <input
             type="text"
             name="firstName"
             value={formData.firstName}
             onChange={handleInputChange}
           />
-        </label>
-        <br />
-        <label>
-          Last Name:
+        </div>
+
+        <div className="form-group">
+          <label>Last Name:</label>
           <input
             type="text"
             name="lastName"
             value={formData.lastName}
             onChange={handleInputChange}
           />
-        </label>
-        <br />
-        <label>
-          CWU ID:
+        </div>
+
+        <div className="form-group">
+          <label>CWU ID:</label>
           <input
             type="text"
             name="cwuId"
@@ -61,20 +56,20 @@ const AddStudent = () => {
             required
             onChange={handleInputChange}
           />
-        </label>
-        <br />
-        <label>
-          Email:
+        </div>
+
+        <div className="form-group">
+          <label>Email:</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleInputChange}
           />
-          @cwu.edu
-        </label>
-        <br />
-        <button type="button" onClick={handleAddStudent}>
+          <span className="email-domain">@cwu.edu</span>
+        </div>
+
+        <button className="submit-btn" type="submit">
           Add Student
         </button>
       </form>

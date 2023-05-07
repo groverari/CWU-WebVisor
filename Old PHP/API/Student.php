@@ -117,7 +117,8 @@
         case'student_for_user':
             $result = $student->students_for_user($user_id);
             break;
-        default:
-            echo 'request incorrrect';
-            break;
+        case 'active_students':
+            $result =  $student->get_all_active_students();
+            echo json_encode($result);
+       
     }

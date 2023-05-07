@@ -18,17 +18,10 @@
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  border: 5px solid slateblue;
+  //border: 5px solid slateblue;
   padding: 150px 100px;
   display: grid;
   row-gap: 30px;
-  &:hover {
-    background-image: linear-gradient(
-      to right,
-      rgba(0, 0, 0, 0.5),
-      rgba(255, 0, 0, 0.5)
-    );
-  }
 }
 
 .login-label {

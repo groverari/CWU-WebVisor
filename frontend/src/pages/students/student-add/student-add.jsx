@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import "./student-add.scss";
+import React, { useState } from 'react'
+import './student-add.scss'
 
 const AddStudent = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    cwuId: "",
-    email: "",
-  });
+    firstName: '',
+    lastName: '',
+    cwuId: '',
+    email: ''
+  })
   const handleFormSubmit = (event) => {
-    event.preventDefault();
-    console.log(formData);
-  };
+    event.preventDefault()
+    console.log(formData)
+  }
 
   const handleInputChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value } = event.target
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
-    }));
-  };
+      [name]: value
+    }))
+  }
 
   return (
     <div>
@@ -71,6 +71,6 @@ const AddStudent = () => {
         <button type="submit">Add Student</button>
       </form>
     </div>
-  );
-};
-export default AddStudent;
+  )
+}
+export default AddStudent

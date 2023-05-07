@@ -7,7 +7,8 @@
     //Returns True or false depending on success
     function add_db( $query, $data_array = []){
         global $db;
-        return $db-> prepare($query)->execute($data_array);
+        $statement = $db-> prepare($query);
+        return $statement->execute($data_array);
     }
 
     function remove_db($query, $data_array = [])
@@ -34,7 +35,7 @@
         global $db;
         $statement = $db-> prepare($query);
         $statement->execute($data_array);
-        $return_vals = $statement->fetchAll();
+        $return_vals = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $return_vals;
     }
 

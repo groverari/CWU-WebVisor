@@ -94,6 +94,10 @@
             $result = $classes->get_class_info($id, $program_id);
             echo json_encode($result);
             break;
+        case 'every_active_class':
+            $result = $classes->get_all_classes();
+            echo json_encode($result);
+            break;
         default:
             echo 'request incorrrect';
             break;

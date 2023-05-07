@@ -1,7 +1,9 @@
 import React from 'react'
 import './student-info.styles.scss'
-
+import { useForm } from 'react-hook-form'
 function StudentInfo() {
+  const { update, handleUpdate } = useForm()
+  const onUpdate = (data) => console.log(data)
   return <h1>Hi I am the student info page</h1>
 }
 

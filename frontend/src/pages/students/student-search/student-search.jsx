@@ -15,18 +15,6 @@ const s = [
   { label: 'Eilish, Billy 92563578', value: 8 }
 ]
 
-const studentInfo = [
-  {
-    fName: 'Ariesh',
-    lName: 'Grover',
-    id: 12345678,
-    email: 'ag@cwu.edu',
-    phone: '123-456-7890',
-    address: 'this street in ellensburg',
-    nonStem: 'Maybe'
-  }
-]
-
 const StudentSearch = () => {
   const [students, setStudents] = useState(0)
   const [searchStudents, setSearchStudents] = useState(0)
@@ -58,7 +46,7 @@ const StudentSearch = () => {
         placeholder="Search for a Student"
         value="Search"
       />
-      <StudentOverview student={studentInfo[0]} />
+      <StudentOverview student={students[0]} />
     </div>
   )
 }

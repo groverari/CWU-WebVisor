@@ -9,14 +9,8 @@ function StudentOverview({ student }) {
     return (
       <div>
         <div className="overview-links-container">
-          <Link className="overview-link" to="info">
-            Info
-          </Link>
-          <Link className="overview-link" to="plan">
-            Plan
-          </Link>
+          <StudentInfo student={student} />
         </div>
-        <Outlet />
       </div>
     )
   }

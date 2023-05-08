@@ -116,7 +116,7 @@ class Students
                 id,
                 CONCAT(COALESCE(last,'*'), ', ', COALESCE(first,'*'), ' (', cwu_id, ')') AS name
             FROM
-                students
+                Students
             WHERE
                 cwu_id != 0
             ORDER BY
@@ -322,4 +322,11 @@ class Students
 		
 		return $result;
 	}
+
+    function get_all_active_students(){
+        $query = "SELECT * FROM students
+                    Where active = 'Yes' ";
+        
+        return get_from_db($query);
+    }
 }

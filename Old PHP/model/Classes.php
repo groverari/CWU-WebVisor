@@ -196,4 +196,9 @@
          
          return $all_classes;
       }
+
+      function get_all_classes(){
+         $query = "SELECT * FROM classes WHERE active = 'Yes'" ;
+         return get_from_db($query);
+      }
     }

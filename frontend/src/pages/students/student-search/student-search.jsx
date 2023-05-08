@@ -3,6 +3,8 @@ import './student-search.styles.scss'
 import SearchBox from '../../../components/search-box/search-box'
 import { useState, useEffect } from 'react'
 import StudentOverview from '../../../components/student-overview/student-overview'
+import api_url from '../../../API/API_assets'
+import axios from 'axios'
 const s = [
   { label: 'Grover, Ariesh 12345678', value: 1 },
   { label: 'Martinez, Josh 123456456', value: 2 },
@@ -27,22 +29,32 @@ const studentInfo = [
 
 const StudentSearch = () => {
   const [students, setStudents] = useState(0)
-
+  const [searchStudents, setSearchStudents] = useState(0)
   useEffect(() => {
-    setStudents(s)
-    //this is where the fetch for the database will go
+    axios.get(api_url + 'Student.php?request=active_students').then((res) => {
+      setStudents(res.data)
+    })
   }, [])
-  if (students) {
-    students.sort(function (a, b) {
+  useEffect(() => {
+    if (students) {
+      const temp = students.map((student) => ({
+        label: student.last + ', ' + student.first + ' ' + student.cwu_id,
+        value: student.id
+      }))
+      setSearchStudents(temp)
+    }
+  }, [students])
+
+  if (searchStudents) {
+    searchStudents.sort(function (a, b) {
       return a.label.localeCompare(b.label)
     })
   }
-  //const searchHandler = () => ({})
 
   return (
     <div className="student-search-container">
       <SearchBox
-        list={students}
+        list={searchStudents}
         placeholder="Search for a Student"
         value="Search"
       />

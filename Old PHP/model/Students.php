@@ -336,4 +336,8 @@ class Students
         
         return get_from_db($query);
     }
+    function activate_student($student_id){
+        $query = 'UPDATE students SET active = "Yes" WHERE id= :student_id';
+        return add_db($query, [$student_id]);
+    }
 }

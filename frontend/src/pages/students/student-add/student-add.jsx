@@ -10,6 +10,7 @@ const AddStudent = () => {
   })
   const handleFormSubmit = (event) => {
     event.preventDefault()
+    formData.email += '@cwu.edu'
     console.log(formData)
   }
 
@@ -60,7 +61,7 @@ const AddStudent = () => {
         <div className="form-group">
           <label>Email:</label>
           <input
-            type="email"
+            type="text"
             name="email"
             value={formData.email}
             onChange={handleInputChange}

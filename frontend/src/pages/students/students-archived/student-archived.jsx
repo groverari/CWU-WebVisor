@@ -39,6 +39,15 @@ const ArchivedStudents = () => {
     setInfo(false)
   }
 
+  const studentActivator = () => {
+    axios.post(
+      api_url +
+        `'Student.php?request=activate
+    _student'`
+    )
+    console.log('student rises from the dead')
+  }
+
   return (
     <div className="student-search-container">
       <h1>Archived Students</h1>
@@ -58,6 +67,11 @@ const ArchivedStudents = () => {
       </button>
       {isInfo && <h3>{selectedStudent.first + ' ' + selectedStudent.last}</h3>}
       {isInfo && <StudentInfo student={selectedStudent} />}
+      {isInfo && (
+        <button className="activate-btn" onClick={studentActivator}>
+          Activate Student
+        </button>
+      )}
     </div>
   )
 }

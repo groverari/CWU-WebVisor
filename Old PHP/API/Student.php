@@ -30,6 +30,10 @@
     //needed parameters for some methods
     $user_id;
 
+
+    $json = file_get_contents('php://input');
+    $data = json_decode($json);
+
     //checks url for table variables
     if(isset($_GET['id']))
     {
@@ -125,6 +129,10 @@
         case 'inactive_students':
             $result =  $student->get_all_inactive_students();
             echo json_encode($result);
+            break;
+        case 'activate_student':
+            //$result = $student->activate_student($id);
+            echo json_encode($data);
             break;
         default:
             echo 'request incorrrect';

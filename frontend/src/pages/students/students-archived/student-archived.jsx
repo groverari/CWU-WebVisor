@@ -41,12 +41,17 @@ const ArchivedStudents = () => {
   }
 
   const studentActivator = () => {
-    axios.post(
-      VITE_API_URL +
-        `'Student.php?request=activate
-    _student'`
-    )
-    console.log('student rises from the dead')
+    axios
+      .post(api_url + 'test.php', {
+        request: 'all_active_students'
+      })
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    //console.log('student rises from the dead')
   }
 
   return (

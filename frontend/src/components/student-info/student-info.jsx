@@ -2,10 +2,25 @@ import React, { useEffect, useState } from 'react'
 import './student-info.styles.scss'
 import { useForm, Controller } from 'react-hook-form'
 import Switch from '@mui/material/Switch'
+import axios from 'axios'
 
 function StudentInfo(props) {
   const { control, register, handleSubmit, setValue } = useForm()
-  const onUpdate = (data) => console.log(data)
+  const api_url = import.meta.env.VITE_API_URL
+  const onUpdate = (data) => {
+    axios
+      .post(api_url + 'test.php', {
+        request: data.request,
+        first: data.first,
+        last: data.last,
+        cwu_id: data.cwu_id
+      })
+      .then((res) => {
+        console.log(res)
+      })
+    console.log(data)
+  }
+
   const [student, setStudent] = useState(props)
   const [fname, setFname] = useState('')
   const {
@@ -34,16 +49,19 @@ function StudentInfo(props) {
 
   return (
     <form onSubmit={handleSubmit(onUpdate)}>
-      <label>First Name</label>
-      <input
-        type="text"
-        {...register('first')}
-        defaultValue={props.student.first}
-      />
-      <br />
-      <label>Last Name</label>
-      <input {...register('last')} defaultValue={last} />
-      <br />
+      <input type="hidden" {...register('request')} value="add" />
+      <div className="form-group">
+        <label>First Name</label>
+        <input
+          type="text"
+          {...register('first')}
+          defaultValue={props.student.first}
+        />
+      </div>
+      <div className="form-group">
+        <label>Last Name</label>
+        <input {...register('last')} defaultValue={last} />
+      </div>
       <label>CWU ID</label>
       <input {...register('cwu_id')} defaultValue={cwu_id} />
       <br />

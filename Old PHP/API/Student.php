@@ -107,6 +107,7 @@
         case 'get_enrollments':
             $result = $student->get_enrollments($year);
             echo json_encode($result);
+            break;
         case 'all_students':
             $result = $student->all_students($active_only = false);
             break;

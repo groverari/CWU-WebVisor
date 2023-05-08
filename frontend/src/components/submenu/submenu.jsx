@@ -6,6 +6,14 @@ const SubMenu = (props) => {
   const baseurl = props.baseurl
   const { links } = props
 
+  const clickedStyle ={
+    backgroundColor: '#745cab',
+  }
+
+  const unclickedStyle ={
+    backgroundColor: 'white',
+    color: 'black'
+  }
   return (
     <div className="submenu-container">
       {links.map((link) => {

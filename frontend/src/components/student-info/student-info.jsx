@@ -7,7 +7,7 @@ function StudentInfo(props) {
   const { control, register, handleSubmit, setValue } = useForm()
   const onUpdate = (data) => console.log(data)
   const [student, setStudent] = useState(props)
-
+  const [fname, setFname] = useState('')
   const {
     first,
     last,
@@ -20,7 +20,10 @@ function StudentInfo(props) {
     withdrawing,
     non_stem_majors
   } = props.student
-  console.log(student)
+
+  if (fname != first) {
+    setFname(first)
+  }
   const [post, setPost] = useState(() => {
     return postbaccalaureate == 'Yes'
   })
@@ -36,9 +39,8 @@ function StudentInfo(props) {
         type="text"
         {...register('first')}
         defaultValue={props.student.first}
-      />{' '}
+      />
       <br />
-      <p>Student Name{first}</p>
       <label>Last Name</label>
       <input {...register('last')} defaultValue={last} />
       <br />
@@ -80,11 +82,11 @@ function StudentInfo(props) {
         render={({ value: valueProp, onChange }) => {
           return (
             <Switch
+              defaultChecked={withdraw}
               value={valueProp}
               onChange={(event, val) => {
                 setValue('withdrawing', val)
               }}
-              defaultChecked={withdraw}
             />
           )
         }}
@@ -108,7 +110,7 @@ function StudentInfo(props) {
         }}
       />
       <br />
-      <input type="submit" />
+      <input type="submit" value="Update" />
     </form>
   )
 }

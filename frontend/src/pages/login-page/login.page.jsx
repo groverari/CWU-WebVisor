@@ -11,7 +11,7 @@ const Login = () => {
         <div className="login-username-container login-box">
           <label className="username-label login-label">Username</label>
           <input
-            placeholder="username"
+            placeholder="Username"
             className="username-field"
             type="text"
           />
@@ -20,7 +20,7 @@ const Login = () => {
           <label className="password-label login-label">Password</label>
           <input
             className="password-field"
-            placeholder="password"
+            placeholder="Password"
             type="password"
           />
         </div>

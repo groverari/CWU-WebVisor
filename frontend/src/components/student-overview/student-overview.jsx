@@ -7,16 +7,10 @@ import { Link } from 'react-router-dom'
 function StudentOverview({ student }) {
   const [students, setStudents] = useState(student)
 
-  useEffect(() => {
-    setStudents(student)
-  }, [students])
-
   if (students) {
     return (
       <div>
-        <div className="overview-links-container">
-          <StudentInfo student={students} />
-        </div>
+        <Link to="home/student/search">Return</Link>
       </div>
     )
   }

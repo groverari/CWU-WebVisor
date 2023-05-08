@@ -329,4 +329,11 @@ class Students
         
         return get_from_db($query);
     }
+
+    function get_all_inactive_students(){
+        $query = "SELECT * FROM students
+                    Where active = 'No' ";
+        
+        return get_from_db($query);
+    }
 }

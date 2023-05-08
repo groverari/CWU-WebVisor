@@ -122,6 +122,10 @@
             $result =  $student->get_all_active_students();
             echo json_encode($result);
             break;
+        case 'inactive_students':
+            $result =  $student->get_all_inactive_students();
+            echo json_encode($result);
+            break;
         default:
             echo 'request incorrrect';
             break;

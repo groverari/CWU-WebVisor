@@ -18,21 +18,21 @@ import EditProgram from './pages/majors/program-edit/program-edit'
 import Enrollments from './pages/enrollments/enrollment-page.jsx/enrollment-page'
 import StudentInfo from './components/student-info/student-info'
 import StudentPlan from './components/student-plan/student-plan'
+import StudentOverview from './components/student-overview/student-overview'
 
 function App() {
   return (
     <div className="container">
       <Routes>
         <Route path="/" element={<Login />}></Route>
-        <Route path="/home" element={<NavBar/>}>
+        <Route path="/home" element={<NavBar />}>
           <Route index element={<StudentPage />} />
           {/* This is where all the links go for navigation in the website */}
           <Route path="students" element={<StudentPage />}>
             {/* This is where all the submenu navigation goes */}
             <Route index element={<StudentSearch />} />
             <Route path="search" element={<StudentSearch />}>
-              <Route path="info" element={<StudentInfo />} />
-              <Route path="plan" element={<StudentPlan />} />
+              <Route path="overview" element={<StudentOverview />} />
             </Route>
             <Route path="add" element={<AddStudent />} />
             <Route path="archived" element={<ArchivedStudents />} />

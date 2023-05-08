@@ -15,7 +15,7 @@ function StudentPlan() {
       .get(api_url + 'Class.php?request=every_active_class')
       .then((res) => setClasses(res.data))
   }, [])
-  console.log(classes)
+  return <h1>Student Plan Here</h1>
 }
 
 export default StudentPlan

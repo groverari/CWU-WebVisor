@@ -7,7 +7,7 @@ import '../../App.scss';
 
 const NavBar = () => {
 
-  const [activeLink, setActiveLink] = useState(null);
+  const [activeLink, setActiveLink] = useState('students');
 
   const handleLinkClick = (link) => 
   {
@@ -37,16 +37,16 @@ const NavBar = () => {
         </div>
       </div>
       <div className="nav-link-container">
-      <Link className={`nav-link ${activeLink === 'students' ? 'active' : ''}`} to="/home/students/search" onClick={() => handleLinkClick('students')} style={activeLink === 'students' ? { ...clickedStyle, ...unclickedStyle } : clickedStyle}>
+      <Link className="nav-link" to="/home/students/search" onClick={() => handleLinkClick('students')} style={activeLink === 'students' ? unclickedStyle  : clickedStyle}>
           Students
         </Link>
-        <Link className={`nav-link ${activeLink === 'class' ? 'active' : ''}`} to="/home/class" onClick={() => handleLinkClick('class')}style={activeLink === 'class' ? { ...clickedStyle, ...unclickedStyle } : clickedStyle}>
+        <Link className="nav-link" to="/home/class" onClick={() => handleLinkClick('class')}style={activeLink === 'class' ? unclickedStyle  : clickedStyle}>
           Classes
         </Link>
-        <Link className={`nav-link ${activeLink === 'major' ? 'active' : ''}`} to="/home/major" onClick={() => handleLinkClick('major')}style={activeLink === 'major' ? { ...clickedStyle, ...unclickedStyle } : clickedStyle}>
+        <Link className="nav-link" to="/home/major" onClick={() => handleLinkClick('major')}style={activeLink === 'major' ? unclickedStyle  : clickedStyle}>
           Majors
         </Link>
-        <Link className={`nav-link ${activeLink === 'enrollments' ? 'active' : ''}`} to="/home/enrollments" onClick={() => handleLinkClick('enrollments')}style={activeLink === 'enrollments' ? { ...clickedStyle, ...unclickedStyle } : clickedStyle}>
+        <Link className="nav-link" to="/home/enrollments" onClick={() => handleLinkClick('enrollments')}style={activeLink === 'enrollments' ? unclickedStyle  : clickedStyle}>
           Enrollments
         </Link>
       </div>

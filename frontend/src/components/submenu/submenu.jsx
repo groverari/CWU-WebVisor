@@ -6,9 +6,9 @@ const SubMenu = (props) => {
   const baseurl = props.baseurl
   const { links } = props
 
-  const [activeLink, setActiveLink] = useState(null);
+  const [activeLink, setActiveLink] = useState(links[0].name);
 
-  const handleLinkClick = (link) => 
+  const handleLinkClick = () => 
   {
     setActiveLink(link);
   };
@@ -26,7 +26,7 @@ const SubMenu = (props) => {
       {links.map((link) => {
         return (
           <div className="submenu-link-container" key={link.key}>
-            <Link className={`submenu-link ${activeLink === link.name ? 'active':''}`} to={baseurl + link.path} onClick={() => handleLinkClick(link.name)} style={activeLink === link.name ? { ...clickedStyle, ...unclickedStyle } : clickedStyle}>
+            <Link className="submenu-link" to={baseurl + link.path} onClick={() => handleLinkClick(link.name)} style={activeLink === link.name ? unclickedStyle : clickedStyle}>
               {link.name}
             </Link>
           </div>

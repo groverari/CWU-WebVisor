@@ -24,7 +24,7 @@ function App() {
     <div className="container">
       <Routes>
         <Route path="/" element={<Login />}></Route>
-        <Route path="/home" element={<NavBar />}>
+        <Route path="/home" element={<NavBar/>}>
           <Route index element={<StudentPage />} />
           {/* This is where all the links go for navigation in the website */}
           <Route path="students" element={<StudentPage />}>

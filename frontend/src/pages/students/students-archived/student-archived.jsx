@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './students-archived.styles.scss'
-import api_url from '../../../API/API_assets'
+
 import axios from 'axios'
 import StudentInfo from '../../../components/student-info/student-info'
 import SearchBox from '../../../components/search-box/search-box'
@@ -11,6 +11,7 @@ const ArchivedStudents = () => {
   const [selectedStudent, setSelectedStudent] = useState(0)
   const [isInfo, setInfo] = useState(false)
 
+  let api_url = import.meta.env.VITE_API_URL
   useEffect(() => {
     axios.get(api_url + 'Student.php?request=inactive_students').then((res) => {
       setStudents(res.data)
@@ -41,7 +42,7 @@ const ArchivedStudents = () => {
 
   const studentActivator = () => {
     axios.post(
-      api_url +
+      VITE_API_URL +
         `'Student.php?request=activate
     _student'`
     )

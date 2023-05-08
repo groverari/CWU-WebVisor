@@ -3,7 +3,6 @@ import './student-search.styles.scss'
 import SearchBox from '../../../components/search-box/search-box'
 import { useState, useEffect } from 'react'
 import StudentOverview from '../../../components/student-overview/student-overview'
-import api_url from '../../../API/API_assets'
 import axios from 'axios'
 import StudentInfo from '../../../components/student-info/student-info'
 import StudentPlan from '../../../components/student-plan/student-plan'
@@ -14,6 +13,9 @@ const StudentSearch = () => {
   const [selectedStudent, setSelectedStudent] = useState(0)
   const [isPlan, setPlan] = useState(false)
   const [isInfo, setInfo] = useState(false)
+
+  let api_url = import.meta.env.VITE_API_URL
+
   //This gets an array of students from the database
   useEffect(() => {
     axios.get(api_url + 'Student.php?request=active_students').then((res) => {

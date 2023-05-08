@@ -8,7 +8,7 @@ const SubMenu = (props) => {
 
   const [activeLink, setActiveLink] = useState(links[0].name);
 
-  const handleLinkClick = () => 
+  const handleLinkClick = (link) => 
   {
     setActiveLink(link);
   };

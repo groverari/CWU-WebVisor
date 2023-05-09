@@ -2,7 +2,6 @@ import React from 'react'
 import './student-search.styles.scss'
 import SearchBox from '../../../components/search-box/search-box'
 import { useState, useEffect } from 'react'
-import StudentOverview from '../../../components/student-overview/student-overview'
 import axios from 'axios'
 import StudentInfo from '../../../components/student-info/student-info'
 import StudentPlan from '../../../components/student-plan/student-plan'
@@ -18,9 +17,11 @@ const StudentSearch = () => {
 
   //This gets an array of students from the database
   useEffect(() => {
-    axios.get(api_url + 'Student.php?request=active_students').then((res) => {
-      setStudents(res.data)
-    })
+    axios
+      .post(api_url + 'Student.php', { request: 'all_active_students' })
+      .then((res) => {
+        setStudents(res.data)
+      })
   }, [])
   //if the sutdent array is set, this will create an array for the select statement
   //in the proper format using the label and value tags

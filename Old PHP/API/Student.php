@@ -12,84 +12,36 @@
 
     $student = new Students();
 
-    $request;
-
-    //attributes of the tables
-    $id;
-    $first;
-    $last;
-    $cwu_id;
-    $email;
-    $phone;
-    $address;
-    $postbaccalaureate;
-    $withdrawing;
-    $veterans_benefits;
-    $active;
-    $non_stem_majors;
-
-    //needed parameters for some methods
-    $user_id;
-
-
+     
     $json = file_get_contents('php://input');
-    $data = json_decode($json);
+    $data = json_decode($json, true);
 
-    //checks url for table variables
-    if(isset($_GET['id']))
-    {
-        $id = $_GET['id'];
-    }
-    if(isset($_GET['first']))
-    {
-        $first = $_GET['first'];
-    }
-    if(isset($_GET['last']))
-    {
-        $last = $_GET['last'];
-    }
-    if(isset($_GET['cwu_id']))
-    {
-        $cwu_id = $_GET['cwu_id'];
-    }
-    if(isset($_GET['email']))
-    {
-        $email = $_GET['email'];
-    }
-    if(isset($_GET['phone']))
-    {
-        $phone = $_GET['phone'];
-    }
-    if(isset($_GET['address']))
-    {
-        $address = $_GET['address'];
-    }
-    if(isset($_GET['postbaccalaureate']))
-    {
-        $postbaccalaureate = $_GET['postbaccalaureate'];
-    }
-    if(isset($_GET['withdrawing']))
-    {
-        $withdrawing = $_GET['withdrawing'];
-    }
-    if(isset($_GET['veterans_benefits']))
-    {
-        $veterans_benefits = $_GET['veterans_benefits'];
-    }
-    if(isset($_GET['active']))
-    {
-        $active = $_GET['active'];
-    }
-    if(isset($_GET['non_stem_majors']))
-    {
-        $non_stem_majors = $_GET['non_stem_majors'];
+    //validate api key before moving forward
+
+    $request = $data['request'];
+
+    $student = new Students();
+
+    switch($request){
+        case 'all_active_students':
+            $data = $student-> get_all_active_students();
+            echo json_encode($data);
+            break;
+        case 'activate_student':
+                $result = $student->activate_student($data['id']);
+                echo json_encode($result);
+                break;
+        case 'update_student':
+            $result = $student->update_student($data['user_id'], $data['id'], $data['first'], $data['last'], $data['cwu_id'], 
+            $data['email'], $data['phone'], $data['address'], $data['postbac'], $data['withdrawing'], $data['veterans'], $data['active']);
+            echo json_encode($result);
+            break;
+        case 'add':
+            echo(json_encode($data));
+            break;
     }
 
-     //checks url for request variable
-     if(isset($_GET['request']))
-     {
-         $request = $_GET['request'];
-     }
+   /*
 
      //calls function based on url request
     switch ($request) 
@@ -139,3 +91,4 @@
             echo 'request incorrrect';
             break;
     }
+   */

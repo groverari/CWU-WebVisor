@@ -13,9 +13,11 @@ const ArchivedStudents = () => {
 
   let api_url = import.meta.env.VITE_API_URL
   useEffect(() => {
-    axios.get(api_url + 'Student.php?request=inactive_students').then((res) => {
-      setStudents(res.data)
-    })
+    axios
+      .post(api_url + 'Student.php', { request: 'all_inactive_students' })
+      .then((res) => {
+        setStudents(res.data)
+      })
   }, [])
 
   useEffect(() => {
@@ -42,9 +44,10 @@ const ArchivedStudents = () => {
 
   const studentActivator = () => {
     axios
-      .post(api_url + 'test.php', {
-        request: 'activate_student',
-        id: selectedStudent.id
+      .post(api_url + 'Student.php', {
+        request: 'change_activation',
+        id: selectedStudent.id,
+        active: 'Yes'
       })
       .then((res) => {
         if (res.data) {

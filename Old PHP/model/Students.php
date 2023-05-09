@@ -71,13 +71,12 @@ class Students
             ;";
             
             $dataArr = [':cwu_id'=>$cwu_id];
-            $query_result = get_from_db($query_string, $dataArr);
             $query_result_rows = get_from_db_rows($query_string, $dataArr);
 
             if ($query_result_rows > 0)
             {
-                echo ("student already exists");
-                return $query_result['id'];
+                echo "Already Exists";
+                return false;
             }
         }
         else if ($email == '')
@@ -94,7 +93,7 @@ class Students
         ;";
         $dataArr = [':cwu_id'=>$cwu_id, ':email'=>$email, ':first'=>$first, ':last'=>$last];
 
-        $result = add_db($query_string);
+        $result = add_db($query_string, $dataArr);
         
         $student_id = $result['id'];
         
@@ -338,8 +337,8 @@ class Students
         
         return get_from_db($query);
     }
-    function activate_student($student_id){
-        $query = 'UPDATE students SET active = "Yes" WHERE id= :student_id';
-        return add_db($query, [':student_id'=> $student_id]);
+    function change_activation($student_id, $active){
+        $query = 'UPDATE students SET active = :active WHERE id= :student_id';
+        return add_db($query, [':student_id'=> $student_id, ':active'=>$active]);
     }
 }

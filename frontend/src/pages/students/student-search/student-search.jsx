@@ -50,6 +50,25 @@ const StudentSearch = () => {
     setPlan(false)
   }
 
+  const deactivator = () => {
+    axios
+      .post(api_url + 'Student.php', {
+        request: 'change_activation',
+        id: selectedStudent.id,
+        active: 'No'
+      })
+      .then((res) => {
+        if (res.data) {
+          delete students[students.indexOf(selectedStudent)]
+          setStudents(students)
+          console.log('it works')
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   return (
     <div className="student-search-container">
       <h1>Student Search</h1>
@@ -89,6 +108,11 @@ const StudentSearch = () => {
       )}
       {selectedStudent != 0 && isPlan && (
         <StudentPlan key={selectedStudent} student={selectedStudent} />
+      )}
+      {isInfo && (
+        <button className="deactivate-btn" onClick={deactivator}>
+          Deactivate
+        </button>
       )}
     </div>
   )

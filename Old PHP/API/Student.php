@@ -27,10 +27,18 @@
             $data = $student-> get_all_active_students();
             echo json_encode($data);
             break;
-        case 'activate_student':
-                $result = $student->activate_student($data['id']);
+        case 'all_inactive_students':
+            $data= $student-> get_all_inactive_students();
+            echo json_encode($data);
+            break;
+        case 'change_activation':
+                $result = $student->change_activation($data['id'], $data['active']);
                 echo json_encode($result);
                 break;
+        case 'add_student':
+            $result = $student->add_student($data['user_id'], $data['cwu_id'], $data['email'], $data['first'], $data['last']);
+            echo json_encode($result);
+            break;
         case 'update_student':
             $result = $student->update_student($data['user_id'], $data['id'], $data['first'], $data['last'], $data['cwu_id'], 
             $data['email'], $data['phone'], $data['address'], $data['postbac'], $data['withdrawing'], $data['veterans'], $data['active']);

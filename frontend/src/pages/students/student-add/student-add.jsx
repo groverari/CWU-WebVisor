@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 import './student-add.scss'
 
 const AddStudent = () => {
+  const api_url = import.meta.env.VITE_API_URL
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -12,6 +15,21 @@ const AddStudent = () => {
     event.preventDefault()
     formData.email += '@cwu.edu'
     console.log(formData)
+    axios
+      .post(api_url + 'Student.php', {
+        request: 'add_student',
+        user_id: 41792238,
+        first: formData.firstName,
+        last: formData.lastName,
+        email: formData.email,
+        cwu_id: formData.cwuId
+      })
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   const handleInputChange = (event) => {

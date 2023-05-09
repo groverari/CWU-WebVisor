@@ -62,103 +62,109 @@ function StudentInfo(props) {
   const vet = veterans_benefits == 'Yes'
 
   return (
-    <form onSubmit={handleSubmit(onUpdate)}>
-      <div className="form-group">
-        <label>First Name</label>
-        <input
-          type="text"
-          {...register('first')}
-          defaultValue={props.student.first}
-        />
-      </div>
-      <div className="form-group">
-        <label>Last Name</label>
-        <input {...register('last')} defaultValue={last} />
-      </div>
-      <div className="form-group">
-        <label>CWU ID</label>
-        <input {...register('cwu_id')} defaultValue={cwu_id} />
-      </div>
-      <div className="form-group">
-        <label>CWU Email</label>
-        <input type="text" {...register('email')} defaultValue={email} />
-      </div>
-      <div className="form-group">
-        <label>Address</label>
-        <input type="text" {...register('address')} defaultValue={address} />
-      </div>
-      <div className="form-group">
-        <label>Phone</label>
-        <input type="text" {...register('phone')} defaultValue={phone} />
-      </div>
-      <div className="form-group">
-        <label>Non-Stem</label>
-        <input
-          type="text"
-          {...register('non')}
-          defaultValue={non_stem_majors}
-        />
-      </div>
-      <div className="form-group">
-        <label>Postbaccalaurate</label>
-        <Controller
-          control={control}
-          name="postbac"
-          defaultValue={post}
-          render={({ value: valueProp, onChange }) => {
-            return (
-              <Switch
-                value={valueProp}
-                onChange={(event, val) => {
-                  setValue('postbac', val)
-                }}
-                defaultChecked={post}
-              />
-            )
-          }}
-        />
-      </div>
-      <div className="form-group">
-        <label>Withdrawing</label>
-        <Controller
-          control={control}
-          name="withdrawing"
-          defaultValue={withdraw}
-          render={({ value: valueProp, onChange }) => {
-            return (
-              <Switch
-                defaultChecked={withdraw}
-                value={valueProp}
-                onChange={(event, val) => {
-                  setValue('withdrawing', val)
-                }}
-              />
-            )
-          }}
-        />
-      </div>
-      <div className="form-group">
-        <label>Veteran</label>
-        <Controller
-          control={control}
-          name="veterans"
-          defaultValue={vet}
-          render={({ value: valueProp, onChange }) => {
-            return (
-              <Switch
-                value={valueProp}
-                onChange={(event, val) => {
-                  setValue('veterans', val)
-                }}
-                defaultChecked={vet}
-              />
-            )
-          }}
-        />
-        <br />
-      </div>
-      <input type="submit" value="Update" />
-    </form>
+    <div>
+      <form onSubmit={handleSubmit(onUpdate)}>
+        <div className="form-group">
+          <label>First Name</label>
+          <input
+            type="text"
+            {...register('first')}
+            defaultValue={props.student.first}
+          />
+        </div>
+        <div className="form-group">
+          <label>Last Name</label>
+          <input {...register('last')} defaultValue={last} />
+        </div>
+        <div className="form-group">
+          <label>CWU ID</label>
+          <input
+            {...register('cwu_id')}
+            pattern="[0-9]{8}"
+            defaultValue={cwu_id}
+          />
+        </div>
+        <div className="form-group">
+          <label>CWU Email</label>
+          <input type="text" {...register('email')} defaultValue={email} />
+        </div>
+        <div className="form-group">
+          <label>Address</label>
+          <input type="text" {...register('address')} defaultValue={address} />
+        </div>
+        <div className="form-group">
+          <label>Phone</label>
+          <input type="text" {...register('phone')} defaultValue={phone} />
+        </div>
+        <div className="form-group">
+          <label>Non-Stem</label>
+          <input
+            type="text"
+            {...register('non')}
+            defaultValue={non_stem_majors}
+          />
+        </div>
+        <div className="form-group">
+          <label>Postbaccalaurate</label>
+          <Controller
+            control={control}
+            name="postbac"
+            defaultValue={post}
+            render={({ value: valueProp, onChange }) => {
+              return (
+                <Switch
+                  value={valueProp}
+                  onChange={(event, val) => {
+                    setValue('postbac', val)
+                  }}
+                  defaultChecked={post}
+                />
+              )
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <label>Withdrawing</label>
+          <Controller
+            control={control}
+            name="withdrawing"
+            defaultValue={withdraw}
+            render={({ value: valueProp, onChange }) => {
+              return (
+                <Switch
+                  defaultChecked={withdraw}
+                  value={valueProp}
+                  onChange={(event, val) => {
+                    setValue('withdrawing', val)
+                  }}
+                />
+              )
+            }}
+          />
+        </div>
+        <div className="form-group">
+          <label>Veteran</label>
+          <Controller
+            control={control}
+            name="veterans"
+            defaultValue={vet}
+            render={({ value: valueProp, onChange }) => {
+              return (
+                <Switch
+                  value={valueProp}
+                  onChange={(event, val) => {
+                    setValue('veterans', val)
+                  }}
+                  defaultChecked={vet}
+                />
+              )
+            }}
+          />
+          <br />
+        </div>
+        <input type="submit" value="Update" />
+      </form>
+    </div>
   )
 }
 

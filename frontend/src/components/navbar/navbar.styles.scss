@@ -47,7 +47,7 @@
   font-size: 20px;
   text-decoration: none;
   color: App.$text;
-  border: 2px solid black;
+  border: 2px solid App.$buttonBorder;
   padding-top: 10px;
   transition-timing-function: ease-in;
   transition: scale, font-size 0.2s;
@@ -68,7 +68,7 @@
   font-size: 20px;
   text-decoration: none;
   color: black;
-  border: 2px solid black;
+  border: 2px solid App.$buttonBorder;
   padding-top: 10px;
   transition-timing-function: ease-in;
   transition: scale, font-size 0.2s;

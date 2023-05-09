@@ -25,7 +25,7 @@ const Login = () => {
           />
         </div>
         <div className="login-button-container">
-          <Link to="/home">
+          <Link to="/home/students/search">
             <button className="login-button">Login</button>
           </Link>
         </div>

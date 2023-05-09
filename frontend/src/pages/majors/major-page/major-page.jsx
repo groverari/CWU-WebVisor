@@ -9,12 +9,12 @@ const MajorPage = () => {
     {
       key: 1,
       name: 'Edit Major',
-      path: ''
+      path: '/eMajor'
     },
     {
       key: 2,
       name: 'Edit Program',
-      path: '/program'
+      path: '/eProgram'
     }
   ]
   return (

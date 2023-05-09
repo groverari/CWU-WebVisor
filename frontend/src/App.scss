@@ -2,16 +2,10 @@
 $background: #ece2fb;
 $button-color: #745cab;
 $button-highlight: #b092ff;
-$buttonClicked: white;
+$buttonHover: white;
 $text: #ffffff;
-
-:export{
-  $background: #ece2fb;
-  $button-color: #745cab;
-  $button-highlight: #b092ff;
-  $button-highlight-onClick: black;
-  $text: #ffffff;
-}
+$textClicked: black;
+$buttonBorder: rgb(69, 65, 77);
 
 html {
   background-color: #888297;

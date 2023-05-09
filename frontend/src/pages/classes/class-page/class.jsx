@@ -9,7 +9,7 @@ const ClassPage = () => {
     {
       key: 1,
       name: 'Class Search',
-      path: ''
+      path: '/search'
     },
     {
       key: 2,

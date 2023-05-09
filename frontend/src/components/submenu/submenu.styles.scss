@@ -16,7 +16,7 @@
 
   display: flex;
 }
-.submenu-link {
+.submenu-link-unclicked {
   text-decoration: none;
   width: 200px;
   font-size: 20px;
@@ -29,8 +29,26 @@
   &:hover {
     scale: 1.1;
     font-size: 22px;
-    background-color: App.$button-highlight;
-    color: black;
+    background-color: App.$buttonHover;
+    color: App.$textClicked;
     border-radius: 12;
   }
 }
+
+.submenu-link-clicked {
+  text-decoration: none;
+  width: 200px;
+  font-size: 20px;
+  margin-left: 10px;
+  padding: 10px;
+  color: App.$textClicked;
+  background-color: App.$button-highlight;
+  border-radius: 12px;
+  transition: scale 0.2s;
+  &:hover {
+    scale: 1.1;
+    font-size: 22px;
+    border-radius: 12;
+  }
+}
+

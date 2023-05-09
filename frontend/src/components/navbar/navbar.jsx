@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import { GiGears } from 'react-icons/gi'
 import React, { useState } from 'react';
 //import React from 'react'
@@ -7,22 +7,7 @@ import '../../App.scss';
 
 const NavBar = () => {
 
-  const [activeLink, setActiveLink] = useState('students');
-
-  const handleLinkClick = (link) => 
-  {
-    setActiveLink(link);
-
-  };
-
-  const clickedStyle ={
-    backgroundColor: '#745cab',
-  }
-
-  const unclickedStyle ={
-    backgroundColor: '#b092ff',
-    color: 'black'
-  }
+  const location = useLocation();
 
   return (
     <>
@@ -37,16 +22,16 @@ const NavBar = () => {
         </div>
       </div>
       <div className="nav-link-container">
-      <Link className="nav-link" to="/home/students/search" onClick={() => handleLinkClick('students')} style={activeLink === 'students' ? unclickedStyle  : clickedStyle}>
+      <Link className={location.pathname.includes('students') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/students/search">
           Students
         </Link>
-        <Link className="nav-link" to="/home/class" onClick={() => handleLinkClick('class')}style={activeLink === 'class' ? unclickedStyle  : clickedStyle}>
+        <Link className={location.pathname.includes('class') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/class/search" >
           Classes
         </Link>
-        <Link className="nav-link" to="/home/major" onClick={() => handleLinkClick('major')}style={activeLink === 'major' ? unclickedStyle  : clickedStyle}>
+        <Link className={location.pathname.includes('major') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/major/eMajor" >
           Majors
         </Link>
-        <Link className="nav-link" to="/home/enrollments" onClick={() => handleLinkClick('enrollments')}style={activeLink === 'enrollments' ? unclickedStyle  : clickedStyle}>
+        <Link className={location.pathname.includes('enrollments') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/enrollments" >
           Enrollments
         </Link>
       </div>

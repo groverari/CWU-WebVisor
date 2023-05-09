@@ -51,7 +51,9 @@ class Students
             $journ = new Journals();
             $note = "Updated <student:$student_id>.";
             $journ->record_update_student($user_id, $student_id, $note);
+            return true;
         }
+        return false;
     }
 
     function add_student($user_id, $cwu_id, $email, $first='', $last='')
@@ -338,6 +340,6 @@ class Students
     }
     function activate_student($student_id){
         $query = 'UPDATE students SET active = "Yes" WHERE id= :student_id';
-        return add_db($query, [$student_id]);
+        return add_db($query, [':student_id'=> $student_id]);
     }
 }

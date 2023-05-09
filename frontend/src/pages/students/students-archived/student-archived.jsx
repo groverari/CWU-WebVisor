@@ -43,10 +43,15 @@ const ArchivedStudents = () => {
   const studentActivator = () => {
     axios
       .post(api_url + 'test.php', {
-        request: 'all_active_students'
+        request: 'activate_student',
+        id: selectedStudent.id
       })
       .then((res) => {
-        console.log(res.data)
+        if (res.data) {
+          delete students[students.indexOf(selectedStudent)]
+          setStudents(students)
+          console.log('it works')
+        }
       })
       .catch((error) => {
         console.log(error)

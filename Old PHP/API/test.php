@@ -10,7 +10,6 @@
     
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
-    echo json_encode($data);
 
     //validate api key before moving forward
 
@@ -22,9 +21,10 @@
         case 'all_active_students':
             $data = $student-> get_all_active_students();
             echo json_encode($data);
+            break;
         case 'activate_student':
                 $result = $student->activate_student($data['id']);
-                echo json_encode($data);
+                echo json_encode($result);
                 break;
         case 'add':
             echo(json_encode($data));

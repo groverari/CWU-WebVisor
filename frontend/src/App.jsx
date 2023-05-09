@@ -46,8 +46,8 @@ function App() {
           </Route>
           <Route path="major" element={<MajorPage />}>
             <Route index element={<EditMajor />} />
-            <Route path="major" element={<EditMajor />} />
-            <Route path="program" element={<EditProgram />} />
+            <Route path="eMajor" element={<EditMajor />} />
+            <Route path="eProgram" element={<EditProgram />} />
           </Route>
           <Route path="enrollments" element={<Enrollments />} />
         </Route>

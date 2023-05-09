@@ -28,7 +28,7 @@ const NavBar = () => {
         <Link className={location.pathname.includes('class') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/class/search" >
           Classes
         </Link>
-        <Link className={location.pathname.includes('major') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/major/major" >
+        <Link className={location.pathname.includes('major') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/major/eMajor" >
           Majors
         </Link>
         <Link className={location.pathname.includes('enrollments') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/enrollments" >

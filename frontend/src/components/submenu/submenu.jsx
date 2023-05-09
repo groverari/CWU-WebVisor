@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import './submenu.styles.scss'
 
 const SubMenu = (props) => {
+  const location = useLocation();
   const baseurl = props.baseurl
   const { links } = props
 
-  const [activeLink, setActiveLink] = useState(links[0].name);
+  const [activeLink, setActiveLink] = useState(sessionStorage.getItem('link'));
 
   const handleLinkClick = (link) => 
   {
+    sessionStorage.setItem('link', activeLink);
     setActiveLink(link);
   };
 
@@ -26,7 +28,7 @@ const SubMenu = (props) => {
       {links.map((link) => {
         return (
           <div className="submenu-link-container" key={link.key}>
-            <Link className="submenu-link" to={baseurl + link.path} onClick={() => handleLinkClick(link.name)} style={activeLink === link.name ? unclickedStyle : clickedStyle}>
+            <Link className={location.pathname.includes(link.path) ? 'submenu-link-clicked' : 'submenu-link-unclicked'} to={baseurl + link.path} onClick={() => handleLinkClick(link.name)}>
               {link.name}
             </Link>
           </div>

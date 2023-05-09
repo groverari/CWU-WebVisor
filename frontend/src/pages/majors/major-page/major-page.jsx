@@ -9,7 +9,7 @@ const MajorPage = () => {
     {
       key: 1,
       name: 'Edit Major',
-      path: ''
+      path: '/major'
     },
     {
       key: 2,

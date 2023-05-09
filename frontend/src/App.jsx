@@ -41,10 +41,12 @@ function App() {
           <Route path="class" element={<ClassPage />}>
             {/* This is where all the class sub menus go */}
             <Route index element={<ClassSearch />} />
+            <Route path="search" element={<ClassSearch />} />
             <Route path="add" element={<AddClass />} />
           </Route>
           <Route path="major" element={<MajorPage />}>
             <Route index element={<EditMajor />} />
+            <Route path="major" element={<EditMajor />} />
             <Route path="program" element={<EditProgram />} />
           </Route>
           <Route path="enrollments" element={<Enrollments />} />

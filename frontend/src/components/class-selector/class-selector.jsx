@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SearchBox from '../search-box/search-box'
-import ClassSelectorCard from '../class-selector-card/class-selector-card'
+import { AiOutlineClose } from 'react-icons/ai'
+import './class-selector.styles.scss'
 
 function ClassSelector({ title, classes }) {
   const [searchClasses, setSearchClasses] = useState([])
@@ -28,10 +29,21 @@ function ClassSelector({ title, classes }) {
     setSelectedClass(classes[selected.value])
   }
   const addClass = () => {
-    const temp = classList
-    temp.push(selectedClass)
-    setClassList(temp)
-    console.log(classList)
+    if (!classList.includes(selectedClass)) {
+      setClassList(classList.concat(selectedClass))
+    } else {
+      //Error POPUP goes here saying "Class is Already a prereq"
+      console.log(
+        `ERROR: ${selectedClass.name} is already a prereq for this class`
+      )
+    }
+  }
+  const removeClass = (rem_class) => {
+    setClassList(() => {
+      return classList.filter((classL) => {
+        return classL !== rem_class
+      })
+    })
   }
 
   return (
@@ -45,12 +57,17 @@ function ClassSelector({ title, classes }) {
       />
       <button onClick={addClass}>Add</button>
       {classList.map((val) => (
-        <ClassSelectorCard
-          title={val.name}
-          handleChange={() => {
-            console.log('remove')
-          }}
-        />
+        <div key={val.id} className="class-selector-card">
+          <h4>{val.name}</h4>
+          <button
+            className="remove-class-btn"
+            onClick={() => {
+              removeClass(val)
+            }}
+          >
+            <AiOutlineClose />
+          </button>
+        </div>
       ))}
     </div>
   )

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./class-add.styles.scss";
+import ClassSelector from "../../../components/class-selector/class-selector";
 
 const AddClass = () => {
   const [catalogCode, setCatalogCode] = useState("");

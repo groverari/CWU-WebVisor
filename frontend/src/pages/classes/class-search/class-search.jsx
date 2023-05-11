@@ -47,6 +47,7 @@ const ClassSearch = () => {
           console.log(selectedOption)
         }}
       />
+      <ClassSelector title="PreReqs" classes={classes} />
     </div>
   )
 }

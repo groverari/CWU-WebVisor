@@ -110,36 +110,44 @@
             return $id;
         }
 
-    }
-
-    // function get_user_info($login='', $password='', $database='', $setcookies = false){
-    //         global $db;
-    //         //TODO hash password here to compare it to the db password
-    //         if ($login == '' && $password == '')
-    //             {
-    //                 $login = $_COOKIE['webvisor_login'];
-    //                 $password = $_COOKIE['webvisor_password'];
-    //             }
-    //         $query = "SELECT * FROM users
-    //                     WHERE login = :login AND
-    //                     password == :password";
-    //         $data_array = [':login'=> $login, ':password'=>$password ];
-    //         $user = get_from_db($query, $data_array);
+        function get_user_info($login='', $password='', $database='', $setcookies = false)
+        {
+            global $db;
+            //TODO hash password here to compare it to the db password
+            if ($login == '' && $password == '')
+                {
+                    $login = $_COOKIE['webvisor_login'];
+                    $password = $_COOKIE['webvisor_password'];
+                }
+            $query = "SELECT * FROM users
+                        WHERE login = :login AND
+                        password == :password";
+            $data_array = [':login'=> $login, ':password'=>$password ];
+            $user = get_from_db($query, $data_array);
             
 
-    //         if(!$user){
-    //             $error = "Could not verify user info please check username and password again";
-    //             include("../errors/error.php");
-    //             return false;
-    //         }
-    //         if ($setcookies)
-    //         {
-    //             $two_weeks = time()+60*60*24*14;
-    //             setcookie('webvisor_login', $login, $two_weeks);
-    //             setcookie('webvisor_password', $password, $two_weeks);
-    //         }
-    //             return $user;
-    //     }
+            if(!$user){
+                $error = "Could not verify user info please check username and password again";
+                include("../errors/error.php");
+                return false;
+            }
+            if ($setcookies)
+            {
+                $two_weeks = time()+60*60*24*14;
+                setcookie('webvisor_login', $login, $two_weeks);
+                setcookie('webvisor_password', $password, $two_weeks);
+            }
+            return $user;
+        }
+        
+        function is_superuser($user_info)
+        {
+            global $YES;
+            return ($user_info['superuser'] == $YES);
+        }
+    }
+
+   
 
     //     //Updates user program
     //     function update_user($user_id, $password, $name, $program_id){

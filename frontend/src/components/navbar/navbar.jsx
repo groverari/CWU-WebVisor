@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 //import React from 'react'
 import './navbar.styles.scss'
 import '../../App.scss';
+//import ConfPopUp from '../PopUp/confirmation/confPopUp';
+import ErrorPopUp from '../PopUp/error/ErrorPopUp';
+
 
 const NavBar = () => {
 
@@ -12,6 +15,7 @@ const NavBar = () => {
   return (
     <>
       <div className="header">
+        
         <div className="title-container">
           <h1 className="title">WebVisor</h1>
         </div>
@@ -22,6 +26,7 @@ const NavBar = () => {
         </div>
       </div>
       <div className="nav-link-container">
+        
       <Link className={location.pathname.includes('students') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/students/search">
           Students
         </Link>
@@ -34,8 +39,11 @@ const NavBar = () => {
         <Link className={location.pathname.includes('enrollments') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/enrollments" >
           Enrollments
         </Link>
+       
       </div>
-
+      <div>
+            <ErrorPopUp popUpContent="There's been a grave mistake... idiot" />
+      </div>
       <Outlet />
     </>
   )

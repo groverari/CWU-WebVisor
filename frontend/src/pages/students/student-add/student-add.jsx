@@ -13,7 +13,7 @@ const AddStudent = () => {
     email: ''
   })
 
-  const [errorMessage, setErrorMesssage] = useState(NULL);
+  const [errorMessage, setErrorMesssage] = useState('');
   const [showError, setShowError] = useState(false);
 
   const handleFormSubmit = (event) => {

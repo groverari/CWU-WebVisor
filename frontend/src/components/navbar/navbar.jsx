@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 //import React from 'react'
 import './navbar.styles.scss'
 import '../../App.scss';
-//import ConfPopUp from '../PopUp/confirmation/confPopUp';
+import ConfPopUp from '../PopUp/confirmation/confPopUp';
 import ErrorPopUp from '../PopUp/error/ErrorPopUp';
 
 
@@ -42,7 +42,7 @@ const NavBar = () => {
        
       </div>
       <div>
-            <ErrorPopUp popUpContent="There's been a grave mistake... idiot" />
+            <ConfPopUp action = "deactivate"/>
       </div>
       <Outlet />
     </>

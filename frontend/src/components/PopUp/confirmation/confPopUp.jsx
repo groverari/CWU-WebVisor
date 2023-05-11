@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
-import './confPopUp.styles.scss';
+import './ConfPopUp.styles.scss';
 
-const confPopUp = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const ConfPopUp = ({action}) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const [isConfirmed, setConfirmation] = useState(false);
+
+  const handleConfirmation = (confirmed) =>{
+    setConfirmation(confirmed);
+  }
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -10,18 +16,25 @@ const confPopUp = () => {
 
   return (
     <div>
-      <button onClick={togglePopup}>Open Popup</button>
       {isOpen && (
         <div className='popup'>
           <div className='popup-content'>
-            <h1>Popup Content</h1>
-            <p>This is the content of the pop-up.</p>
-            <button onClick={togglePopup}>Close</button>
+            <h1>Please Confirm</h1>
+            <p>Are you sure you want to {action}?</p>
+            <button onClick={()=>{
+              handleConfirmation(true);
+              togglePopup();
+            }}>Yes</button>
+            <button onClick={()=>{
+              handleConfirmation(false);
+              togglePopup();
+            }}>No</button>
           </div>
         </div>
       )}
+      {isConfirmed}
     </div>
   );
 };
 
-export default confPopUp;
+export default ConfPopUp;

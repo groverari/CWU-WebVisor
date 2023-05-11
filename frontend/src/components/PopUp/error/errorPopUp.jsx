@@ -10,7 +10,6 @@ const ErrorPopUp = ({popUpContent}) => {
 
   return (
     <div>
-      <button onClick={togglePopup}>Open Popup</button>
       {isOpen && (
         <div className='popup'>
           <div className='popup-content'>

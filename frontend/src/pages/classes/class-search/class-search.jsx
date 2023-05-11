@@ -2,6 +2,8 @@ import React from 'react'
 import './class-search.styles.scss'
 import SearchBox from '../../../components/search-box/search-box'
 import { useState, useEffect } from 'react'
+import axios from 'axios'
+import ClassSelector from '../../../components/class-selector/class-selector'
 
 const ClassSearch = () => {
   const [classes, setClasses] = useState(0)

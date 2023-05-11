@@ -18,21 +18,28 @@ const ClassSearch = () => {
       .post(api_url + "Class.php", { request: "all_active_classes" })
       .then((res) => {
         setClasses(res.data);
+        setSearchClasses(res.data); //set searchClasses to all classes initially
       });
   }, []);
 
-  //just like in the student page
-  //if the class array is set, this will create an array for the select student
-  //one question do we have to do this in class;???
+  const handleSearch = (inputValue) => {
+    const filteredClasses = classes.filter((classItem) => {
+      // Perform search based on class properties (e.g., name, code, etc.)
+      return (
+        classItem.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+        classItem.code.toLowerCase().includes(inputValue.toLowerCase())
+        // Add more conditions if needed
+      );
+    });
+
+    setSearchClasses(filteredClasses);
+  };
 
   return (
     <div className="class-search-container">
       <h1>Class Search</h1>
       <SearchBox
-        list={[
-          { label: "Option 1", value: 1 },
-          { label: "Option 2", value: 2 },
-        ]}
+        list={searchClasses}
         placeholder="Search for a class"
         value="Search"
         onChange={(selectedOption) => {

@@ -1,4 +1,6 @@
 import React from 'react'
+import PlanSelectBox from '../plan-class-select-box/plan-class-select-box'
+import './plan-class-selector.styles.scss'
 
 function PlanClassSelector({ year, quarter, classes }) {
   let quarter_name = ''
@@ -8,10 +10,18 @@ function PlanClassSelector({ year, quarter, classes }) {
   else quarter_name = 'Summer'
 
   return (
-    <div>
+    <div className="selector-container">
       <p>
         {quarter_name}: {year}
       </p>
+      <div className="select-box-container">
+        <PlanSelectBox classes={classes} />
+        <PlanSelectBox classes={classes} />
+        <PlanSelectBox classes={classes} />
+        <PlanSelectBox classes={classes} />
+        <PlanSelectBox classes={classes} />
+        <PlanSelectBox classes={classes} />
+      </div>
     </div>
   )
 }

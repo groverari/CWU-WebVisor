@@ -23,19 +23,32 @@ const ClassSearch = () => {
       })
   }, [])
 
-  const handleSearch = (inputValue) => {
-    const filteredClasses = classes.filter((classItem) => {
-      // Perform search based on class properties (e.g., name, code, etc.)
-      return (
-        classItem.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-        classItem.code.toLowerCase().includes(inputValue.toLowerCase())
-        // Add more conditions if needed
-      )
-    })
+  useEffect(() => {
+    if (classes) {
+      const temp = classes.map((clas) => ({
+        label: clas.name,
+        value: classes.indexOf(clas)
+      }))
+      setSearchClasses(temp)
+    }
+  }, [classes])
 
-    setSearchClasses(filteredClasses)
+  // const handleSearch = (inputValue) => {
+  //   const filteredClasses = classes.filter((classItem) => {
+  //     // Perform search based on class properties (e.g., name, code, etc.)
+  //     return (
+  //       classItem.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+  //       classItem.code.toLowerCase().includes(inputValue.toLowerCase())
+  //       // Add more conditions if needed
+  //     )
+  //   })
+
+  //   setSearchClasses(filteredClasses)
+  //}
+  const selectHandler = ({ value }) => {
+    let id = parseInt(value)
+    console.log(classes[id])
   }
-
   return (
     <div className="class-search-container">
       <h1>Class Search</h1>
@@ -43,9 +56,7 @@ const ClassSearch = () => {
         list={searchClasses}
         placeholder="Search for a class"
         value="Search"
-        onChange={(selectedOption) => {
-          console.log(selectedOption)
-        }}
+        onChange={selectHandler}
       />
       <ClassSelector title="PreReqs" classes={classes} />
     </div>

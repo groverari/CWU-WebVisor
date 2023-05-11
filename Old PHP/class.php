@@ -1,12 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<link rel='stylesheet' type='text/css' href='_style.css' />
-<?php
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel='stylesheet' type='text/css' href='_style.css' />
+    <?php
 	
 	include_once("_html.php");
-	include_once("_sql.php");
+	//include_once("_sql.php");
+	include_once("./model/Users.php");
 				
 	$user_info = get_user_info();
 	$user_id = $user_info['id'];
@@ -83,208 +85,215 @@
 	}
 
 ?>
-	<title>Class<?php if ($name != '') echo(" - $name"); ?></title>
+    <title>Class<?php if ($name != '') echo(" - $name"); ?></title>
 </head>
+
 <body>
 
-<?php
+    <?php
 	echo(messages());
 	echo(linkmenu());
 ?>
-<h1>Class Information<?php if ($name != '') { echo(" &mdash; $name"); } ?></h1>
+    <h1>Class Information<?php if ($name != '') { echo(" &mdash; $name"); } ?></h1>
 
-<form action='class.php' method='post'>
+    <form action='class.php' method='post'>
 
-	<table class='input'>
-		<tr>
-			<td>Class:</td>
-			<td>
-<?php echo(array_menu("\t\t\t\t", $all_classes_blank, 'id', $class_id, true)); ?>
-			</td>
-<?php
+        <table class='input'>
+            <tr>
+                <td>Class:</td>
+                <td>
+                    <?php echo(array_menu("\t\t\t\t", $all_classes_blank, 'id', $class_id, true)); ?>
+                </td>
+                <?php
 	if ($class_id == 0)
 	{
 ?>
-			<td class='spacer' />
-			<td>New Catalog Name:</td>
-			<td><input type='textarea' class='nameid' name='new_name' value='' /> (e.g., MATH 153)</td>
-<?php
+                <td class='spacer' />
+                <td>New Catalog Name:</td>
+                <td><input type='textarea' class='nameid' name='new_name' value='' /> (e.g., MATH 153)</td>
+                <?php
 	}
 ?>
-		</tr>
-<?php
+            </tr>
+            <?php
 	if ($class_id == 0)
 	{
 ?>
-		<tr>
-			<td class='spacer' />
-			<td class='spacer' />
-			<td class='spacer' />
-			<td>Name:</td>
-			<td><input type='textarea' class='nameid' name='new_title' value='' /> (e.g., Precalculus)</td>
-		</tr>
-		<tr>
-			<td class='spacer' />
-			<td class='spacer' />
-			<td class='spacer' />
-			<td>Credits:</td>
-			<td><?php echo(array_menu("\t\t\t", $all_credits, 'new_credits', '4')); ?></td>
-		</tr>
-		<tr>
-			<td class='spacer' />
-			<td class='spacer' />
-			<td class='spacer' />
-			<td>Offered:</td>
-			<td>
-				<label class='checkbox'>Fall <?php echo(checkbox("\t\t\t", 'new_fall', false)); ?></label>
-				<label class='checkbox'>Winter <?php echo(checkbox("\t\t\t", 'new_winter', false)); ?></label>
-				<label class='checkbox'>Spring <?php echo(checkbox("\t\t\t", 'new_spring', false)); ?></label>
-				<label class='checkbox'>Summer <?php echo(checkbox("\t\t\t", 'new_summer', false)); ?></label>
-			</td>
-		</tr>
-		<tr>
-			<td class='spacer' />
-			<td class='spacer' />
-			<td class='spacer' />
-			<td />
-			<td><input type='submit' name='add_class' value='Add Class Info' /></td>
-		</tr>
-<?php
+            <tr>
+                <td class='spacer' />
+                <td class='spacer' />
+                <td class='spacer' />
+                <td>Name:</td>
+                <td><input type='textarea' class='nameid' name='new_title' value='' /> (e.g., Precalculus)</td>
+            </tr>
+            <tr>
+                <td class='spacer' />
+                <td class='spacer' />
+                <td class='spacer' />
+                <td>Credits:</td>
+                <td><?php echo(array_menu("\t\t\t", $all_credits, 'new_credits', '4')); ?></td>
+            </tr>
+            <tr>
+                <td class='spacer' />
+                <td class='spacer' />
+                <td class='spacer' />
+                <td>Offered:</td>
+                <td>
+                    <label class='checkbox'>Fall <?php echo(checkbox("\t\t\t", 'new_fall', false)); ?></label>
+                    <label class='checkbox'>Winter <?php echo(checkbox("\t\t\t", 'new_winter', false)); ?></label>
+                    <label class='checkbox'>Spring <?php echo(checkbox("\t\t\t", 'new_spring', false)); ?></label>
+                    <label class='checkbox'>Summer <?php echo(checkbox("\t\t\t", 'new_summer', false)); ?></label>
+                </td>
+            </tr>
+            <tr>
+                <td class='spacer' />
+                <td class='spacer' />
+                <td class='spacer' />
+                <td />
+                <td><input type='submit' name='add_class' value='Add Class Info' /></td>
+            </tr>
+            <?php
 	}
 ?>
-	</table>
-<?php
+        </table>
+        <?php
 	if ($class_id != 0)
 	{
 ?>
 
-	<h2>Class Information</h2>
-	
-	<table class='input'>
-		<tr>
-			<td>Catalog Designation:</td>
-			<td><input type='textarea' class='nameid' name='update_name' value='<?php echo($name); ?>' /></td>
-		</tr>
-		<tr>
-			<td>Name:</td>
-			<td><input type='textarea' class='nameid' name='update_title' value='<?php echo($title); ?>' /></td>
-		</tr>
-		<tr>
-			<td>Credits:</td>
-			<td>
-<?php echo(array_menu("\t\t\t\t", $all_credits, 'update_credits', "$credits")); ?>
-			</td>
-		</tr>
-		<tr>
-			<td>Offered:</td>
-			<td>
-				<label class='checkbox'>Fall <?php echo(checkbox("", 'update_fall', ($fall==$YES))); ?></label>
-				<label class='checkbox'>Winter <?php echo(checkbox("", 'update_winter', ($winter==$YES))); ?></label>
-				<label class='checkbox'>Spring <?php echo(checkbox("", 'update_spring', ($spring==$YES))); ?></label>
-				<label class='checkbox'>Summer <?php echo(checkbox("", 'update_summer', ($summer==$YES))); ?></label>
-				
-			</td>
-		</tr>
-		<tr>
-			<td colspan='2'>Prerequisites:</td>
-		</tr>
-<?php
+        <h2>Class Information</h2>
+
+        <table class='input'>
+            <tr>
+                <td>Catalog Designation:</td>
+                <td><input type='textarea' class='nameid' name='update_name' value='<?php echo($name); ?>' /></td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td><input type='textarea' class='nameid' name='update_title' value='<?php echo($title); ?>' /></td>
+            </tr>
+            <tr>
+                <td>Credits:</td>
+                <td>
+                    <?php echo(array_menu("\t\t\t\t", $all_credits, 'update_credits', "$credits")); ?>
+                </td>
+            </tr>
+            <tr>
+                <td>Offered:</td>
+                <td>
+                    <label class='checkbox'>Fall <?php echo(checkbox("", 'update_fall', ($fall==$YES))); ?></label>
+                    <label class='checkbox'>Winter
+                        <?php echo(checkbox("", 'update_winter', ($winter==$YES))); ?></label>
+                    <label class='checkbox'>Spring
+                        <?php echo(checkbox("", 'update_spring', ($spring==$YES))); ?></label>
+                    <label class='checkbox'>Summer
+                        <?php echo(checkbox("", 'update_summer', ($summer==$YES))); ?></label>
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan='2'>Prerequisites:</td>
+            </tr>
+            <?php
 	
 		foreach($prereqs as $id => $info)
 		{
 			$name = $info['name'];
 			$min = $info['minimum_grade'];
 ?>
-		<tr>
-			<td />
-			<td><?php echo($name); ?> with a
-<?php echo(array_menu("\t\t\t\t", $all_grades, "grade-$id", $min)); ?>
-			</td>
-		</tr>
-<?php
+            <tr>
+                <td />
+                <td><?php echo($name); ?> with a
+                    <?php echo(array_menu("\t\t\t\t", $all_grades, "grade-$id", $min)); ?>
+                </td>
+            </tr>
+            <?php
 		}	
 ?>
-		<tr>
-			<td colspan='2'>Add Prerequisites:</td>
-		</tr>
-		<tr>
-			<td />
-			<td>
-				<select multiple='multiple' name='update_prereqs'>
-<?php
+            <tr>
+                <td colspan='2'>Add Prerequisites:</td>
+            </tr>
+            <tr>
+                <td />
+                <td>
+                    <select multiple='multiple' name='update_prereqs'>
+                        <?php
 		foreach ($all_classes as $id => $name)
 		{
 			if (!array_key_exists($id, $prereqs))
 			{
 ?>
-					<option value='<?php echo($id); ?>'><?php echo($name); ?></option>
-<?php
+                        <option value='<?php echo($id); ?>'><?php echo($name); ?></option>
+                        <?php
 			}
 		}
 ?>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>Active:</td>
-			<td><input type='checkbox' name='update_active' <?php if ($class_info['active'] == $YES) { echo("checked='checked'"); } ?>>
-		<tr>
-			<td />
-			<td><input type='submit' name='update_class' value='Update Class Info' /></td>
-		</tr>
-	</table>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Active:</td>
+                <td><input type='checkbox' name='update_active'
+                        <?php if ($class_info['active'] == $YES) { echo("checked='checked'"); } ?>>
+            <tr>
+                <td />
+                <td><input type='submit' name='update_class' value='Update Class Info' /></td>
+            </tr>
+        </table>
 
-	<h2>Expected Enrollment</h2>
+        <h2>Expected Enrollment</h2>
 
-	<table class='schedule'>
-<?php
+        <table class='schedule'>
+            <?php
 	foreach ($rosters as $catalog_year => $term)
 	{
 		$next_year = $catalog_year + 1;
 ?>
-		<tr class='header'>
-			<td>Fall <?php echo($catalog_year); ?></td>
-			<td>Winter <?php echo($next_year); ?></td>
-			<td>Spring <?php echo($next_year); ?></td>
-			<td>Summer <?php echo($next_year); ?></td>
-		</tr>
-		<tr>
-<?php
+            <tr class='header'>
+                <td>Fall <?php echo($catalog_year); ?></td>
+                <td>Winter <?php echo($next_year); ?></td>
+                <td>Spring <?php echo($next_year); ?></td>
+                <td>Summer <?php echo($next_year); ?></td>
+            </tr>
+            <tr>
+                <?php
 		for($term_number = 1; $term_number < 5; ++$term_number)
 		{
 ?>
-<?php
+                <?php
 			if (count($term[$term_number]) > 0)
 			{
 ?>
-		<td class='enrolled'>
-			<a href='roster.php?class_id=<?php echo("$class_id&amp;term=$catalog_year$term_number"); ?>'><?php echo(count($term[$term_number])); ?></a>
-		</td>
-<?php
+                <td class='enrolled'>
+                    <a
+                        href='roster.php?class_id=<?php echo("$class_id&amp;term=$catalog_year$term_number"); ?>'><?php echo(count($term[$term_number])); ?></a>
+                </td>
+                <?php
 			}
 			else
 			{
 ?>
-		<td class='empty'>
-					<?php echo(count($term[$term_number])); ?>
-		</td>
-<?php
+                <td class='empty'>
+                    <?php echo(count($term[$term_number])); ?>
+                </td>
+                <?php
 			}
 ?>
-<?php
+                <?php
 		}
 ?>
-	</tr>
-<?php
+            </tr>
+            <?php
 	}
 ?>
-	</table>
+        </table>
 
-</form>
+    </form>
 
-<?php
+    <?php
 	}
 ?>
 
 </body>
+
 </html>

@@ -90,7 +90,7 @@ function StudentPlan() {
           <div className="plan-class-year" key={term}>
             <PlanClassSelector
               className="selector"
-              year={term + 1}
+              year={term}
               quarter={1}
               classes={fallClasses}
             />

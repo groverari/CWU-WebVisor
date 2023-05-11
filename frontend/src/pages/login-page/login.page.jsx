@@ -1,9 +1,18 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import './login-page.styles.scss'
 
 const Login = () => {
+  //Check if a cookie exists
+
+  //if not do this
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const usernameHandler = (value) => {
+    console.log(value)
+  }
   return (
     <div className="login-page">
       <h1 className="login-title">WebVisor</h1>
@@ -14,6 +23,7 @@ const Login = () => {
             placeholder="Username"
             className="username-field"
             type="text"
+            onChange={usernameHandler}
           />
         </div>
         <div className="password-contianer login-box">
@@ -22,6 +32,7 @@ const Login = () => {
             className="password-field"
             placeholder="Password"
             type="password"
+            onChange={usernameHandler}
           />
         </div>
         <div className="login-button-container">

@@ -3,7 +3,7 @@ import './student-info.styles.scss'
 import { useForm, Controller } from 'react-hook-form'
 import Switch from '@mui/material/Switch'
 import axios from 'axios'
-import ConfPopUp from '../PopUp/confirmation/ConfPopUp'
+import ConfPopUp from '../PopUp/confirmation/confPopUp'
 
 function StudentInfo(props) {
   const { control, register, handleSubmit, setValue } = useForm()
@@ -62,16 +62,18 @@ function StudentInfo(props) {
   })
   const vet = veterans_benefits == 'Yes'
 
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false)
 
   const handleFormSubmit = (data) => {
-    console.log(data);
-    console.log(showPopup);
+    console.log(data)
+    console.log(showPopup)
     // Show the popup
-    setShowPopup(true);
-  };
+    setShowPopup(true)
+  }
 
-  {/*handleSubmit(onUpdate)*/}
+  {
+    /*handleSubmit(onUpdate)*/
+  }
   return (
     <div>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -176,7 +178,7 @@ function StudentInfo(props) {
         <input type="submit" value="Update" />
       </form>
       {/*Pop up shows once, but then does not show again--more details inside of conpopup.jsx */}
-      {showPopup && <ConfPopUp action="update" />}
+      {showPopup && <ConfPopUp action="update" on />}
     </div>
   )
 }

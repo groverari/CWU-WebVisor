@@ -1,0 +1,11 @@
+.class-selector-card {
+  display: grid;
+  grid-auto-flow: column;
+  background-color: grey;
+}
+.remove-class-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 20px;
+}

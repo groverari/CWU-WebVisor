@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import './student-add.scss'
+import ErrorPopUp  from '../../../components/PopUp/error/ErrorPopUp'
 
 const AddStudent = () => {
   const api_url = import.meta.env.VITE_API_URL
@@ -11,6 +12,10 @@ const AddStudent = () => {
     cwuId: '',
     email: ''
   })
+
+  const [errorMessage, setErrorMesssage] = useState('');
+  const [showError, setShowError] = useState(false);
+
   const handleFormSubmit = (event) => {
     event.preventDefault()
     formData.email += '@cwu.edu'
@@ -29,6 +34,8 @@ const AddStudent = () => {
       })
       .catch((error) => {
         console.log(error)
+        setErrorMesssage(error);
+        setShowError(true);
       })
   }
 
@@ -91,6 +98,7 @@ const AddStudent = () => {
           Add Student
         </button>
       </form>
+      {showError && <ErrorPopUp popUpContent={errorMessage}/>}
     </div>
   )
 }

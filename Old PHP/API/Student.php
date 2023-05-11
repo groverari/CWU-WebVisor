@@ -32,9 +32,9 @@
             echo json_encode($data);
             break;
         case 'change_activation':
-                $result = $student->change_activation($data['id'], $data['active']);
-                echo json_encode($result);
-                break;
+            $result = $student->change_activation($data['id'], $data['active']);
+            echo json_encode($result);
+            break;
         case 'add_student':
             $result = $student->add_student($data['user_id'], $data['cwu_id'], $data['email'], $data['first'], $data['last']);
             echo json_encode($result);

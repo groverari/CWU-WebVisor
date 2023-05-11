@@ -89,21 +89,25 @@ function StudentPlan() {
         {classArr.map((term) => (
           <div className="plan-class-year" key={term}>
             <PlanClassSelector
+              className="selector"
               year={term + 1}
               quarter={1}
               classes={fallClasses}
             />
             <PlanClassSelector
+              className="selector"
               year={term + 1}
               quarter={2}
               classes={winterClasses}
             />
             <PlanClassSelector
+              className="selector"
               year={term + 1}
               quarter={3}
               classes={springClasses}
             />
             <PlanClassSelector
+              className="selector"
               year={term + 1}
               quarter={4}
               classes={summerClasses}

@@ -12,6 +12,7 @@
     color: App.$text;
     text-align: center;
     //border: 2px solid black;
+    z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999;
   }
 .popup {
     position: fixed;
@@ -23,10 +24,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999;
+
   }
   
   .popup-content {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
+    z-index: 9999999999999999999999999999999999999999999999999999999999999999999999999;
+
   }

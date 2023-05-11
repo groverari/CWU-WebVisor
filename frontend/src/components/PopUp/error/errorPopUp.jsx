@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './errorPopUp.styles.scss';
+import './ErrorPopUp.styles.scss';
 
 const ErrorPopUp = ({popUpContent}) => {
   const [isOpen, setIsOpen] = useState(false);

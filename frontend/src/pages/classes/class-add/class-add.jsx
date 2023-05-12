@@ -1,27 +1,57 @@
 import React, { useState } from "react";
 import "./class-add.styles.scss";
 import ClassSelector from "../../../components/class-selector/class-selector";
+import axios from "axios";
 
 const AddClass = () => {
-  const [catalogCode, setCatalogCode] = useState("");
-  const [name, setName] = useState("");
-  const [credits, setCredits] = useState("");
+  const api_url = import.meta.env.VITE_API_URL;
+  const [classData, setClassData] = useState({
+    catalogCode: " ",
+    name: " ",
+    credits: " ",
+  });
+
   const [quarterOffered, setQuarterOffered] = useState({
-    Fall: false,
-    Winter: false,
-    Spring: false,
-    Summer: false,
+    Fall: "NO",
+    Winter: "NO",
+    Spring: "NO",
+    Summer: "NO",
   });
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // Perform any further actions with the form data
-    console.log({
-      catalogCode,
-      name,
-      credits,
-      quarterOffered,
-    });
+    console.log(classData);
+    console.log(quarterOffered.Fall);
+
+    axios
+      .post(api_url + "Class.php", {
+        request: "add_class",
+        user_id: 41792238,
+        name: classData.catalogCode,
+        title: classData.name,
+        credits: classData.credits,
+        fall: quarterOffered.Fall,
+        winter: quarterOffered.Winter,
+        spring: quarterOffered.Spring,
+        summer: quarterOffered.Summer,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrorMesssage(error);
+        setShowError(true);
+      });
+  };
+
+  const handleInputChange = (event) => {
+    const { catalogCode, value } = event.target;
+    setClassData((prevFormData) => ({
+      ...prevFormData,
+      [catalogCode]: value,
+    }));
   };
 
   const handleQuarterOfferedChange = (quarter) => {
@@ -40,8 +70,8 @@ const AddClass = () => {
           <input
             type="text"
             id="catalogCode"
-            value={catalogCode}
-            onChange={(e) => setCatalogCode(e.target.value)}
+            value={classData.name}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -50,8 +80,8 @@ const AddClass = () => {
           <input
             type="text"
             id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={classData.title}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -60,8 +90,8 @@ const AddClass = () => {
           <input
             type="text"
             id="credits"
-            value={credits}
-            onChange={(e) => setCredits(e.target.value)}
+            value={classData.credits}
+            onChange={handleInputChange}
           />
         </div>
 

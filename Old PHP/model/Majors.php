@@ -2,25 +2,19 @@
     include_once 'PDO-methods.php';
     include_once 'Journals.php';
 
-    class Majors
-    {
-        private $conn;
-        private $table ='Majors';
-
-        public function read()
+    
+         function all_majors()
         {
             $query = "
             SELECT
-                id, name, active
+                *
             FROM
                 majors
-            ORDER BY
-                name
             ;";
             return get_from_db( $query);
         }
 
-        public function create($name, $active)
+         function create($name, $active)
         {
             $query = "
 			INSERT INTO
@@ -33,7 +27,7 @@
             return add_db( $query, $dataArr);
         }
 
-        public function update($id, $name, $active)
+         function update($id, $name, $active)
         {
             $query = "
 			UPDATE
@@ -48,10 +42,10 @@
             $dataArr = [':name'=>$name, ':active'=>$active, ':id'=>$id];
             return add_db( $query, $dataArr);
     
-            return false;
+            //return false;
         }
 
-        public function readSingle($id)
+         function readSingle($id)
         {
             $query= "
             SELECT
@@ -66,4 +60,4 @@
 
             return $result;
         }
-    }
+    

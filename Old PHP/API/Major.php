@@ -8,42 +8,18 @@
     
     include_once '../config/Database.php';
     include_once '../model/Majors.php';
-
-    $majors = new Majors();
-
-    //$method = $_SERVER['REQUEST_METHOD'];
-    $request;
-
-    //attributes of the tables
-    $name;
-    $active;
-    $id;
-
-    //checks url for table variables
-    if(isset($_GET['name']))
-    {
-        $name = $_GET['name'];
-    }
-    if(isset($_GET['active']))
-    {
-        $active = $_GET['active'];
-    }
-    if(isset($_GET['id']))
-    {
-        $id = $_GET['id'];
-    }
     
-    //checks url for request variable
-    if(isset($_GET['request']))
-    {
-        $request = $_GET['request'];
-    }
-    
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+
+    //validate api key before moving forward
+
+    $request = $data['request'];
     //calls function based on url request
     switch ($request) 
     {
         case 'read':
-            $result = $majors->read();
+            $result = all_majors();
             echo json_encode($result);
             break;
         case 'readSingle':

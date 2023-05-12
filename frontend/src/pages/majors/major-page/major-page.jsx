@@ -8,13 +8,23 @@ const MajorPage = () => {
   const links = [
     {
       key: 1,
-      name: 'Edit Major',
+      name: 'Major Search',
       path: '/eMajor'
     },
     {
       key: 2,
-      name: 'Edit Program',
+      name: 'Add Major',
+      path: '/addmajor'
+    },
+    {
+      key: 3,
+      name: 'Program Search',
       path: '/eProgram'
+    },
+    {
+      key: 4,
+      name: 'Add Program',
+      path: '/addprogram'
     }
   ]
   return (

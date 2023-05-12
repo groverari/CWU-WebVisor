@@ -16,6 +16,8 @@ import MajorPage from './pages/majors/major-page/major-page'
 import EditMajor from './pages/majors/major-edit/major-edit'
 import EditProgram from './pages/majors/program-edit/program-edit'
 import Enrollments from './pages/enrollments/enrollment-page.jsx/enrollment-page'
+import AddMajor from './pages/majors/major-add/major-add'
+import AddProgram from './pages/majors/program-add/program-add'
 
 function App() {
   return (
@@ -43,6 +45,8 @@ function App() {
             <Route index element={<EditMajor />} />
             <Route path="eMajor" element={<EditMajor />} />
             <Route path="eProgram" element={<EditProgram />} />
+            <Route path="addMajor" element={<AddMajor />} />
+            <Route path="addprogram" element={<AddProgram />} />
           </Route>
           <Route path="enrollments" element={<Enrollments />} />
         </Route>

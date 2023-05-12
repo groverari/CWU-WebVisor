@@ -2,9 +2,8 @@
     include_once 'PDO-methods.php';
     include_once 'Journals.php';
 
-    class Users
-    {
-        function update_user($user_id, $password, $name, $program_id)
+   
+    function update_user($user_id, $password, $name, $program_id)
         {
             $query_string = "
                 UPDATE
@@ -145,7 +144,7 @@
             global $YES;
             return ($user_info['superuser'] == $YES);
         }
-    }
+    
 
    
 

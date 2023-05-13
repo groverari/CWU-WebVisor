@@ -62,13 +62,23 @@ function StudentInfo(props) {
   })
   const vet = veterans_benefits == 'Yes'
 
-  const [showPopup, setShowPopup] = useState(false)
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
 
-  const handleFormSubmit = (data) => {
-    console.log(data)
-    console.log(showPopup)
-    // Show the popup
-    setShowPopup(true)
+  const handlePopUpOpen = () =>
+  {
+    event.preventDefault();
+    setShowPopup(true);
+  }
+
+  const handlePopUpClose = () =>
+  {
+    setShowPopup(false);
+  }
+
+  const handlePopUpButtonClick = (buttonValue) =>
+  {
+    setSelectedOption(buttonValue);
   }
 
   {
@@ -76,7 +86,7 @@ function StudentInfo(props) {
   }
   return (
     <div>
-      <form onSubmit={handleSubmit(handleFormSubmit)}>
+      <form onSubmit={handlePopUpOpen}>
         <div className="form-group">
           <label>First Name</label>
           <input
@@ -178,7 +188,13 @@ function StudentInfo(props) {
         <input type="submit" value="Update" />
       </form>
       {/*Pop up shows once, but then does not show again--more details inside of conpopup.jsx */}
-      {showPopup && <ConfPopUp action="update" on />}
+      {showPopup && (
+        <ConfPopUp
+          action="update"
+          onClose={handlePopUpClose}
+          onButtonClick={handlePopUpButtonClick}
+        />
+      )}
     </div>
   )
 }

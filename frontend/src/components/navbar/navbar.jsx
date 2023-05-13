@@ -41,9 +41,9 @@ const NavBar = () => {
         </Link>
        
       </div>
-      <div>
+      {/* <div>
             <ConfPopUp action = "deactivate"/>
-      </div>
+      </div> */}
       <Outlet />
     </>
   )

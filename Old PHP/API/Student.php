@@ -20,8 +20,6 @@
 
     $request = $data['request'];
 
-    $student = new Students();
-
     switch($request){
         case 'all_active_students':
             $data = $student-> get_all_active_students();

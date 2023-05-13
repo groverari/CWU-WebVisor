@@ -32,6 +32,24 @@
             }
         }
 
+        function isUser($login, $password)
+        {
+            //create query
+            $query = '
+            SELECT
+                superuser
+            FROM
+                users
+            WHERE
+                login=:login;
+                password=:password;
+            ORDER BY
+                name ASC
+            ;';
+            $dataArr = [':login'=>$login, ':password'=>$password];
+            $result = get_from_db($query, $dataArr);
+            return $result;
+        }
         //Get All Users in Database
         function read()
         {
@@ -44,7 +62,6 @@
             ORDER BY
                 name ASC
             ;';
-
             $result = get_from_db( $query);
 
             return $result;
@@ -93,7 +110,7 @@
                     VALUES
                         (:cwu_id, :email, :first, :last);";
                     $dataArr = [':cwu_id'=>$cwu_id,':email'=>$email, ':first'=>$first, ':last'=>$last];
-                    $result = add_db_rows($query);
+                    $result = add_db_rows($query, $dataArr);
                     $id = $result;
                 }
                 else
@@ -103,7 +120,7 @@
             }
             else
             {
-                $row = get_from_db($query);
+                $row = get_from_db($query, $dataArr);
                 $id = $row['id'];
             }
             return $id;

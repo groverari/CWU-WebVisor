@@ -80,10 +80,11 @@ function StudentInfo(props) {
   {
     setSelectedOption(buttonValue);
   }
-
-  {
-    /*handleSubmit(onUpdate)*/
-  }
+  useEffect(() => {
+    if (selectedOption) {
+      handleSubmit(onUpdate)();
+    }
+  }, [selectedOption]);
   return (
     <div>
       <form onSubmit={handlePopUpOpen}>

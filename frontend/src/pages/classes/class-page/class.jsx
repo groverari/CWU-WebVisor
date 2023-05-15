@@ -19,7 +19,10 @@ const ClassPage = () => {
   ]
   return (
     <div className="page-container">
-      <SubMenu className="submenu" baseurl={baseurl} links={links} />
+      <div>
+        <SubMenu className="submenu" baseurl={baseurl} links={links} />
+      </div>
+
       <div className="page-content">
         <Outlet />
       </div>

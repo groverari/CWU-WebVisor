@@ -14,22 +14,18 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [activeUser, setActiveUser] = useState(true)
   const [loggedIn, setLogged] = useState(false)
-  const handleLogin = () => {
+  const checkUser = (user, pass) => {
     axios
       .post(api_url + 'User.php', {
         request: 'getUser',
-        login: username,
-        password: password
+        login: user,
+        password: pass
       })
       .then((res) => {
-        console.log(res.data)
-        console.log('errr... I guess its working')
-        //I know its weird as shit to != false, but when res.data can equal
-        //all sorts of shit, its what you gotta do
         if (res.data) {
           localStorage.setItem('superUser', res.data[0]['superuser'] == 'Yes')
           localStorage.setItem('userId', res.data[0]['id'])
-          console.log('made it')
+          // set the cookies with a 1 day expiry
           setLogged(true) //changes screens
         } else {
           setActiveUser(false)
@@ -39,6 +35,13 @@ const Login = () => {
         console.log(error)
         console.log('It is simply, and indeed quite undeniably...fucked')
       })
+  }
+  //check if cookies are set
+
+  // if they are set then call check user on the username and password that is set
+
+  const handleLogin = () => {
+    checkUser(username, password)
   }
 
   return (
@@ -70,7 +73,9 @@ const Login = () => {
             Login
           </button>
           {!activeUser && (
-            <p style={{ color: 'red' }}>Incorrect username or password</p>
+            <p style={{ color: 'red', textEmphasis: 'bold' }}>
+              Incorrect username or password
+            </p>
           )}
           {loggedIn && <Navigate to="/home/students/search" replace={true} />}
         </div>

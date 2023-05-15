@@ -23,7 +23,7 @@
             echo json_encode($result);
             break;
         case 'add_class':
-            $result = $classes->add_class($user_id, $name, $credits, $title, $fall, $winter, $spring, $summer);
+            $result = add_class($data['user_id'], $data['name'], $data['credits'], $data['title'], $data['fall'], $data['winter'], $spring, $summer);
             echo json_encode($result);
             break;
         case 'get_class_info':

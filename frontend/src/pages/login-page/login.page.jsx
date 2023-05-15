@@ -6,12 +6,14 @@ import './login-page.styles.scss'
 
 const Login = () => {
   const api_url = import.meta.env.VITE_API_URL
+
+  const [superUser, setSuperUser] = useState(false);
   //Check if a cookie exists
 
   //if not do this
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [activeUser, setActiveUser] = useState(false);
+  const [activeUser, setActiveUser] = useState(true);
 
   const handleLogin = () =>
   {
@@ -28,7 +30,19 @@ const Login = () => {
         //all sorts of shit, its what you gotta do
         if(res.data != false)
         {
-          window.location.href = '/home/students/search'; // Navigate to /home/students/search
+          if(res.data[0]['superuser'] == 'Yes')
+          {
+            console.log("super user")
+          }
+          else
+          {
+            console.log("peasant user")
+          }
+          //window.location.href = '/home/students/search'; // Navigate to /home/students/search
+        }
+        else 
+        {
+          setActiveUser(false);
         }
       })
       .catch((error) => {

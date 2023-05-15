@@ -3,8 +3,6 @@ import './ConfPopUp.styles.scss'
 
 const ConfPopUp = ({ action, onButtonClick, onClose }) => {
 
-  const [isConfirmed, setConfirmation] = useState(false)
-
   const handleButtonClick = (buttonValue)=>{
     onButtonClick(buttonValue);
     onClose();

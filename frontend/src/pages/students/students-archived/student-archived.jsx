@@ -4,13 +4,35 @@ import './students-archived.styles.scss'
 import axios from 'axios'
 import StudentInfo from '../../../components/student-info/student-info'
 import SearchBox from '../../../components/search-box/search-box'
+import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
 
 const ArchivedStudents = () => {
   const [students, setStudents] = useState([])
   const [searchStudents, setSearchStudents] = useState([])
   const [selectedStudent, setSelectedStudent] = useState(0)
   const [isInfo, setInfo] = useState(false)
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const handlePopUpOpen = () =>
+  {
+    event.preventDefault();
+    setShowPopup(true);
+  }
 
+  const handlePopUpClose = () =>
+  {
+    setShowPopup(false);
+  }
+
+  const handlePopUpButtonClick = (buttonValue) =>
+  {
+    setSelectedOption(buttonValue);
+  }
+  useEffect(() => {
+    if (selectedOption) {
+      studentActivator();
+    }
+  }, [selectedOption]);
   let api_url = import.meta.env.VITE_API_URL
   useEffect(() => {
     axios
@@ -54,6 +76,7 @@ const ArchivedStudents = () => {
           delete students[students.indexOf(selectedStudent)]
           setStudents(students)
           console.log('it works')
+          window.location.reload(true);
         }
       })
       .catch((error) => {
@@ -82,9 +105,16 @@ const ArchivedStudents = () => {
       {isInfo && <h3>{selectedStudent.first + ' ' + selectedStudent.last}</h3>}
       {isInfo && <StudentInfo student={selectedStudent} />}
       {isInfo && (
-        <button className="activate-btn" onClick={studentActivator}>
+        <button className="activate-btn" onClick={handlePopUpOpen}>
           Activate Student
         </button>
+      )}
+       {showPopup && (
+        <ConfPopUp
+          action="activate"
+          onClose={handlePopUpClose}
+          onButtonClick={handlePopUpButtonClick}
+        />
       )}
     </div>
   )

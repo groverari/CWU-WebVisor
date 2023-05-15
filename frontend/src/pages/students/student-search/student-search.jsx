@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import StudentInfo from '../../../components/student-info/student-info'
 import StudentPlan from '../../../components/student-plan/student-plan'
+import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
 
 const StudentSearch = () => {
   const [students, setStudents] = useState([])
@@ -12,6 +13,28 @@ const StudentSearch = () => {
   const [selectedStudent, setSelectedStudent] = useState(0)
   const [isPlan, setPlan] = useState(false)
   const [isInfo, setInfo] = useState(false)
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const handlePopUpOpen = () =>
+  {
+    event.preventDefault();
+    setShowPopup(true);
+  }
+
+  const handlePopUpClose = () =>
+  {
+    setShowPopup(false);
+  }
+
+  const handlePopUpButtonClick = (buttonValue) =>
+  {
+    setSelectedOption(buttonValue);
+  }
+  useEffect(() => {
+    if (selectedOption) {
+      deactivator();
+    }
+  }, [selectedOption]);
 
   let api_url = import.meta.env.VITE_API_URL
 
@@ -62,6 +85,7 @@ const StudentSearch = () => {
           delete students[students.indexOf(selectedStudent)]
           setStudents(students)
           console.log('it works')
+          window.location.reload(true);
         }
       })
       .catch((error) => {
@@ -110,9 +134,16 @@ const StudentSearch = () => {
         <StudentPlan key={selectedStudent} student={selectedStudent} />
       )}
       {isInfo && (
-        <button className="deactivate-btn" onClick={deactivator}>
+        <button className="deactivate-btn" onClick={handlePopUpOpen}>
           Deactivate
         </button>
+      )}
+      {showPopup && (
+        <ConfPopUp
+          action="deactivate"
+          onClose={handlePopUpClose}
+          onButtonClick={handlePopUpButtonClick}
+        />
       )}
     </div>
   )

@@ -29,6 +29,7 @@ function StudentInfo(props) {
       })
       .then((res) => {
         console.log(res.data)
+        window.location.reload(true);
       })
       .catch((error) => {
         console.log(error)
@@ -36,7 +37,10 @@ function StudentInfo(props) {
   }
 
   const [student, setStudent] = useState(props)
+
   const [fname, setFname] = useState('')
+ 
+  
   const {
     id,
     first,
@@ -51,6 +55,7 @@ function StudentInfo(props) {
     non_stem_majors
   } = props.student
 
+  
   if (fname != first) {
     setFname(first)
   }

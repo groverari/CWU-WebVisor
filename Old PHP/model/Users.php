@@ -2,7 +2,6 @@
     include_once 'PDO-methods.php';
     include_once 'Journals.php';
 
-   
     function update_user($user_id, $password, $name, $program_id)
         {
             $query_string = "
@@ -32,24 +31,33 @@
             }
         }
 
-        function isUser($login, $password)
+        //this function is not for PHP! PHP function down below :)
+        function getUser($login, $password)
         {
             //create query
             $query = '
             SELECT
-                superuser
+                *
             FROM
                 users
             WHERE
-                login=:login;
-                password=:password;
-            ORDER BY
-                name ASC
+                login=:login
+                AND
+                password=:password
             ;';
             $dataArr = [':login'=>$login, ':password'=>$password];
+            $resultCount = get_from_db_rows($query, $dataArr);
             $result = get_from_db($query, $dataArr);
-            return $result;
+            if($resultCount == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return $result;
+            }
         }
+
         //Get All Users in Database
         function read()
         {

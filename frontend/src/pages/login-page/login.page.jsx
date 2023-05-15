@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import axios from 'axios'
 
 import './login-page.styles.scss'
@@ -12,11 +12,9 @@ const Login = () => {
   //if not do this
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [activeUser, setActiveUser] = useState(true);
-  const [superUser, setSuperUser] = useState(false);
-
-  const handleLogin = () =>
-  {
+  const [activeUser, setActiveUser] = useState(true)
+  const [loggedIn, setLogged] = useState(false)
+  const handleLogin = () => {
     axios
       .post(api_url + 'User.php', {
         request: 'getUser',
@@ -25,36 +23,24 @@ const Login = () => {
       })
       .then((res) => {
         console.log(res.data)
-        console.log("errr... I guess its working")
-        //I know its weird as shit to != false, but when res.data can equal 
+        console.log('errr... I guess its working')
+        //I know its weird as shit to != false, but when res.data can equal
         //all sorts of shit, its what you gotta do
-        if(res.data != false)
-        {
-          if(res.data[0]['superuser'] == 'Yes')
-          {
-            setSuperUser(true)
-            localStorage.setItem('superUser', true);
-          }
-          else
-          {
-            setSuperUser(false)
-            localStorage.setItem('superUser', false);
-          }
-          window.location.href = '/home/students/search'; // Navigate to /home/students/search
-        }
-        else 
-        {
-          setActiveUser(false);
+        if (res.data) {
+          localStorage.setItem('superUser', res.data[0]['superuser'] == 'Yes')
+          localStorage.setItem('userId', res.data[0]['id'])
+          console.log('made it')
+          setLogged(true) //changes screens
+        } else {
+          setActiveUser(false)
         }
       })
       .catch((error) => {
         console.log(error)
-        console.log("It is simply, and indeed quite undeniably...fucked")
+        console.log('It is simply, and indeed quite undeniably...fucked')
       })
   }
-  const usernameHandler = (value) => {
-    console.log(value)
-  }
+
   return (
     <div className="login-page">
       <h1 className="login-title">WebVisor</h1>
@@ -66,6 +52,7 @@ const Login = () => {
             className="username-field"
             type="text"
             onChange={(event) => setUsername(event.target.value)}
+            required
           />
         </div>
         <div className="password-contianer login-box">
@@ -75,13 +62,17 @@ const Login = () => {
             placeholder="Password"
             type="password"
             onChange={(event) => setPassword(event.target.value)}
+            required
           />
         </div>
         <div className="login-button-container">
-          <button className="login-button" onClick={handleLogin}>Login</button>
+          <button className="login-button" onClick={handleLogin}>
+            Login
+          </button>
           {!activeUser && (
-            <p>Incorrect username or password</p>
+            <p style={{ color: 'red' }}>Incorrect username or password</p>
           )}
+          {loggedIn && <Navigate to="/home/students/search" replace={true} />}
         </div>
       </div>
     </div>

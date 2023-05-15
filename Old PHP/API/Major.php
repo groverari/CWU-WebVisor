@@ -30,7 +30,8 @@
             $majors->create($name, $active);
             break;
         case 'update':
-            $majors->update($id, $name, $active);
+            $result = update($id, $name, $active);
+            echo json_encode($result);
             break;
         default:
             echo 'request incorrrect';

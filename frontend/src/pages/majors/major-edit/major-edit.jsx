@@ -53,7 +53,11 @@ function EditMajor() {
   const updator = () => {
     if (updatedName == '') {
       console.log('No Changes Yet')
-    } else console.log(updatedName)
+    } else {
+      console.log(
+        updatedName + ' and ' + localStorage.getItem('userId') + selectedMajor
+      )
+    }
   }
 
   return (

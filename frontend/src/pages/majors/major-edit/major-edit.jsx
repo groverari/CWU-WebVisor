@@ -9,6 +9,7 @@ function EditMajor() {
   const [searchMajors, setSearchMajors] = useState([])
   const [selectedMajor, setSelectedMajor] = useState([])
   const [showInfo, setInfo] = useState(false)
+  const [updatedName, setName] = useState('')
 
   const api_url = import.meta.env.VITE_API_URL
   useEffect(() => {
@@ -49,6 +50,11 @@ function EditMajor() {
   const buttonHandler = () => {
     setInfo(true)
   }
+  const updator = () => {
+    if (updatedName == '') {
+      console.log('No Changes Yet')
+    } else console.log(updatedName)
+  }
 
   return (
     <div>
@@ -63,9 +69,15 @@ function EditMajor() {
 
       {showInfo && (
         <div className="major-info">
-          <label>{selectedMajor.name}</label>
-          <input type="text" defaultValue={selectedMajor.name} />
-          <button></button>
+          <label>Name: </label>
+          <input
+            type="text"
+            defaultValue={selectedMajor.name}
+            onChange={(event) => {
+              setName(event.target.value)
+            }}
+          />
+          <button onClick={updator}>Update</button>
         </div>
       )}
     </div>

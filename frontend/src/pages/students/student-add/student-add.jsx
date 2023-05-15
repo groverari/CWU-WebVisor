@@ -1,10 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import './student-add.scss'
 import ErrorPopUp  from '../../../components/PopUp/error/ErrorPopUp'
+import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
 
 const AddStudent = () => {
   const api_url = import.meta.env.VITE_API_URL
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [errorMessage, setErrorMesssage] = useState('');
+  const [showError, setShowError] = useState(false);
+
+  const handleErrorPopUpClose = () =>
+  {
+    setShowError(false);
+  }
+  const handlePopUpOpen = () =>
+  {
+    event.preventDefault();
+    setShowPopup(true);
+  }
+
+  const handlePopUpClose = () =>
+  {
+    setShowPopup(false);
+  }
+
+  const handlePopUpButtonClick = (buttonValue) =>
+  {
+    setSelectedOption(buttonValue);
+  }
+
+  useEffect(() => {
+    if (selectedOption) {
+      handleFormSubmit(event);
+    }
+  }, [selectedOption]);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -12,9 +43,6 @@ const AddStudent = () => {
     cwuId: '',
     email: ''
   })
-
-  const [errorMessage, setErrorMesssage] = useState('');
-  const [showError, setShowError] = useState(false);
 
   const handleFormSubmit = (event) => {
     event.preventDefault()
@@ -31,11 +59,20 @@ const AddStudent = () => {
       })
       .then((res) => {
         console.log(res.data)
+        if(res.data.error)
+        {
+          console.log("error");
+          setErrorMesssage(res.data);
+          setShowError(true);
+        }
+        else
+        {
+          console.log("no error")
+        }
       })
       .catch((error) => {
-        console.log(error)
-        setErrorMesssage(error);
-        setShowError(true);
+        console.log(error);
+        console.log("no, here");
       })
   }
 
@@ -50,7 +87,7 @@ const AddStudent = () => {
   return (
     <div className="form-container">
       <h1>Add Student</h1>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handlePopUpOpen}>
         <div className="form-group">
           <label>First Name:</label>
           <input
@@ -98,7 +135,18 @@ const AddStudent = () => {
           Add Student
         </button>
       </form>
-      {showError && <ErrorPopUp popUpContent={errorMessage}/>}
+      {showPopup && (
+        <ConfPopUp
+          action="add"
+          onClose={handlePopUpClose}
+          onButtonClick={handlePopUpButtonClick}
+        />
+      )}
+      {showError && 
+      (<ErrorPopUp 
+        popUpContent={errorMessage}
+        onErrorClose={handleErrorPopUpClose}
+      />)}
     </div>
   )
 }

@@ -6,12 +6,13 @@ import './navbar.styles.scss'
 import '../../App.scss';
 import ConfPopUp from '../PopUp/confirmation/confPopUp';
 import ErrorPopUp from '../PopUp/error/ErrorPopUp';
-
+import superUser from "../../pages/login-page/login.page";
 
 const NavBar = () => {
 
   const location = useLocation();
-
+  const superUser = JSON.parse(localStorage.getItem('superUser'));
+  console.log(superUser);
   return (
     <>
       <div className="header">
@@ -26,8 +27,8 @@ const NavBar = () => {
         </div>
       </div>
       <div className="nav-link-container">
-        
-      <Link className={location.pathname.includes('students') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/students/search">
+        {superUser && <Link>Admin </Link>}
+        <Link className={location.pathname.includes('students') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/students/search">
           Students
         </Link>
         <Link className={location.pathname.includes('class') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/class/search" >
@@ -39,7 +40,6 @@ const NavBar = () => {
         <Link className={location.pathname.includes('enrollments') ? 'nav-link-clicked'  : 'nav-link-unclicked'} to="/home/enrollments" >
           Enrollments
         </Link>
-       
       </div>
       {/* <div>
             <ConfPopUp action = "deactivate"/>

@@ -1,15 +1,57 @@
 import React, { Fragment, useState } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 import './login-page.styles.scss'
 
 const Login = () => {
+  const api_url = import.meta.env.VITE_API_URL
+
   //Check if a cookie exists
 
   //if not do this
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [activeUser, setActiveUser] = useState(true);
+  const [superUser, setSuperUser] = useState(false);
 
+  const handleLogin = () =>
+  {
+    axios
+      .post(api_url + 'User.php', {
+        request: 'getUser',
+        login: username,
+        password: password
+      })
+      .then((res) => {
+        console.log(res.data)
+        console.log("errr... I guess its working")
+        //I know its weird as shit to != false, but when res.data can equal 
+        //all sorts of shit, its what you gotta do
+        if(res.data != false)
+        {
+          if(res.data[0]['superuser'] == 'Yes')
+          {
+            setSuperUser(true)
+            localStorage.setItem('superUser', true);
+          }
+          else
+          {
+            setSuperUser(false)
+            localStorage.setItem('superUser', false);
+          }
+          window.location.href = '/home/students/search'; // Navigate to /home/students/search
+        }
+        else 
+        {
+          setActiveUser(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        console.log("It is simply, and indeed quite undeniably...fucked")
+      })
+  }
   const usernameHandler = (value) => {
     console.log(value)
   }
@@ -23,7 +65,7 @@ const Login = () => {
             placeholder="Username"
             className="username-field"
             type="text"
-            onChange={usernameHandler}
+            onChange={(event) => setUsername(event.target.value)}
           />
         </div>
         <div className="password-contianer login-box">
@@ -32,13 +74,14 @@ const Login = () => {
             className="password-field"
             placeholder="Password"
             type="password"
-            onChange={usernameHandler}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </div>
         <div className="login-button-container">
-          <Link to="/home/students/search">
-            <button className="login-button">Login</button>
-          </Link>
+          <button className="login-button" onClick={handleLogin}>Login</button>
+          {!activeUser && (
+            <p>Incorrect username or password</p>
+          )}
         </div>
       </div>
     </div>

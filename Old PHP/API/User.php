@@ -8,7 +8,6 @@
     include_once '../config/Database.php';
     include_once '../model/Users.php';
 
-    $users = new Users();
 
     $json = file_get_contents('php://input');
     $data = json_decode($json, true);
@@ -18,8 +17,8 @@
     //calls function based on url request
     switch ($request) 
     {
-        case 'isUser':
-            $result = $users->isUSer($data['login'], $data['password']);
+        case 'getUser':
+            $result = getUser($data['login'], $data['password']);
             echo json_encode($result);
             break;
         default:

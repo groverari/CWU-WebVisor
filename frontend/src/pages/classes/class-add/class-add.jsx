@@ -2,27 +2,36 @@ import React, { useState } from "react";
 import "./class-add.styles.scss";
 import ClassSelector from "../../../components/class-selector/class-selector";
 import axios from "axios";
+import ErrorPopUp from "../../../components/PopUp/error/ErrorPopUp";
 
 const AddClass = () => {
   const api_url = import.meta.env.VITE_API_URL;
   const [classData, setClassData] = useState({
-    catalogCode: " ",
-    name: " ",
-    credits: " ",
+    catalogCode: "",
+    name: "",
+    credits: "",
   });
 
   const [quarterOffered, setQuarterOffered] = useState({
-    Fall: "NO",
-    Winter: "NO",
-    Spring: "NO",
-    Summer: "NO",
+    Fall: false,
+    Winter: false,
+    Spring: false,
+    Summer: false,
   });
+  const [errorMessage, setErrorMesssage] = useState(" ");
+  const [showError, setShowError] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Perform any further actions with the form data
-    console.log(classData);
-    console.log(quarterOffered.Fall);
+
+    // Convert boolean values to "yes" or "no"
+    //const fall = quarterOffered.Fall ? "yes" : "no";
+    //const winter = quarterOffered.Winter ? "yes" : "no";
+    // const spring = quarterOffered.Spring ? "yes" : "no";
+    //const summer = quarterOffered.Summer ? "yes" : "no";
+    const selectedQuarters = Object.keys(quarterOffered).filter(
+      (quarter) => quarterOffered[quarter]
+    );
 
     axios
       .post(api_url + "Class.php", {
@@ -31,10 +40,11 @@ const AddClass = () => {
         name: classData.catalogCode,
         title: classData.name,
         credits: classData.credits,
-        fall: quarterOffered.Fall,
-        winter: quarterOffered.Winter,
-        spring: quarterOffered.Spring,
-        summer: quarterOffered.Summer,
+        //fall,
+        //winter,
+        //spring,
+        // summer,
+        quarters: selectedQuarters,
       })
       .then((res) => {
         console.log(res.data);
@@ -47,17 +57,17 @@ const AddClass = () => {
   };
 
   const handleInputChange = (event) => {
-    const { catalogCode, value } = event.target;
+    const { id, value } = event.target;
     setClassData((prevFormData) => ({
       ...prevFormData,
-      [catalogCode]: value,
+      [id]: value,
     }));
   };
 
   const handleQuarterOfferedChange = (quarter) => {
     setQuarterOffered((prevQuarterOffered) => ({
       ...prevQuarterOffered,
-      [quarter]: !prevQuarterOffered[quarter],
+      [quarter]: !prevQuarterOffered[quarter], //=== "yes" ? "no" : "yes",
     }));
   };
 
@@ -70,7 +80,7 @@ const AddClass = () => {
           <input
             type="text"
             id="catalogCode"
-            value={classData.name}
+            value={classData.catalogCode}
             onChange={handleInputChange}
           />
         </div>
@@ -80,7 +90,7 @@ const AddClass = () => {
           <input
             type="text"
             id="name"
-            value={classData.title}
+            value={classData.name}
             onChange={handleInputChange}
           />
         </div>

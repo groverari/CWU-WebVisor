@@ -7,13 +7,13 @@ import './login-page.styles.scss'
 const Login = () => {
   const api_url = import.meta.env.VITE_API_URL
 
-  const [superUser, setSuperUser] = useState(false);
   //Check if a cookie exists
 
   //if not do this
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [activeUser, setActiveUser] = useState(true);
+  const [superUser, setSuperUser] = useState(false);
 
   const handleLogin = () =>
   {
@@ -32,13 +32,15 @@ const Login = () => {
         {
           if(res.data[0]['superuser'] == 'Yes')
           {
-            console.log("super user")
+            setSuperUser(true)
+            localStorage.setItem('superUser', true);
           }
           else
           {
-            console.log("peasant user")
+            setSuperUser(false)
+            localStorage.setItem('superUser', false);
           }
-          //window.location.href = '/home/students/search'; // Navigate to /home/students/search
+          window.location.href = '/home/students/search'; // Navigate to /home/students/search
         }
         else 
         {

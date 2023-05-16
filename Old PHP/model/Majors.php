@@ -45,7 +45,7 @@
                 record_update_major($user_id, $id, $note);
                 return true;
             }
-            return false;
+            echo "Error: Major already exists";
         }
 
          function readSingle($id)

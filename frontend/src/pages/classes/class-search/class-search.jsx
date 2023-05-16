@@ -1,17 +1,106 @@
-import React from 'react'
-import './class-search.styles.scss'
-import SearchBox from '../../../components/search-box/search-box'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import { useForm, Controller } from 'react-hook-form'
-import Switch from '@mui/material/Switch'
-import ClassSelector from '../../../components/class-selector/class-selector'
-import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
+import React from "react";
+import "./class-search.styles.scss";
+import SearchBox from "../../../components/search-box/search-box";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useForm, Controller } from "react-hook-form";
+import Switch from "@mui/material/Switch";
+import ClassSelector from "../../../components/class-selector/class-selector";
+import ConfPopUp from "../../../components/PopUp/confirmation/confPopUp";
 
 const ClassSearch = () => {
-  const [classes, setClasses] = useState([])
-  const [searchClasses, setSearchClasses] = useState([])
-  const [selectedClass, setSelectedClass] = useState(0)
+  const [classes, setClasses] = useState([]);
+  const [searchClasses, setSearchClasses] = useState([]);
+  const [selectedClass, setSelectedClass] = useState(0);
+  const [isInfo, setInfo] = useState(false);
+  const [showPopup, setShowPopop] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handlePopUpOpen = () => {
+    event.preventDefault();
+    setShowPopup(true);
+  };
+
+  const handlePopUpClose = () => {
+    setShowPopup(false);
+  };
+
+  const handlePopUpButtonClick = (buttonValue) => {
+    setSelectedOption(buttonValue);
+  };
+  useEffect(() => {
+    if (selectedOption) {
+      deactivator();
+    }
+  }, [selectedOption]);
+
+  let api_url = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    axios
+      .post(api_url + "Class.php", { request: "all_active_classes" })
+      .then((res) => {
+        setClasses(res.data);
+        //setSearchClasses(res.data) ------>set searchClasses to all classes initially
+      });
+  }, []);
+  //if the class arrya is set----an array fo the select statement
+  useEffect(() => {
+    if (classes) {
+      const temp = classes.map((clas) => ({
+        label: clas.name,
+        value: classes.indexOf(clas),
+      }));
+      setSearchClasses(temp);
+    }
+  }, [classes]);
+
+  //If the search student array is set then this will sort it in aplhabetical order
+  if (searchClasses) {
+    searchClasses.sort(function (a, b) {
+      return a.label.localeCompare(b.label);
+    });
+  }
+
+  //sets the selected class
+
+  const selectHandler = ({ value }) => {
+    let id = parseInt(value);
+    setSelectedClass(classes[id]);
+    setInfo(false);
+  };
+
+  return (
+    <div className="class-search-container">
+      <h1>Class Search</h1>
+      <SearchBox
+        list={searchClasses}
+        placeholder="Search for a class"
+        value="Search"
+        onChange={selectHandler}
+      />
+      {selectedClass != 0 && (
+        <div>
+          <h3>{selectedClass.name}</h3>
+          <button
+            className="overview-btn"
+            onClick={() => {
+              setInfo(true);
+            }}
+          >
+            Info
+          </button>
+        </div>
+      )}
+
+      {selectedClass != 0 && isInfo && <classInfo class={selectedClass} />}
+    </div>
+  );
+};
+
+export default ClassSearch;
+
+/*
   const { control, register, handleSubmit, setValue } = useForm()
   //to show on the page
   const [showInfo, setShowInfo] = useState(false)
@@ -185,6 +274,7 @@ const ClassSearch = () => {
       <ClassSelector title="PreReqs" classes={classes} />
     </div>
   )
-}
+  );
+};
 
-export default ClassSearch
+export default ClassSearch;*/

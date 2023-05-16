@@ -17,7 +17,7 @@ function ClassInfo(props) {
 
         name: data.name,
         title: data.title,
-        credits: data.cwu_id,
+        credits: data.credits,
 
         fall: data.fall ? "Yes" : "No",
         winter: data.winter ? "Yes" : "No",

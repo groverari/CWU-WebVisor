@@ -27,7 +27,7 @@
             return add_db( $query, $dataArr);
         }
 
-         function update($id, $name, $active)
+         function update($id, $name, $active, $user_id)
         {
             $query = "
 			UPDATE
@@ -40,9 +40,12 @@
 			;";
 
             $dataArr = [':name'=>$name, ':active'=>$active, ':id'=>$id];
-            return (add_db( $query, $dataArr));
-    
-            //return false;
+            if(add_db( $query, $dataArr)){
+                $note = "Updated Major: ".$id." by user: ".$user_id;
+                record_update_major($user_id, $id, $note);
+                return true;
+            }
+            return false;
         }
 
          function readSingle($id)

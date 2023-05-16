@@ -30,7 +30,7 @@ const NavBar = () => {
         </div>
 
         <div className="username-container">
-          <h2 className="username">Hi Ariesh</h2>
+          <h2 className="username">Hi {localStorage.getItem('name')}</h2>
           <GiGears className="settings-logo" />
         </div>
       </div>

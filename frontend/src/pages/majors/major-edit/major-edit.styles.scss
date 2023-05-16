@@ -1,0 +1,51 @@
+@use '../../../App.scss';
+@import '../../../mixins.scss';
+
+.major-search {
+  width: 100%;
+}
+.major-title {
+  text-align: center;
+}
+.major-search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.major-search-button {
+  height: 40px;
+  @include button-type-1;
+}
+
+.major-info {
+  margin: 30px 30px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 30px;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+}
+.major-name-label {
+  font-size: 20px;
+}
+.major-name {
+  border-radius: 4px;
+  height: 30px;
+}
+
+.major-update-button {
+  @include button-type-1;
+  height: 30px;
+}
+
+.major-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.major-deactivate-button {
+  @include deactivate-button;
+}

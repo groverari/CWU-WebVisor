@@ -3,7 +3,13 @@ import './major-edit.styles.scss'
 import MajorInfo from '../../../components/major-info/major-info'
 import SearchBox from '../../../components/search-box/search-box'
 import axios from 'axios'
+import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
 
+/**
+ *
+ *
+ * TODO: Generate an Error Popup that says
+ */
 function EditMajor() {
   const [majors, setMajors] = useState([])
   const [searchMajors, setSearchMajors] = useState([])
@@ -23,7 +29,6 @@ function EditMajor() {
   }, [])
 
   useEffect(() => {
-    console.log('updating search box')
     if (majors) {
       const temp = majors.map((major) => ({
         label: major.name,
@@ -53,47 +58,89 @@ function EditMajor() {
     setInfo(true)
   }
   const updator = () => {
-    if (updatedName == '') {
+    if (updatedName == '' || selectedMajor.name == updatedName) {
       console.log('No Changes Yet')
     } else {
-      delete majors[majors.indexOf(selectedMajor)]
-      selectedMajor.name = updatedName
-      setMajors(majors.concat(selectedMajor))
-      console.log(majors)
-      console.log(searchMajors)
-      axios.post(api_url + 'Major.php', {
-        request: 'update',
-        //user_id: localStorage.getItem('userId'),
-        id: selectedMajor.id,
-        name: updatedName,
-        active: 'Yes'
-      })
+      handlePopUpOpen()
     }
   }
 
-  return (
-    <div>
-      <h1>Major Search</h1>
-      <SearchBox
-        placeHolder="Search for a Major"
-        list={searchMajors}
-        value="Search"
-        onChange={selectHandler}
-      />
-      <button onClick={buttonHandler}>Search</button>
+  const handleUpdate = () => {
+    delete majors[majors.indexOf(selectedMajor)]
+    selectedMajor.name = updatedName
+    setMajors(majors.concat(selectedMajor))
+    console.log(majors)
+    console.log(searchMajors)
+    axios.post(api_url + 'Major.php', {
+      request: 'update',
+      user_id: localStorage.getItem('userId'),
+      id: selectedMajor.id,
+      name: updatedName,
+      active: 'Yes'
+    })
+  }
+  // Code to generate Popup
+  const [showPopup, setShowPopup] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
 
+  const handlePopUpOpen = () => {
+    setShowPopup(true)
+  }
+
+  const handlePopUpClose = () => {
+    setShowPopup(false)
+  }
+
+  const handlePopUpButtonClick = (buttonValue) => {
+    setSelectedOption(buttonValue)
+  }
+  useEffect(() => {
+    if (selectedOption) {
+      handleUpdate()
+    }
+  }, [selectedOption])
+
+  return (
+    <div className="major-search">
+      <h1 className="major-title">Major Search</h1>
+      <div className="major-search-container">
+        <SearchBox
+          placeHolder="Search for a Major"
+          list={searchMajors}
+          value="Search"
+          onChange={selectHandler}
+        />
+        <button className="major-search-button" onClick={buttonHandler}>
+          Search
+        </button>
+      </div>
       {showInfo && (
-        <div className="major-info">
-          <label>Name: </label>
-          <input
-            type="text"
-            defaultValue={selectedMajor.name}
-            onChange={(event) => {
-              setName(event.target.value)
-            }}
-          />
-          <button onClick={updator}>Update</button>
+        <div className="major-info-container">
+          <div className="major-info">
+            <label className="major-name-label">Name: </label>
+            <input
+              type="text"
+              className="major-name"
+              defaultValue={selectedMajor.name}
+              onChange={(event) => {
+                setName(event.target.value)
+              }}
+            />
+            <button className="major-update-button" onClick={updator}>
+              Update
+            </button>
+          </div>
+          <div>
+            <button className="major-deactivate-button">Deactivate</button>
+          </div>
         </div>
+      )}
+      {showPopup && (
+        <ConfPopUp
+          action="update"
+          onClose={handlePopUpClose}
+          onButtonClick={handlePopUpButtonClick}
+        />
       )}
     </div>
   )

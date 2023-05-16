@@ -25,6 +25,7 @@ const Login = () => {
         if (res.data) {
           localStorage.setItem('superUser', res.data[0]['superuser'] == 'Yes')
           localStorage.setItem('userId', res.data[0]['id'])
+          localStorage.setItem('name', res.data[0]['first'])
           // set the cookies with a 1 day expiry
           setLogged(true) //changes screens
         } else {

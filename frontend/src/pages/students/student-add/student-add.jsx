@@ -59,9 +59,9 @@ const AddStudent = () => {
       })
       .then((res) => {
         console.log(res.data)
-        if(res.data.error)
+        if(res.data.includes('Error'))
         {
-          console.log("error");
+          console.log("handled error");
           setErrorMesssage(res.data);
           setShowError(true);
         }
@@ -72,7 +72,7 @@ const AddStudent = () => {
       })
       .catch((error) => {
         console.log(error);
-        console.log("no, here");
+        console.log("unhandled error");
       })
   }
 
@@ -145,7 +145,7 @@ const AddStudent = () => {
       {showError && 
       (<ErrorPopUp 
         popUpContent={errorMessage}
-        onErrorClose={handleErrorPopUpClose}
+        onClose={handleErrorPopUpClose}
       />)}
     </div>
   )

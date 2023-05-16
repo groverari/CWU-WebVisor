@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
 import './ErrorPopUp.styles.scss';
 
-const ErrorPopUp = ({popUpContent}) => {
+const ErrorPopUp = ({popUpContent, onClose}) => {
 
   const handleErrorButtonClick = () => {
-    onErrorClose();
+    onClose();
   };
 
   return (

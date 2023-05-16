@@ -75,14 +75,13 @@ class Students
 
             if ($query_result_rows > 0)
             {
-                echo "Already Exists";
-                return false;
+                //echo ;
+                return "Error: Already Exists";
             }
         }
         else if ($email == '')
         {
-            echo ("no email");
-            return 0;
+            return "Error: no email";
         }
     
         $query_string = "
@@ -104,7 +103,7 @@ class Students
         }
         else
         {
-            echo("Cannot add student, check for duplicate id ($cwu_id) or email ($email)");
+            return "Error: Cannot add student, check for duplicate id ($cwu_id) or email ($email)";
         }
 
         return $student_id;

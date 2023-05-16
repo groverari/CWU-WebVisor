@@ -6,6 +6,7 @@ import axios from 'axios'
 import StudentInfo from '../../../components/student-info/student-info'
 import StudentPlan from '../../../components/student-plan/student-plan'
 import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
+import ErrorPopUp from '../../../components/PopUp/error/errorPopup'
 
 const StudentSearch = () => {
   const [students, setStudents] = useState([])
@@ -85,11 +86,12 @@ const StudentSearch = () => {
           delete students[students.indexOf(selectedStudent)]
           setStudents(students)
           console.log('it works')
-          window.location.reload(true);
+          //window.location.reload(true);
         }
       })
       .catch((error) => {
         console.log(error)
+        console.log("fart")
       })
   }
 

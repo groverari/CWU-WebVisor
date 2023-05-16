@@ -162,6 +162,8 @@ const ClassSearch = () => {
           onButtonClick={handlePopUpButtonClick}
         />
       )}
+
+      <ClassSelector title="PreReqs" classes={classes} />
     </div>
   );
 };

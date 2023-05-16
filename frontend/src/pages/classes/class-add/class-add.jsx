@@ -176,8 +176,6 @@ const AddClass = () => {
           onErrorClose={handleErrorPopUpClose}
         />
       )}
-
-      <ClassSelector title="PreReqs" classes={classes} />
     </div>
   );
 };

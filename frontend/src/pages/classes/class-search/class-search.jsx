@@ -39,18 +39,6 @@ const ClassSearch = () => {
     }
   }, [classes])
 
-  // const handleSearch = (inputValue) => {
-  //   const filteredClasses = classes.filter((classItem) => {
-  //     // Perform search based on class properties (e.g., name, code, etc.)
-  //     return (
-  //       classItem.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-  //       classItem.code.toLowerCase().includes(inputValue.toLowerCase())
-  //       // Add more conditions if needed
-  //     )
-  //   })
-
-  //   setSearchClasses(filteredClasses)
-  //}
   const selectHandler = ({ value }) => {
     setShowInfo(false)
     let id = parseInt(value)
@@ -140,6 +128,49 @@ const ClassSearch = () => {
             />
           </div>
 
+          <div>
+            <label>Credits:</label>
+
+            <input
+              {...register('credit')}
+              type="text"
+              defaultValue={selectedClass.credits}
+            />
+          </div>
+          <div>
+            <label>Fall:</label>
+            <input
+              {...register('fall')}
+              type="text"
+              defaultValue={selectedClass.fall}
+            />
+          </div>
+
+          <div>
+            <label>Winter:</label>
+            <input
+              {...register('winter')}
+              type="text"
+              defaultValue={selectedClass.winter}
+            />
+          </div>
+          <div>
+            <label>Spring:</label>
+            <input
+              {...register('spring')}
+              type="text"
+              defaultValue={selectedClass.spring}
+            />
+          </div>
+          <div>
+            <label>Summer:</label>
+            <input
+              {...register('summer')}
+              type="text"
+              defaultValue={selectedClass.summer}
+            />
+          </div>
+
           <input type="submit" value="Update" />
         </form>
       )}
@@ -157,45 +188,3 @@ const ClassSearch = () => {
 }
 
 export default ClassSearch
-
-/**
- * 
- * 
- * <form className="class-info-form">
-         
-          <div>
-            <label>Course Name:</label>
-            <input type="text" value={classes[selectedClass].title} disabled />
-          </div>
-
-          <div>
-            <label>Credits:</label>
-            <input
-              type="text"
-              value={classes[selectedClass].credits}
-              disabled
-            />
-          </div>
-
-          <div>
-            <label>Fall:</label>
-            <input type="text" value={classes[selectedClass].fall} disabled />
-          </div>
-
-          <div>
-            <label>Winter:</label>
-            <input type="text" value={classes[selectedClass].winter} disabled />
-          </div>
-
-          <div>
-            <label>Spring:</label>
-            <input type="text" value={classes[selectedClass].spring} disabled />
-          </div>
-
-          <div>
-            <label>Summer:</label>
-            <input type="text" value={classes[selectedClass].summer} disabled />
-          </div>
-        </form>
-      )}
- */

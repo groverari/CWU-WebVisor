@@ -40,7 +40,7 @@
 			;";
 
             $dataArr = [':name'=>$name, ':active'=>$active, ':id'=>$id];
-            return add_db( $query, $dataArr);
+            return (add_db( $query, $dataArr));
     
             //return false;
         }

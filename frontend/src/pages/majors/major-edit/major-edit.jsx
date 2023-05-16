@@ -23,6 +23,7 @@ function EditMajor() {
   }, [])
 
   useEffect(() => {
+    console.log('updating search box')
     if (majors) {
       const temp = majors.map((major) => ({
         label: major.name,
@@ -39,6 +40,7 @@ function EditMajor() {
   }
 
   const selectHandler = ({ value }) => {
+    setName('')
     setSelectedMajor(majors[value])
     setInfo(false)
   }
@@ -54,9 +56,18 @@ function EditMajor() {
     if (updatedName == '') {
       console.log('No Changes Yet')
     } else {
-      console.log(
-        updatedName + ' and ' + localStorage.getItem('userId') + selectedMajor
-      )
+      delete majors[majors.indexOf(selectedMajor)]
+      selectedMajor.name = updatedName
+      setMajors(majors.concat(selectedMajor))
+      console.log(majors)
+      console.log(searchMajors)
+      axios.post(api_url + 'Major.php', {
+        request: 'update',
+        //user_id: localStorage.getItem('userId'),
+        id: selectedMajor.id,
+        name: updatedName,
+        active: 'Yes'
+      })
     }
   }
 

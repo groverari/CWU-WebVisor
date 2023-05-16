@@ -30,7 +30,7 @@
             $majors->create($name, $active);
             break;
         case 'update':
-            $result = update($id, $name, $active);
+            $result = update($data['id'], $data['name'], $data['active']);
             echo json_encode($result);
             break;
         default:

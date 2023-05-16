@@ -4,6 +4,7 @@ import SearchBox from '../../../components/search-box/search-box'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useForm, Controller } from 'react-hook-form'
+import Switch from '@mui/material/Switch'
 import ClassSelector from '../../../components/class-selector/class-selector'
 import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
 
@@ -117,6 +118,25 @@ const ClassSearch = () => {
               {...register('name')}
               type="text"
               defaultValue={selectedClass.title}
+            />
+          </div>
+          <div className="form-group">
+            <label>Fall</label>
+            <Controller
+              control={control}
+              name="fall"
+              defaultValue={selectedClass.fall == 'Yes'}
+              render={({ value: valueProp, onChange }) => {
+                return (
+                  <Switch
+                    value={valueProp}
+                    onChange={(event, val) => {
+                      setValue('fall', val)
+                    }}
+                    defaultChecked={selectedClass.fall == 'Yes'}
+                  />
+                )
+              }}
             />
           </div>
 

@@ -1,111 +1,102 @@
-import React, { useEffect, useState } from "react";
-import "./class-info.styles.scss";
-import { useForm, Controller } from "react-hook-form";
-import Switch from "@mui/material/Switch";
-import axios from "axios";
-import ConfPopUp from "../PopUp/confirmation/confPopUp";
+import React, { useEffect, useState } from 'react'
+import './class-info.styles.scss'
+import { useForm, Controller } from 'react-hook-form'
+import Switch from '@mui/material/Switch'
+import axios from 'axios'
+import ConfPopUp from '../PopUp/confirmation/confPopUp'
 
-function ClassInfo(props) {
-  const { control, register, handleSubmit, setValue } = useForm();
-  const api_url = import.meta.env.VITE_API_URL;
+function ClassInfo({ selClass }) {
+  const { control, register, handleSubmit, setValue } = useForm()
+  const api_url = import.meta.env.VITE_API_URL
   const onUpdate = (data) => {
-    console.log(data);
+    console.log(data)
     axios
-      .post(api_url + "class.php", {
-        request: "update_class",
+      .post(api_url + 'class.php', {
+        request: 'update_class',
         user_id: 41792238,
 
         name: data.name,
         title: data.title,
         credits: data.credits,
 
-        fall: data.fall ? "Yes" : "No",
-        winter: data.winter ? "Yes" : "No",
-        spring: data.spring ? "Yes" : "No",
-        summer: data.summer ? "Yes" : "No",
-        active: "Yes",
-        non: data.non,
+        fall: data.fall ? 'Yes' : 'No',
+        winter: data.winter ? 'Yes' : 'No',
+        spring: data.spring ? 'Yes' : 'No',
+        summer: data.summer ? 'Yes' : 'No',
+        active: 'Yes',
+        non: data.non
       })
       .then((res) => {
-        console.log(res.data);
-        window.location.reload(true);
+        console.log(res.data)
+        window.location.reload(true)
       })
       .catch((error) => {
-        console.log(error);
-      });
-  };
+        console.log(error)
+      })
+  }
 
   // const [class, setClass] = useState(props)
 
-  const [fname, setFname] = useState("");
+  const [fname, setFname] = useState('')
 
-  const { id, name, title, fall, winter, spring, summer } = props.class;
-
+  const { id, name, title, credits, fall, winter, spring, summer } = selClass
+  const isFall = fall == 'Yes'
+  const isWinter = winter == 'Yes'
+  const isSpring = spring == 'Yes'
+  const isSummer = summer == 'Yes'
   if (fname != name) {
-    setFname(name);
+    setFname(name)
   }
 
   const [fal, setfal] = useState(() => {
-    return fall == "Yes";
-  });
+    return fall == 'Yes'
+  })
   const [wint, setwint] = useState(() => {
-    return winter == "Yes";
-  });
+    return winter == 'Yes'
+  })
   const [spri, setspri] = useState(() => {
-    return fall == "Yes";
-  });
+    return fall == 'Yes'
+  })
   const [sum, setsum] = useState(() => {
-    return fall == "Yes";
-  });
+    return fall == 'Yes'
+  })
 
-  const [showPopup, setShowPopup] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [showPopup, setShowPopup] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
 
   const handlePopUpOpen = () => {
-    event.preventDefault();
-    setShowPopup(true);
-  };
+    event.preventDefault()
+    setShowPopup(true)
+  }
 
   const handlePopUpClose = () => {
-    setShowPopup(false);
-  };
+    setShowPopup(false)
+  }
 
   const handlePopUpButtonClick = (buttonValue) => {
-    setSelectedOption(buttonValue);
-  };
+    setSelectedOption(buttonValue)
+  }
   useEffect(() => {
     if (selectedOption) {
-      handleSubmit(onUpdate)();
+      handleSubmit(onUpdate)()
     }
-  }, [selectedOption]);
+  }, [selectedOption])
 
   return (
     <div>
       <form onSubmit={handlePopUpOpen}>
         <div className="form-group">
           <label>Catalog</label>
-          <input
-            type="text"
-            {...register("name")}
-            defaluValue={props.class.name}
-          />
+          <input type="text" {...register('name')} defaultValue={name} />
         </div>
 
         <div className="form-group">
           <label>Course Name</label>
-          <input
-            type="text"
-            {...register("title")}
-            defaluValue={props.class.title}
-          />
+          <input type="text" {...register('title')} defaultValue={title} />
         </div>
         <div className="form-group">
           <label>Credits</label>
-          <input
-            type="text"
-            {...register("credits")}
-            defaluValue={props.class.credits}
-          />
+          <input type="text" {...register('credits')} defaultValue={credits} />
         </div>
 
         <div className="form-group">
@@ -113,17 +104,17 @@ function ClassInfo(props) {
           <Controller
             control={control}
             name="fall"
-            defaultValue={post}
+            defaultValue={isFall}
             render={({ value: valueProp, onChange }) => {
               return (
                 <Switch
                   value={valueProp}
                   onChange={(event, val) => {
-                    setValue("fall", val);
+                    setValue('fall', val)
                   }}
-                  defaultChecked={post}
+                  defaultChecked={isFall}
                 />
-              );
+              )
             }}
           />
         </div>
@@ -133,17 +124,17 @@ function ClassInfo(props) {
           <Controller
             control={control}
             name="winter"
-            defaultValue={post}
+            defaultValue={isWinter}
             render={({ value: valueProp, onChange }) => {
               return (
                 <Switch
                   value={valueProp}
                   onChange={(event, val) => {
-                    setValue("winter", val);
+                    setValue('winter', val)
                   }}
-                  defaultChecked={post}
+                  defaultChecked={isWinter}
                 />
-              );
+              )
             }}
           />
         </div>
@@ -152,17 +143,17 @@ function ClassInfo(props) {
           <Controller
             control={control}
             name="spring"
-            defaultValue={post}
+            defaultValue={isSpring}
             render={({ value: valueProp, onChange }) => {
               return (
                 <Switch
                   value={valueProp}
                   onChange={(event, val) => {
-                    setValue("spring", val);
+                    setValue('spring', val)
                   }}
-                  defaultChecked={post}
+                  defaultChecked={isSpring}
                 />
-              );
+              )
             }}
           />
         </div>
@@ -171,17 +162,17 @@ function ClassInfo(props) {
           <Controller
             control={control}
             name="summer"
-            defaultValue={post}
+            defaultValue={isSummer}
             render={({ value: valueProp, onChange }) => {
               return (
                 <Switch
                   value={valueProp}
                   onChange={(event, val) => {
-                    setValue("summer", val);
+                    setValue('summer', val)
                   }}
-                  defaultChecked={post}
+                  defaultChecked={isSummer}
                 />
-              );
+              )
             }}
           />
 
@@ -198,6 +189,6 @@ function ClassInfo(props) {
         />
       )}
     </div>
-  );
+  )
 }
-export default ClassInfo;
+export default ClassInfo

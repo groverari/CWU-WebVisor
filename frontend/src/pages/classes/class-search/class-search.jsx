@@ -1,42 +1,42 @@
-import React from 'react'
-import './class-search.styles.scss'
-import SearchBox from '../../../components/search-box/search-box'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import { useForm, Controller } from 'react-hook-form'
-import ClassSelector from '../../../components/class-selector/class-selector'
-import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
+import React from "react";
+import "./class-search.styles.scss";
+import SearchBox from "../../../components/search-box/search-box";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useForm, Controller } from "react-hook-form";
+import ClassSelector from "../../../components/class-selector/class-selector";
+import ConfPopUp from "../../../components/PopUp/confirmation/confPopUp";
 
 const ClassSearch = () => {
-  const [classes, setClasses] = useState([])
-  const [searchClasses, setSearchClasses] = useState([])
-  const [selectedClass, setSelectedClass] = useState(0)
-  const { control, register, handleSubmit, setValue } = useForm()
+  const [classes, setClasses] = useState([]);
+  const [searchClasses, setSearchClasses] = useState([]);
+  const [selectedClass, setSelectedClass] = useState(0);
+  const { control, register, handleSubmit, setValue } = useForm();
   //to show on the page
-  const [showInfo, setShowInfo] = useState(false)
+  const [showInfo, setShowInfo] = useState(false);
 
-  let api_url = import.meta.env.VITE_API_URL
+  let api_url = import.meta.env.VITE_API_URL;
 
   //how do you get class fromt the data base;
 
   useEffect(() => {
     axios
-      .post(api_url + 'Class.php', { request: 'all_active_classes' })
+      .post(api_url + "Class.php", { request: "all_active_classes" })
       .then((res) => {
-        setClasses(res.data)
-        setSearchClasses(res.data) //set searchClasses to all classes initially
-      })
-  }, [])
+        setClasses(res.data);
+        setSearchClasses(res.data); //set searchClasses to all classes initially
+      });
+  }, []);
 
   useEffect(() => {
     if (classes) {
       const temp = classes.map((clas) => ({
         label: clas.name,
-        value: classes.indexOf(clas)
-      }))
-      setSearchClasses(temp)
+        value: classes.indexOf(clas),
+      }));
+      setSearchClasses(temp);
     }
-  }, [classes])
+  }, [classes]);
 
   // const handleSearch = (inputValue) => {
   //   const filteredClasses = classes.filter((classItem) => {
@@ -51,43 +51,43 @@ const ClassSearch = () => {
   //   setSearchClasses(filteredClasses)
   //}
   const selectHandler = ({ value }) => {
-    setShowInfo(false)
-    let id = parseInt(value)
-    console.log(classes[id])
+    setShowInfo(false);
+    let id = parseInt(value);
+    console.log(classes[id]);
 
     //selected id
-    setSelectedClass(classes[id])
-  }
+    setSelectedClass(classes[id]);
+  };
 
   //handeling button
   const handleInfoButtonClick = () => {
-    setShowInfo(true)
-  }
+    setShowInfo(true);
+  };
 
   const onUpdate = (data) => {
-    console.log(data)
-  }
+    console.log(data);
+  };
 
-  const [showPopup, setShowPopup] = useState(false)
-  const [selectedOption, setSelectedOption] = useState(null)
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const handlePopUpOpen = () => {
-    event.preventDefault()
-    setShowPopup(true)
-  }
+    event.preventDefault();
+    setShowPopup(true);
+  };
 
   const handlePopUpClose = () => {
-    setShowPopup(false)
-  }
+    setShowPopup(false);
+  };
 
   const handlePopUpButtonClick = (buttonValue) => {
-    setSelectedOption(buttonValue)
-  }
+    setSelectedOption(buttonValue);
+  };
   useEffect(() => {
     if (selectedOption) {
-      handleSubmit(onUpdate)()
+      handleSubmit(onUpdate)();
     }
-  }, [selectedOption])
+  }, [selectedOption]);
 
   return (
     <div className="class-search-container">
@@ -106,7 +106,7 @@ const ClassSearch = () => {
           <div>
             <label>Catalog:</label>
             <input
-              {...register('catalog')}
+              {...register("catalog")}
               type="text"
               defaultValue={selectedClass.name}
             />
@@ -114,9 +114,52 @@ const ClassSearch = () => {
           <div>
             <label>Course Name:</label>
             <input
-              {...register('name')}
+              {...register("name")}
               type="text"
               defaultValue={selectedClass.title}
+            />
+          </div>
+
+          <div>
+            <label>Credits:</label>
+
+            <input
+              {...register("credit")}
+              type="text"
+              defaultValue={selectedClass.credits}
+            />
+          </div>
+          <div>
+            <label>Fall:</label>
+            <input
+              {...register("fall")}
+              type="text"
+              defaultValue={selectedClass.fall}
+            />
+          </div>
+
+          <div>
+            <label>Winter:</label>
+            <input
+              {...register("winter")}
+              type="text"
+              defaultValue={selectedClass.winter}
+            />
+          </div>
+          <div>
+            <label>Spring:</label>
+            <input
+              {...register("spring")}
+              type="text"
+              defaultValue={selectedClass.spring}
+            />
+          </div>
+          <div>
+            <label>Summer:</label>
+            <input
+              {...register("summer")}
+              type="text"
+              defaultValue={selectedClass.summer}
             />
           </div>
 
@@ -133,10 +176,10 @@ const ClassSearch = () => {
 
       <ClassSelector title="PreReqs" classes={classes} />
     </div>
-  )
-}
+  );
+};
 
-export default ClassSearch
+export default ClassSearch;
 
 /**
  * 
@@ -156,6 +199,15 @@ export default ClassSearch
               disabled
             />
           </div>
+             <div>
+            <label>Credits:</label>
+
+            <input
+              {...register("credit")}
+              type="text"
+              defaultValue={selectedClass.credits}
+            />
+          </div>
 
           <div>
             <label>Fall:</label>
@@ -164,7 +216,10 @@ export default ClassSearch
 
           <div>
             <label>Winter:</label>
-            <input type="text" value={classes[selectedClass].winter} disabled />
+            <input 
+            ...register("winter")}type="text" 
+            defaultValue={selectedClass].winter}
+            />
           </div>
 
           <div>

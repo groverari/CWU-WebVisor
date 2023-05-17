@@ -15,7 +15,14 @@ const LostStudents = () => {
 
   return (
     <div className="lost-table-wrapper">
-      <h1>Lost Students</h1>
+      <div className="lost-title-wrapper">
+        <h1>Lost Students</h1>
+        <p>
+          In order to correct any mistake, please copy the id and paste it into
+          the Student Search tab or the Archived Student tab based on the active
+          status of the student.
+        </p>
+      </div>
       <div>
         {Object.keys(lost).length == 0 && <h1>no Lost Students</h1>}
         <h3 className="table-title">Bad CWU IDs</h3>

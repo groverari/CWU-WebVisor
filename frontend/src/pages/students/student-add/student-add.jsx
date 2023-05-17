@@ -107,6 +107,7 @@ const AddStudent = () => {
             type="text"
             name="cwuId"
             title="Please enter an 8-digit number."
+            pattern="[0-9][8]"
             required
             onChange={handleInputChange}
           />

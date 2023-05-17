@@ -27,7 +27,8 @@
             echo json_encode($result);
             break;
         case 'create':
-            $majors->create($name, $active);
+            $result = create($data['name'], $data['active']);
+            echo json_encode($result);
             break;
         case 'update':
             $result = update($data['id'], $data['name'], $data['active'], $data['user_id']);

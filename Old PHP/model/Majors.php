@@ -16,6 +16,19 @@
 
          function create($name, $active)
         {
+            $queryCheck = "
+            SELECT
+                *
+            FROM
+                majors
+            WHERE
+                name=:name;";
+            $dataArr = [':name'=>$name];
+            if(get_from_db_rows($queryCheck, $dataArr) > 0)
+            {
+                return "Error: Major name already exists";
+            }
+            
             $query = "
 			INSERT INTO
 				majors(name, active)
@@ -24,7 +37,7 @@
 			;";
             
             $dataArr = [':name'=>$name, ':active'=>$active];
-            return add_db( $query, $dataArr);
+            return add_db_rows( $query, $dataArr);
         }
 
          function update($id, $name, $active, $user_id)

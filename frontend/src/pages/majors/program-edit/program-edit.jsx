@@ -118,7 +118,6 @@ function EditProgram() {
 
   const handleUpdate = () => {
     delete programs[programs.indexOf(selectedProgram)]
-    selectedProgram.name = updatedName
     setPrograms(programs.concat(selectedProgram))
     console.log(programs)
     console.log(searchPrograms)
@@ -174,7 +173,7 @@ function EditProgram() {
 
   return (
     <div className="major-search">
-      <h1 className="major-title">Program Search TODO: Add class roster/add or copy style</h1>
+      <h1 className="major-title">Program Search TODO: Add class roster/add or copy style/SET VALUE setNAME</h1>
       <div className="major-search-container">
         <SearchBox
           list={searchPrograms}

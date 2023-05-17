@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import SearchBox from '../../../components/search-box/search-box'
 import axios from 'axios'
 import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
-import ErrorPopUp from '../../../components/PopUp/error/errorPopUp'
+//import ErrorPopUp from '../../../components/PopUp/error/errorPopUp'
 //import { program } from '@babel/types'
 
 /**
@@ -17,6 +17,10 @@ function EditProgram() {
   const [programs, setPrograms] = useState([])
   const [searchPrograms, setSearchPrograms] = useState([])
   const [selectedProgram, setSelectedProgram] = useState([])
+  const [majors, setMajors] = useState([])
+  const [searchMajors, setSearchMajors] = useState([])
+  const [selectedMajorName, setSelectedMajorName] = useState()
+  const [selectedMajorID, setSelectedMajorID] = useState()
   const [showInfo, setInfo] = useState(false)
   const [errorMessage, setErrorMesssage] = useState('');
   const [showError, setShowError] = useState(false);
@@ -41,19 +45,10 @@ function EditProgram() {
       })
   }, [])
 
-  // const {
-  //   major_id,
-  //   year,
-  //   credits, 
-  //   elective_credits,
-  //   active
-  // } = programs
-  // console.log(major_id);
-
   useEffect(() => {
     if (programs) {
       const temp = programs.map((program) => ({
-        label: program.name,
+        label: program.name + ' ' + program.year,
         value: programs.indexOf(program)
       }))
       setSearchPrograms(temp)
@@ -66,10 +61,44 @@ function EditProgram() {
     })
   }
 
-  const selectHandler = ({ value }) => {
-    setName('')
+  useEffect(() => {
+    axios
+      .post(api_url + 'Major.php', {
+        request: 'read',
+      })
+      .then((res) => {
+        setMajors(res.data)
+        console.log(res.data)
+      })
+  }, [])
+
+  useEffect(() => {
+    if (majors) {
+      const temp = majors.map((major) => ({
+        label: major.name,
+        value: majors.indexOf(major)
+      }))
+      setSearchMajors(temp)
+    }
+  }, [majors])
+
+  if (searchMajors) {
+    searchMajors.sort(function (a, b) {
+      return a.label.localeCompare(b.label)
+    })
+  }
+
+  const selectProgramHandler = ({ value }) => {
+    //setName('')
     setSelectedProgram(programs[value])
     setInfo(false)
+  }
+
+  const selectMajorHandler = ({ value }) => {
+    //setName('')
+    setSelectedMajorID(majors[value].id)
+    setSelectedMajorName(majors[value].name)
+    //setInfo(false)
   }
 
   const deactivator = () => {
@@ -97,7 +126,10 @@ function EditProgram() {
       request: 'update',
       user_id: localStorage.getItem('userId'),
       id: selectedProgram.id,
-      major_id: updatedName,
+      major_id: selectedMajorID,
+      year: selectedProgram.year,
+      credits: selectedProgram.credits,
+      elective_credits: selectedProgram.elective_credits,
       active: 'Yes'
     })
    .then((res) => {
@@ -142,13 +174,12 @@ function EditProgram() {
 
   return (
     <div className="major-search">
-      <h1 className="major-title">Program Search</h1>
+      <h1 className="major-title">Program Search TODO: Add class roster/FIX major select</h1>
       <div className="major-search-container">
         <SearchBox
-          placeHolder="Search for a Program"
           list={searchPrograms}
           value="Search"
-          onChange={selectHandler}
+          onChange={selectProgramHandler}
         />
         <button className="major-search-button" onClick={buttonHandler}>
           Search
@@ -157,16 +188,49 @@ function EditProgram() {
       {showInfo && (
         <div className="major-info-container">
           <div /*className="major-info"*/>
-            <label className="major-name-label">Name: </label>
-            <input
-              type="text"
-              className="major-name"
+            <label className="major-name-label">Associated Major: </label>
+            <SearchBox
+              list={searchMajors}
               defaultValue={selectedProgram.name}
-              onChange={(event) => {
-                setValue(event.target.value)
-              }}
+              onChange={selectMajorHandler}
             />
           </div>
+
+          <div /*className="major-info"*/>
+            <label className="major-name-label">Year: </label>
+            <input
+              type="number"
+              className="major-name"
+              defaultValue={selectedProgram.year}
+              onChange={(event) => {
+                setName(event.target.value)
+              }}
+            />
+          </div> 
+
+          <div /*className="major-info"*/>
+            <label className="major-name-label">Credits: </label>
+            <input
+              type="number"
+              className="major-name"
+              defaultValue={selectedProgram.credits}
+              onChange={(event) => {
+                setName(event.target.value)
+              }}
+            />
+            </div>
+
+          <div /*className="major-info"*/>
+            <label className="major-name-label">Elective Credits: </label>
+            <input
+              type="number"
+              className="major-name"
+              defaultValue={selectedProgram.elective_credits}
+              onChange={(event) => {
+                setName(event.target.value)
+              }}
+            />
+          </div> 
 
           <div>
             <button /*className="major-update-button"*/ onClick={updator}>
@@ -197,25 +261,3 @@ function EditProgram() {
 export default EditProgram
 
 
-/*          <div /*className="major-info"*//*>
-<label className="major-name-label">Credits: </label>
-<input
-  type="number"
-  className="major-name"
-  defaultValue={selectedProgram.credits}
-  onChange={(event) => {
-    setName(event.target.value)
-  }}
-/>
-</div>
-<div /*className="major-info"*//*>
-<label className="major-name-label">Elective Credits: </label>
-<input
-  type="number"
-  className="major-name"
-  defaultValue={selectedProgram.elective_credits}
-  onChange={(event) => {
-    setName(event.target.value)
-  }}
-/>
-</div> */

@@ -41,6 +41,17 @@ class Programs
         return $program;
     }
 
+    function get_complete_allPrograms()
+    {
+        $query = "
+        SELECT 
+            *
+        FROM 
+            programs;";
+        $result = get_from_db($query);
+        return $result;
+    }
+
     /*TODO the original code adds user programs 
     and concats them to the to the all programs table. 
     There is also a student programs table  
@@ -50,9 +61,7 @@ class Programs
     function all_programs($user_id){
         global $db; 
         $query = "SELECT 
-                        programs.id,
-                        name,
-                        year
+                        *
                     FROM programs
                     JOIN majors ON programs.major_id = majors.id
                     ORDER BY name";

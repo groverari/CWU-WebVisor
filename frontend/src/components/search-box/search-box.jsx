@@ -13,6 +13,8 @@ function SearchBox(props) {
         className="select"
         options={props.list}
         placeholder={props.placeholder}
+        //value={props.value}
+        defaultInputValue={props.defaultValue}
         onChange={props.onChange}
       />
     </div>

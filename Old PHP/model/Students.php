@@ -2,11 +2,6 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class Students
-{
-
-    
-    private $db;
 
     function cwu_id_to_student_id($cwu_id)
 	{		
@@ -109,7 +104,7 @@ class Students
         return $student_id;
     }
 
-    public function all_students($active_only = false)
+    function all_students($active_only = false)
     {
         $query_string = "
             SELECT
@@ -140,7 +135,7 @@ class Students
             ";
         }
     
-        $query_result = $this->db->get_from_db($query_string);
+        $query_result = get_from_db($query_string);
     
         $all_students = array();
         foreach ($query_result as $row)
@@ -153,7 +148,7 @@ class Students
         return $all_students;
     }
     
-    public function get_bad_cwu_ids()
+    function get_bad_cwu_ids()
     {
         $query_string = "
             SELECT
@@ -172,7 +167,7 @@ class Students
                     cwu_id > 99999999
                 )
         ";
-        $query_result = $this->db->get_from_db($query_string);
+        $query_result = get_from_db($query_string);
 
         $bad_cwu_ids = array();
         foreach ($query_result as $row)
@@ -184,7 +179,7 @@ class Students
     }
 
 
-    public function get_enrollments($year) 
+    function get_enrollments($year) 
     {
         $year1 = 10*$year+1;
         $year2 = 10*($year)+2;
@@ -225,7 +220,7 @@ class Students
                 classes.name ASC,
                 student_classes.term
         ";
-        $query_result = $this->db->get_from_db($query_string, [$year1, $year2, $year3, $year4, 'yes']);
+        $query_result = get_from_db($query_string, [$year1, $year2, $year3, $year4, 'yes']);
 
         $enrollments = array();
         foreach ($query_result as $row) {
@@ -241,7 +236,7 @@ class Students
     }
 
     //students file
-    public function students_for_user($user_id)
+    function students_for_user($user_id)
     {
       try {
           $query = "SELECT
@@ -259,10 +254,10 @@ class Students
                     ORDER BY
                       active, last, first ASC";
 
-          $this->db->beginTransaction();
+          beginTransaction();
 
-          $this->db->add_db($query, [$user_id]);
-          $query_result = $this->db->fetchAll(PDO::FETCH_ASSOC);
+          add_db($query, [$user_id]);
+          $query_result = fetchAll(PDO::FETCH_ASSOC);
 
           $all_students = array();
           foreach ($query_result as $row)
@@ -272,11 +267,11 @@ class Students
               $all_students[$id] = $name;
           }
 
-          $this->db->commit();
+          commit();
 
           return $all_students;
       } catch (PDOException $e) {
-          $this->db->rollBack();
+          rollBack();
           throw $e;
       }
     }
@@ -340,4 +335,3 @@ class Students
         $query = 'UPDATE students SET active = :active WHERE id= :student_id';
         return add_db($query, [':student_id'=> $student_id, ':active'=>$active]);
     }
-}

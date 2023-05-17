@@ -14,7 +14,7 @@ function SearchBox(props) {
         options={props.list}
         placeholder={props.placeholder}
         //value={props.value}
-        defaultInputValue={props.defaultValue}
+        defaultValue={props.defaultValue}
         onChange={props.onChange}
       />
     </div>

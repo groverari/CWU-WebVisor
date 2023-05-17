@@ -174,7 +174,7 @@ function EditProgram() {
 
   return (
     <div className="major-search">
-      <h1 className="major-title">Program Search TODO: Add class roster/FIX major select</h1>
+      <h1 className="major-title">Program Search TODO: Add class roster/add or copy style</h1>
       <div className="major-search-container">
         <SearchBox
           list={searchPrograms}
@@ -191,7 +191,7 @@ function EditProgram() {
             <label className="major-name-label">Associated Major: </label>
             <SearchBox
               list={searchMajors}
-              defaultValue={selectedProgram.name}
+              placeholder={selectedProgram.name}
               onChange={selectMajorHandler}
             />
           </div>

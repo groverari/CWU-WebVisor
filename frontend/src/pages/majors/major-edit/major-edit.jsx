@@ -4,6 +4,7 @@ import MajorInfo from '../../../components/major-info/major-info'
 import SearchBox from '../../../components/search-box/search-box'
 import axios from 'axios'
 import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
+import ErrorPopUp from '../../../components/PopUp/error/errorPopUp'
 
 /**
  *
@@ -16,6 +17,14 @@ function EditMajor() {
   const [selectedMajor, setSelectedMajor] = useState([])
   const [showInfo, setInfo] = useState(false)
   const [updatedName, setName] = useState('')
+  const [errorMessage, setErrorMesssage] = useState('');
+  const [showError, setShowError] = useState(false);
+
+  const handleErrorPopUpClose = () =>
+  {
+    setShowError(false);
+    //window.location.reload(true);
+  }
 
   const api_url = import.meta.env.VITE_API_URL
   useEffect(() => {
@@ -77,6 +86,24 @@ function EditMajor() {
       id: selectedMajor.id,
       name: updatedName,
       active: 'Yes'
+    })
+   .then((res) => {
+      console.log(res.data)
+      if(typeof res.data === 'string' && res.data.includes('Error'))
+      {
+        console.log("handled error");
+        setErrorMesssage(res.data);
+        setShowError(true);
+      }
+      else
+      {
+        window.location.reload(true);
+        console.log("no error")
+      }
+    })
+  .catch((error)=>
+    {
+      console.log(error);
     })
   }
   // Code to generate Popup
@@ -142,6 +169,11 @@ function EditMajor() {
           onButtonClick={handlePopUpButtonClick}
         />
       )}
+      {showError && 
+      (<ErrorPopUp 
+        popUpContent={errorMessage}
+        onClose={handleErrorPopUpClose}
+      />)}
     </div>
   )
 }

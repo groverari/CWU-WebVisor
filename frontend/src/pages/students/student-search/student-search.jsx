@@ -86,12 +86,11 @@ const StudentSearch = () => {
           delete students[students.indexOf(selectedStudent)]
           setStudents(students)
           console.log('it works')
-          //window.location.reload(true);
+          window.location.reload(true);
         }
       })
       .catch((error) => {
         console.log(error)
-        console.log("fart")
       })
   }
 

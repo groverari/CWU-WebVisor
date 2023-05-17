@@ -29,6 +29,20 @@
 
          function update($id, $name, $active, $user_id)
         {
+            $queryCheck = "
+            SELECT
+                *
+            FROM
+                majors
+            WHERE
+                name=:name;";
+            $dataArr = [':name'=>$name];
+            if(get_from_db_rows($queryCheck, $dataArr) > 0)
+            {
+                return "Error: Major name already exists";
+            }
+
+
             $query = "
 			UPDATE
 				majors
@@ -40,12 +54,13 @@
 			;";
 
             $dataArr = [':name'=>$name, ':active'=>$active, ':id'=>$id];
+            
             if(add_db( $query, $dataArr)){
+                $journ = new Journals();
                 $note = "Updated Major: ".$id." by user: ".$user_id;
-                record_update_major($user_id, $id, $note);
+                $journ->record_update_major($user_id, $id, $note);
                 return true;
             }
-            echo "Error: Major already exists";
         }
 
          function readSingle($id)

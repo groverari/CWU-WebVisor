@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import SearchBox from '../../../components/search-box/search-box'
 import axios from 'axios'
 import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
-//import ErrorPopUp from '../../../components/PopUp/error/errorPopUp'
+import ErrorPopUp from '../../../components/PopUp/error/errorPopUp'
 //import { program } from '@babel/types'
 
 /**
@@ -20,7 +20,16 @@ function EditProgram() {
   const [majors, setMajors] = useState([])
   const [searchMajors, setSearchMajors] = useState([])
   const [selectedMajorName, setSelectedMajorName] = useState()
-  const [selectedMajorID, setSelectedMajorID] = useState()
+  const [selectedMajorID, setSelectedMajorID] = useState(selectedProgram.major_id)
+  const [programClasses, setProgramClasses] = useState([])
+  const [programelectives, setProgramElectives] = useState([])
+  const [searchElectives, setSearchElectives] = useState([])
+  const [classes, setClasses] = useState([])
+  const [searchClasses, setSearchClasses] = useState([])
+  const [searchProgramClasses, setSearchProgramClasses] = useState([])
+  const [year, setYear] = useState(selectedProgram.year)
+  const [credits, setCredits] = useState(selectedProgram.credits)
+  const [electiveCredits, setElectiveCredits] = useState(selectedProgram.elective_credits)
   const [showInfo, setInfo] = useState(false)
   const [errorMessage, setErrorMesssage] = useState('');
   const [showError, setShowError] = useState(false);
@@ -41,7 +50,7 @@ function EditProgram() {
       })
       .then((res) => {
         setPrograms(res.data)
-        console.log(res.data)
+        //console.log(res.data)
       })
   }, [])
 
@@ -68,7 +77,7 @@ function EditProgram() {
       })
       .then((res) => {
         setMajors(res.data)
-        console.log(res.data)
+        //console.log(res.data)
       })
   }, [])
 
@@ -87,6 +96,24 @@ function EditProgram() {
       return a.label.localeCompare(b.label)
     })
   }
+
+  useEffect(() => {
+    console.log(selectedProgram.name)
+    if(selectedProgram.name !== undefined)
+    {
+      axios
+        .post(api_url + 'Program_Class.php', {
+          request: 'get_required_classes',
+          program_id: selectedProgram.program_id,
+          required: 'Yes'
+        })
+        .then((res) => {
+          const data = Array.isArray(res.data) ? res.data : [res.data];
+          setProgramClasses(data)
+          console.log(data);
+        })
+    }
+  }, [selectedProgram])
 
   const selectProgramHandler = ({ value }) => {
     //setName('')
@@ -109,30 +136,25 @@ function EditProgram() {
     setInfo(true)
   }
   const updator = () => {
-    if (updatedName == '' || selectedProgram.name == updatedName) {
-      console.log('No Changes Yet')
-    } else {
       handlePopUpOpen()
-    }
   }
 
   const handleUpdate = () => {
     delete programs[programs.indexOf(selectedProgram)]
     setPrograms(programs.concat(selectedProgram))
-    console.log(programs)
-    console.log(searchPrograms)
+    //console.log(programs)
     axios.post(api_url + 'Program.php', {
       request: 'update',
       user_id: localStorage.getItem('userId'),
-      id: selectedProgram.id,
-      major_id: selectedMajorID,
-      year: selectedProgram.year,
-      credits: selectedProgram.credits,
-      elective_credits: selectedProgram.elective_credits,
+      id: selectedProgram.program_id,
+      major_id: selectedMajorID === undefined ? selectedProgram.major_id : selectedMajorID, // Pass the selectedMajorID as major_id
+      year: year === undefined ? selectedProgram.year : year, // Use the "year" state instead of selectedProgram.year
+      credits: credits === undefined ? selectedProgram.credits : credits, // Use the "credits" state instead of selectedProgram.credits
+      elective_credits: electiveCredits === undefined ? selectedProgram.elective_credits : electiveCredits, // Use the "electiveCredits" state instead of selectedProgram.elective_credits
       active: 'Yes'
     })
    .then((res) => {
-      console.log(res.data)
+      //console.log(res.data)
       if(typeof res.data === 'string' && res.data.includes('Error'))
       {
         console.log("handled error");
@@ -142,7 +164,7 @@ function EditProgram() {
       else
       {
         window.location.reload(true);
-        console.log("no error")
+        //console.log("no error")
       }
     })
   .catch((error)=>
@@ -173,7 +195,7 @@ function EditProgram() {
 
   return (
     <div className="major-search">
-      <h1 className="major-title">Program Search TODO: Add class roster/add or copy style/SET VALUE setNAME</h1>
+      <h1 className="major-title">Program Search TODO: Add class roster/add or copy style/deactivate button</h1>
       <div className="major-search-container">
         <SearchBox
           list={searchPrograms}
@@ -202,7 +224,7 @@ function EditProgram() {
               className="major-name"
               defaultValue={selectedProgram.year}
               onChange={(event) => {
-                setName(event.target.value)
+                setYear(event.target.value)
               }}
             />
           </div> 
@@ -214,7 +236,7 @@ function EditProgram() {
               className="major-name"
               defaultValue={selectedProgram.credits}
               onChange={(event) => {
-                setName(event.target.value)
+                setCredits(event.target.value)
               }}
             />
             </div>
@@ -226,10 +248,32 @@ function EditProgram() {
               className="major-name"
               defaultValue={selectedProgram.elective_credits}
               onChange={(event) => {
-                setName(event.target.value)
+                setElectiveCredits(event.target.value)
               }}
             />
           </div> 
+          
+          <div>
+        {Object.keys(programClasses).length == 0 && <h1>no required classes assigned</h1>}
+        <h3 className="table-title">Require Program Classes</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Class name and credits</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.keys(programClasses).length !== 0 &&
+              programClasses.map((classes) => {
+                return (
+                  <tr key={Number(classes[1].id)}>
+                    <td>{classes[1].name_credits}</td>
+                  </tr>
+                )
+              })}
+          </tbody>
+        </table>
+      </div>
 
           <div>
             <button /*className="major-update-button"*/ onClick={updator}>

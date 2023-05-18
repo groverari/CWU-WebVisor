@@ -14,7 +14,8 @@ class Program_Classes
 			CONCAT(classes.name, ' (', classes.credits, ' cr)') AS name_credits,
 			classes.name,
 			program_classes.minimum_grade,
-			program_classes.sequence_no
+			program_classes.sequence_no,
+			program_classes.id as p_id
 		FROM
 			classes JOIN program_classes ON program_classes.class_id=classes.id
 		WHERE

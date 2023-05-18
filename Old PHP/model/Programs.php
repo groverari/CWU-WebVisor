@@ -8,7 +8,7 @@ class Programs
 	{
 		$query_string = "
 		UPDATE
-			Programs
+			programs
 		SET
 			major_id=:major_id,
 			year=:year,
@@ -18,7 +18,7 @@ class Programs
 		WHERE
 			id=:program_id
 		;";
-        $dataArr = [':major_id'=>$major_id, ':year'=>$year, ':credits'=>$credits, ':elective_credits'=>$elective_credits, ':active'=>$active];
+        $dataArr = [':major_id'=>$major_id, ':year'=>$year, ':credits'=>$credits, ':elective_credits'=>$elective_credits, ':active'=>$active, ':program_id'=>$program_id];
 		$query_result = add_db_rows($query_string, $dataArr);
 		
 		if ($query_result > 0)
@@ -27,7 +27,10 @@ class Programs
 			$note = "Updated <program:$program_id>.";
 			$journ->record_update_program($user_id, $program_id, $note);
 		}
-		
+		else
+        {
+            return "Error: no program Id ". $program_id;
+        }
 		//! @todo update electives!
 		
 	}
@@ -35,7 +38,7 @@ class Programs
     function get_program_id($major_id, $catalog_year){
         $query = "SELECT id FROM programs
                     WHERE major_id = :major_id
-                        AND year = :year";
+                        AND year = :year;";
         $data_array = [":major_id"=> $major_id, ":year"=> $catalog_year];
         $program = get_from_db($query, $data_array);
         return $program;
@@ -60,11 +63,23 @@ class Programs
     */
     function all_programs($user_id){
         global $db; 
-        $query = "SELECT 
-                        *
-                    FROM programs
-                    JOIN majors ON programs.major_id = majors.id
-                    ORDER BY name";
+        $query = "
+        SELECT 
+            programs.id AS program_id,
+            programs.major_id,
+            programs.year,
+            programs.credits,
+            programs.elective_credits,
+            programs.active,
+            majors.id AS major_id,
+            majors.name AS name
+        FROM 
+            programs
+        JOIN 
+            majors ON programs.major_id = majors.id
+        ORDER BY 
+            majors.name;
+    ";
         $programs = get_from_db($query);
         return $programs;
     }

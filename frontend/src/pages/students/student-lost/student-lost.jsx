@@ -36,7 +36,7 @@ const LostStudents = () => {
             </tr>
           </thead>
           <tbody>
-            {Object.keys(lost).length != 0 &&
+            {Object.keys(lost).length !== 0 &&
               lost.map((student) => {
                 return (
                   <tr key={student.cwu_id}>

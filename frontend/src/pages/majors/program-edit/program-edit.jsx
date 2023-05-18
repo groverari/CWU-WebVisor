@@ -254,26 +254,48 @@ function EditProgram() {
           </div> 
           
           <div>
-        {Object.keys(programClasses).length == 0 && <h1>no required classes assigned</h1>}
-        <h3 className="table-title">Require Program Classes</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Class name and credits</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.keys(programClasses).length !== 0 &&
-              programClasses.map((classes) => {
-                return (
-                  <tr key={Number(classes[1].id)}>
-                    <td>{classes[1].name_credits}</td>
-                  </tr>
-                )
-              })}
-          </tbody>
-        </table>
-      </div>
+            {Object.keys(programClasses).length == 0 && <h1>no required classes assigned</h1>}
+            <h3 className="table-title">Require Program Classes</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Class name and credits</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.keys(programClasses).length !== 0 &&
+                  programClasses.map((classes) => {
+                    return (
+                      <tr key={Number(classes[1].id)}>
+                        <td>{classes[1].name_credits}</td>
+                      </tr>
+                    )
+                  })}
+              </tbody>
+            </table>
+          </div>
+
+          <div>
+            {Object.keys(programelectives).length == 0 && <h1>no elective classes assigned</h1>}
+            <h3 className="table-title">Require Program Classes</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Class name and credits</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.keys(programClasses).length !== 0 &&
+                  programClasses.map((classes) => {
+                    return (
+                      <tr key={Number(classes[1].id)}>
+                        <td>{classes[1].name_credits}</td>
+                      </tr>
+                    )
+                  })}
+              </tbody>
+            </table>
+          </div>
 
           <div>
             <button /*className="major-update-button"*/ onClick={updator}>

@@ -44,6 +44,7 @@ const AddStudent = () => {
     event.preventDefault();
     formData.email += "@cwu.edu";
     console.log(formData);
+    console.log(formData.cwuId);
     axios
       .post(api_url + "Student.php", {
         request: "add_student",

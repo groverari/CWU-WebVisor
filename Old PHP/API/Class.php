@@ -31,16 +31,7 @@
             break;
 
         case 'update_class':
-            $result = update_class(
-                $data['user_id'],
-                $data['name'],
-                $data['credits'],
-                $data['title'],
-                $data['fall'],
-                $data['winter'],
-                $data['spring'],
-                $data['summer']
-                );
+            $result = update_class($data['user_id'], $data['class_id'], $data['name'], $data['credits'], $data['title'], $data['fall'], $data['winter'], $data['spring'], $data['summer'],$data['active']);
             echo json_encode($result);
             break;
 

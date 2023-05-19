@@ -90,7 +90,7 @@ include_once 'Journals.php';
         $result = add_db($query_string, $dataArr);
         
         $student_id = $result['id'];
-        
+        echo $student_id;
         if ($student_id > 0)
         {
             $journ = new Journals();

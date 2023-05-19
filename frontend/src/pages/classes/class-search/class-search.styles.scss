@@ -1,13 +1,14 @@
-@use "../../../App.scss";
-@import "../../../mixins.scss";
+@use '../../../App.scss';
+@import '../../../mixins.scss';
 
 .class-search {
   width: 100%;
+  justify-content: center;
 }
 .class-title {
   text-align: center;
 }
-.class-search-container {
+.class-name-container {
   display: flex;
   align-items: center;
   justify-content: center;

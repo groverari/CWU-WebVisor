@@ -24,7 +24,7 @@ const LostStudents = () => {
         </p>
       </div>
       <div>
-        {Object.keys(lost).length == 0 && <h1>no Lost Students</h1>}
+        {Object.keys(lost).length == 0 && <h1>No Lost Students</h1>}
         <h3 className="table-title">Bad CWU IDs</h3>
         <table>
           <thead>

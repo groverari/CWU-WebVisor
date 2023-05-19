@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./class-add.styles.scss";
+
+//import { useForm, Controller } from "react-hook-form";
 import ClassSelector from "../../../components/class-selector/class-selector";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
@@ -63,7 +65,8 @@ const AddClass = () => {
       });
   };
 
-  const handleInputChange = (event) => {
+  /**
+   *  const handleInputChange = (event) => {
     const { id, value } = event.target;
     setClassData((prevFormData) => ({
       ...prevFormData,
@@ -77,6 +80,9 @@ const AddClass = () => {
       [quarter]: !prevQuarterOffered[quarter] === "yes" ? "no" : "yes",
     }));
   };
+
+   * @param {*} event 
+   */
 
   return (
     <div className="form-container">

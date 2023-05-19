@@ -1,0 +1,16 @@
+.class-info {
+  padding: 130px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 30px;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+}
+
+.class-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}

@@ -1,32 +1,23 @@
+@use "../../../App.scss";
+@import "../../../mixins.scss";
+
+.class-search {
+  width: 100%;
+}
+.class-title {
+  text-align: center;
+}
 .class-search-container {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  display: block;
-  padding: 5px;
-
-  /*for the form*/
-  .class-info-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-
-    div {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-
-      label {
-        width: 8rem;
-        font-weight: bold;
-      }
-
-      input[type="text"] {
-        flex: 1;
-        padding: 0.5rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: #f9f9f9;
-        color: #333;
-      }
-    }
-  }
+}
+.overviw-btn {
+  height: 40px;
+  @include button-type-1;
+}
+.search-box {
+  /* Add appropriate styles to the search box */
+  width: 200px;
+  margin-right: 10px;
 }

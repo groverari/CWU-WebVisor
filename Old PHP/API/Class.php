@@ -22,18 +22,38 @@
             $result = $classes->all_classes($program_id);
             echo json_encode($result);
             break;
+
+        
+
         case 'add_class':
             $result = add_class($data['user_id'], $data['name'], $data['credits'], $data['title'], $data['fall'], $data['winter'], $data['spring'], $data['summer']);
             echo json_encode($result);
             break;
+
+        case 'update_class':
+            $result = update_class(
+                $data['user_id'],
+                $data['name'],
+                $data['credits'],
+                $data['title'],
+                $data['fall'],
+                $data['winter'],
+                $data['spring'],
+                $data['summer']
+                );
+            echo json_encode($result);
+            break;
+
         case 'get_class_info':
             $result = $classes->get_class_info($id, $program_id);
             echo json_encode($result);
             break;
+
         case 'all_active_classes':
             $result = $classes->get_all_classes();
             echo json_encode($result);
             break;
+
         default:
             echo 'request incorrrect';
             break;

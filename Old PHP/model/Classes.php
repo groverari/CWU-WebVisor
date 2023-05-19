@@ -75,6 +75,7 @@
             id=:class_id
             ;";
          $dataArr =[':name'=>$name, ':title'=>$title, ':credits'=>$credits, ':fall'=>$fall, ':winter'=>$winter, ':spring'=>$spring, ':summer'=>$summer, ':active'=>$active];
+         //$query_result_row = add_db_rows($query_string, $dataArr);
          $query_result_row = add_db_rows($query_string, $dataArr);
          
          if ($query_result_row > 0)
@@ -82,7 +83,10 @@
             $journ = new Journals();
             $note = "Updated <class:$class_id>.";
             $journ->record_update_class($user_id, $class_id, $note);
+            //return true;
          }
+         else return "error";
+        // return false;
       }
 
       // creates the class and returns the class id of the new class

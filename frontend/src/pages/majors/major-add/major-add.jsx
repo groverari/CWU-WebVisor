@@ -52,7 +52,7 @@ const AddMajor = () => {
       })
       .then((res) => {
         console.log(res.data)
-        if(res.data.includes('Error'))
+        if(typeof res.data === 'string' && res.data.includes('Error'))
         {
           console.log("handled error");
           setErrorMesssage(res.data);

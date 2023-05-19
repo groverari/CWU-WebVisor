@@ -29,7 +29,7 @@ const AddStudent = () => {
 
   useEffect(() => {
     if (selectedOption) {
-      handleFormSubmit(event);
+      handleFormSubmit();
     }
   }, [selectedOption]);
 
@@ -40,15 +40,12 @@ const AddStudent = () => {
     email: "",
   });
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  const handleFormSubmit = () => {
     formData.email += "@cwu.edu";
-    console.log(formData);
-    console.log(formData.cwuId);
     axios
       .post(api_url + "Student.php", {
         request: "add_student",
-        user_id: 41792238,
+        user_id: localStorage.getItem('userId'),
         first: formData.firstName,
         last: formData.lastName,
         email: formData.email,

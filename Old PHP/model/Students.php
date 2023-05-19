@@ -53,25 +53,26 @@ include_once 'Journals.php';
 
     function add_student($user_id, $cwu_id, $email, $first='', $last='')
     {
-    
+        $id=0;
+        $query = "";
+        $data_array=[];
         if ($cwu_id != 0)
         {
-            $query_string = "
+            $query = "
             SELECT
                 id
             FROM
                 students
             WHERE
-                cwu_id=:cwu_id
+                cwu_id=:cwu_id OR email=:email
             ;";
             
-            $dataArr = [':cwu_id'=>$cwu_id];
-            $query_result_rows = get_from_db_rows($query_string, $dataArr);
-
+            $data_array = [':cwu_id'=>$cwu_id, ':email'=>$email];
+            echo "\n\n\n\n getRows\n\n\n\n";
+            $query_result_rows = get_from_db_rows($query, $data_array);
             if ($query_result_rows > 0)
             {
-                //echo ;
-                return "Error: Already Exists";
+                return "Error: CWU ID or email Already Exists";
             }
         }
         else if ($email == '')
@@ -87,21 +88,28 @@ include_once 'Journals.php';
         ;";
         $dataArr = [':cwu_id'=>$cwu_id, ':email'=>$email, ':first'=>$first, ':last'=>$last];
 
+        echo "\n\n\nadd\n\n\n\n";
         $result = add_db($query_string, $dataArr);
         
-        $student_id = $result['id'];
-        echo $student_id;
-        if ($student_id > 0)
+        $query_result=get_from_db($query, $data_array);
+        echo "\n\n\n\n\n";
+        print_r($query_result);
+        echo "\n\n\n\n\n";
+
+        $id = $query_result[0]['id'];
+
+        if ($result)
         {
+            echo "\n\n\n in here\n\n\n\n";
             $journ = new Journals();
-            $journ->record_update_student($user_id, $student_id, "Added <student:$student_id>");
+            $journ->record_update_student($user_id, $id, "Added <student:$id>");
         }
         else
         {
             return "Error: Cannot add student, check for duplicate id ($cwu_id) or email ($email)";
         }
 
-        return $student_id;
+        return $id;
     }
 
     function all_students($active_only = false)

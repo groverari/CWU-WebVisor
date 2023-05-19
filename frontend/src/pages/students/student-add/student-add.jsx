@@ -1,81 +1,81 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import './student-add.scss'
-import ErrorPopUp from '../../../components/PopUp/error/ErrorPopUp'
-import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./student-add.scss";
+import ErrorPopUp from "../../../components/PopUp/error/ErrorPopUp";
+import ConfPopUp from "../../../components/PopUp/confirmation/confPopUp";
 
 const AddStudent = () => {
-  const api_url = import.meta.env.VITE_API_URL
-  const [showPopup, setShowPopup] = useState(false)
-  const [selectedOption, setSelectedOption] = useState(null)
-  const [errorMessage, setErrorMesssage] = useState('')
-  const [showError, setShowError] = useState(false)
+  const api_url = import.meta.env.VITE_API_URL;
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [errorMessage, setErrorMesssage] = useState("");
+  const [showError, setShowError] = useState(false);
 
   const handleErrorPopUpClose = () => {
-    setShowError(false)
-  }
+    setShowError(false);
+  };
   const handlePopUpOpen = () => {
-    event.preventDefault()
-    setShowPopup(true)
-  }
+    event.preventDefault();
+    setShowPopup(true);
+  };
 
   const handlePopUpClose = () => {
-    setShowPopup(false)
-  }
+    setShowPopup(false);
+  };
 
   const handlePopUpButtonClick = (buttonValue) => {
-    setSelectedOption(buttonValue)
-  }
+    setSelectedOption(buttonValue);
+  };
 
   useEffect(() => {
     if (selectedOption) {
-      handleFormSubmit(event)
+      handleFormSubmit(event);
     }
-  }, [selectedOption])
+  }, [selectedOption]);
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    cwuId: '',
-    email: ''
-  })
+    firstName: "",
+    lastName: "",
+    cwuId: "",
+    email: "",
+  });
 
   const handleFormSubmit = (event) => {
-    event.preventDefault()
-    formData.email += '@cwu.edu'
-    console.log(formData)
+    event.preventDefault();
+    formData.email += "@cwu.edu";
+    console.log(formData);
     axios
-      .post(api_url + 'Student.php', {
-        request: 'add_student',
+      .post(api_url + "Student.php", {
+        request: "add_student",
         user_id: 41792238,
         first: formData.firstName,
         last: formData.lastName,
         email: formData.email,
-        cwu_id: formData.cwuId
+        cwu_id: formData.cwuId,
       })
       .then((res) => {
-        console.log(res.data)
-        if (res.data.includes('Error')) {
-          console.log('handled error')
-          setErrorMesssage(res.data)
-          setShowError(true)
+        console.log(res.data);
+        if (res.data.includes("Error")) {
+          console.log("handled error");
+          setErrorMesssage(res.data);
+          setShowError(true);
         } else {
-          console.log('no error')
+          console.log("no error");
         }
       })
       .catch((error) => {
-        console.log(error)
-        console.log('unhandled error')
-      })
-  }
+        console.log(error);
+        console.log("unhandled error");
+      });
+  };
 
   const handleInputChange = (event) => {
-    const { name, value } = event.target
+    const { name, value } = event.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
   return (
     <div className="form-container">
@@ -107,7 +107,7 @@ const AddStudent = () => {
             type="text"
             name="cwuId"
             title="Please enter an 8-digit number."
-            pattern="[0-9][8]"
+            pattern="[0-9]{8}"
             required
             onChange={handleInputChange}
           />
@@ -142,6 +142,6 @@ const AddStudent = () => {
         />
       )}
     </div>
-  )
-}
-export default AddStudent
+  );
+};
+export default AddStudent;

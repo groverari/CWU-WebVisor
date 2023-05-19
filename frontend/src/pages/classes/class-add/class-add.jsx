@@ -47,7 +47,7 @@ const AddClass = () => {
     axios
       .post(api_url + "Class.php", {
         request: "add_class",
-        user_id: 41792238,
+        user_id: localStorage.getItem("userId"),
         name: classData.catalogCode,
         title: classData.name,
         credits: classData.credits,

@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "./class-add.styles.scss";
 import ClassSelector from "../../../components/class-selector/class-selector";
 import axios from "axios";
+import { useForm, Controller } from "react-hook-form";
+import Switch from "@mui/material/Switch";
+
 import ErrorPopUp from "../../../components/PopUp/error/ErrorPopUp";
 import ConfPopUp from "../../../components/PopUp/confirmation/confPopUp";
 
@@ -181,3 +184,80 @@ const AddClass = () => {
 };
 
 export default AddClass;
+
+/*
+
+<div className="form-group">
+          <label>Quarter Offered:</label>
+          <div>
+            <Controller
+              control={control}
+              name="quarterOffered.Fall"
+              render={({ field }) => (
+                <label htmlFor="fall">
+                  <input
+                    type="checkbox"
+                    id="fall"
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                  Fall
+                </label>
+              )}
+            />
+          </div>
+
+          <div>
+            <Controller
+              control={control}
+              name="quarterOffered.Winter"
+              render={({ field }) => (
+                <label htmlFor="winter">
+                  <input
+                    type="checkbox"
+                    id="winter"
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                  Winter
+                </label>
+              )}
+            />
+          </div>
+
+          <div>
+            <Controller
+              control={control}
+              name="quarterOffered.Spring"
+              render={({ field }) => (
+                <label htmlFor="spring">
+                  <input
+                    type="checkbox"
+                    id="spring"
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                  Spring
+                </label>
+              )}
+            />
+          </div>
+
+          <div>
+            <Controller
+              control={control}
+              name="quarterOffered.Summer"
+              render={({ field }) => (
+                <label htmlFor="summer">
+                  <input
+                    type="checkbox"
+                    id="summer"
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                  />
+                  Summer
+                </label>
+              )}
+            />
+          </div>
+        </div> */

@@ -12,7 +12,7 @@ import ClassInfo from "../../../components/class-info/class-info";
 const ClassSearch = () => {
   const [classes, setClasses] = useState([]);
   const [searchClasses, setSearchClasses] = useState([]);
-  const [selectedClass, setSelectedClass] = useState(0);
+  const [selectedClass, setSelectedClass] = useState([]);
   const [isInfo, setInfo] = useState(false);
   const [showPopup, setShowPopop] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);

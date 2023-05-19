@@ -9,12 +9,14 @@ function ClassInfo({ selClass }) {
   const { control, register, handleSubmit, setValue } = useForm();
   const api_url = import.meta.env.VITE_API_URL;
   const onUpdate = (data) => {
-    console.log(data);
+    console.log(selClass);
+    //console.log(data.)
     axios
       .post(api_url + "class.php", {
         request: "update_class",
-        user_id: 41792238,
+        user_id: localStorage.getItem('userId'),
 
+        class_id: selClass.id,
         name: data.name,
         title: data.title,
         credits: data.credits,

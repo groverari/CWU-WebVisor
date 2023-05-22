@@ -2,11 +2,23 @@
 @import "../../../mixins.scss";
 
 .class-search-container {
-  display: block;
-  justify-content: center;
-  padding: 5px;
+  text-align: centre;
 }
 
+.class-title {
+  margin-bottom: 20px margin-left auto;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  margin-right: 10px;
+}
 .overviw-btn {
   height: 40px;
   @include button-type-1;

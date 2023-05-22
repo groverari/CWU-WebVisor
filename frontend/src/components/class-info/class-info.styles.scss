@@ -1,16 +1,44 @@
-.class-info {
-  padding: 130px;
-  display: flex;
-  flex-direction: row;
-  column-gap: 30px;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
+.class-info-container {
+  text-align: center;
 }
 
-.class-info-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
+.class-info {
+  display: inline-block;
+  text-align: left;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="submit"] {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+input[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn_update {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

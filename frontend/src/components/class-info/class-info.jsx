@@ -14,7 +14,7 @@ function ClassInfo({ selClass }) {
     axios
       .post(api_url + "class.php", {
         request: "update_class",
-        user_id: localStorage.getItem('userId'),
+        user_id: localStorage.getItem("userId"),
 
         class_id: selClass.id,
         name: data.name,
@@ -185,7 +185,7 @@ function ClassInfo({ selClass }) {
 
             <br />
           </div>
-          <input type="submit" value="Update" />
+          <input className=" btn_update" type="submit" value="Update" />
         </form>
         {}
         {showPopup && (

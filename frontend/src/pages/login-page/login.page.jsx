@@ -1,8 +1,10 @@
 import React, { Fragment, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 import './login-page.styles.scss'
+import { useEffect } from 'react'
 
 const Login = () => {
   const api_url = import.meta.env.VITE_API_URL
@@ -14,6 +16,17 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [activeUser, setActiveUser] = useState(true)
   const [loggedIn, setLogged] = useState(false)
+
+  // if cookie is set then user will login immediately
+  // use Effect allows it to only run once
+  useEffect(() => {
+    const u = Cookies.get('username')
+    const p = Cookies.get('pass')
+    if (u && p) {
+      checkUser(u, p)
+    }
+  }, [])
+
   const checkUser = (user, pass) => {
     axios
       .post(api_url + 'User.php', {
@@ -27,6 +40,8 @@ const Login = () => {
           localStorage.setItem('userId', res.data[0]['id'])
           localStorage.setItem('name', res.data[0]['first'])
           // set the cookies with a 1 day expiry
+          Cookies.set('username', user, { expires: 1 })
+          Cookies.set('pass', pass, { expires: 1 })
           setLogged(true) //changes screens
         } else {
           setActiveUser(false)

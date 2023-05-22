@@ -1,24 +1,13 @@
-@use '../../../App.scss';
-@import '../../../mixins.scss';
+@use "../../../App.scss";
+@import "../../../mixins.scss";
 
-.class-search {
-  width: 100%;
+.class-search-container {
+  display: block;
   justify-content: center;
+  padding: 5px;
 }
-.class-title {
-  text-align: center;
-}
-.class-name-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 .overviw-btn {
   height: 40px;
   @include button-type-1;
-}
-.search-box {
-  /* Add appropriate styles to the search box */
-  width: 200px;
-  margin-right: 10px;
 }

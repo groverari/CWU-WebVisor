@@ -122,7 +122,7 @@ const StudentSearch = () => {
           <div className="student-overview-nav-wrapper">
             <h3>{selectedStudent.first + ' ' + selectedStudent.last}</h3>
             <button
-              className="overview-btn"
+              className={(isInfo && 'overview-btn-active') || 'overview-btn'}
               onClick={() => {
                 setInfo(true)
                 setPlan(false)
@@ -132,7 +132,7 @@ const StudentSearch = () => {
             </button>
 
             <button
-              className="overview-btn"
+              className={(isPlan && 'overview-btn-active') || 'overview-btn'}
               onClick={() => {
                 setInfo(false)
                 setPlan(true)

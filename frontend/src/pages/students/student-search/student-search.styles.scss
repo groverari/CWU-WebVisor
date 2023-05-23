@@ -14,10 +14,18 @@
   @include deactivate-button;
   margin: 20px 10px;
 }
-.overview-btn {
+@mixin overview-btn {
   @include button-type-1;
   padding: 10px;
   width: 100px;
+}
+.overview-btn {
+  @include overview-btn;
+}
+.overview-btn-active {
+  @include overview-btn;
+  background-color: App.$button-highlight;
+  scale: 1.2;
 }
 .student-info-wrapper {
   display: flex;

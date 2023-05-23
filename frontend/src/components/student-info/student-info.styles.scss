@@ -1,5 +1,7 @@
 @import '../../mixins.scss';
 
 .student-info-update-btn {
-  @include update_button;
+  @include update_button(40px);
+  width: 95%;
+  margin: 10px;
 }

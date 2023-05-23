@@ -1,88 +1,88 @@
-import React, { useEffect, useState } from "react";
-import "./class-info.styles.scss";
-import { useForm, Controller } from "react-hook-form";
-import Switch from "@mui/material/Switch";
-import axios from "axios";
-import ConfPopUp from "../PopUp/confirmation/confPopUp";
+import React, { useEffect, useState } from 'react'
+import './class-info.styles.scss'
+import { useForm, Controller } from 'react-hook-form'
+import Switch from '@mui/material/Switch'
+import axios from 'axios'
+import ConfPopUp from '../PopUp/confirmation/confPopUp'
 
 function ClassInfo({ selClass }) {
-  const { control, register, handleSubmit, setValue } = useForm();
-  const api_url = import.meta.env.VITE_API_URL;
+  const { control, register, handleSubmit, setValue } = useForm()
+  const api_url = import.meta.env.VITE_API_URL
   const onUpdate = (data) => {
-    console.log(selClass);
+    console.log(selClass)
     //console.log(data.)
     axios
-      .post(api_url + "class.php", {
-        request: "update_class",
-        user_id: localStorage.getItem("userId"),
+      .post(api_url + 'class.php', {
+        request: 'update_class',
+        user_id: localStorage.getItem('userId'),
 
         class_id: selClass.id,
         name: data.name,
         title: data.title,
         credits: data.credits,
 
-        fall: data.fall ? "Yes" : "No",
-        winter: data.winter ? "Yes" : "No",
-        spring: data.spring ? "Yes" : "No",
-        summer: data.summer ? "Yes" : "No",
-        active: "Yes",
-        non: data.non,
+        fall: data.fall ? 'Yes' : 'No',
+        winter: data.winter ? 'Yes' : 'No',
+        spring: data.spring ? 'Yes' : 'No',
+        summer: data.summer ? 'Yes' : 'No',
+        active: 'Yes',
+        non: data.non
       })
       .then((res) => {
-        console.log(res.data);
-        window.location.reload(true);
+        console.log(res.data)
+        window.location.reload(true)
       })
       .catch((error) => {
-        console.log(error);
-      });
-  };
+        console.log(error)
+      })
+  }
 
   // const [class, setClass] = useState(props)
 
-  const [fname, setFname] = useState("");
+  const [fname, setFname] = useState('')
 
-  const { id, name, title, credits, fall, winter, spring, summer } = selClass;
-  const isFall = fall == "Yes";
-  const isWinter = winter == "Yes";
-  const isSpring = spring == "Yes";
-  const isSummer = summer == "Yes";
+  const { id, name, title, credits, fall, winter, spring, summer } = selClass
+  const isFall = fall == 'Yes'
+  const isWinter = winter == 'Yes'
+  const isSpring = spring == 'Yes'
+  const isSummer = summer == 'Yes'
   if (fname != name) {
-    setFname(name);
+    setFname(name)
   }
 
   const [fal, setfal] = useState(() => {
-    return fall == "Yes";
-  });
+    return fall == 'Yes'
+  })
   const [wint, setwint] = useState(() => {
-    return winter == "Yes";
-  });
+    return winter == 'Yes'
+  })
   const [spri, setspri] = useState(() => {
-    return fall == "Yes";
-  });
+    return fall == 'Yes'
+  })
   const [sum, setsum] = useState(() => {
-    return fall == "Yes";
-  });
+    return fall == 'Yes'
+  })
 
-  const [showPopup, setShowPopup] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [showPopup, setShowPopup] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
 
   const handlePopUpOpen = () => {
-    event.preventDefault();
-    setShowPopup(true);
-  };
+    event.preventDefault()
+    setShowPopup(true)
+  }
 
   const handlePopUpClose = () => {
-    setShowPopup(false);
-  };
+    setShowPopup(false)
+  }
 
   const handlePopUpButtonClick = (buttonValue) => {
-    setSelectedOption(buttonValue);
-  };
+    setSelectedOption(buttonValue)
+  }
   useEffect(() => {
     if (selectedOption) {
-      handleSubmit(onUpdate)();
+      handleSubmit(onUpdate)()
     }
-  }, [selectedOption]);
+  }, [selectedOption])
 
   return (
     <div className="class-info-container">
@@ -90,18 +90,18 @@ function ClassInfo({ selClass }) {
         <form onSubmit={handlePopUpOpen}>
           <div className="form-group">
             <label>Catalog</label>
-            <input type="text" {...register("name")} defaultValue={name} />
+            <input type="text" {...register('name')} defaultValue={name} />
           </div>
 
           <div className="form-group">
             <label>Course Name</label>
-            <input type="text" {...register("title")} defaultValue={title} />
+            <input type="text" {...register('title')} defaultValue={title} />
           </div>
           <div className="form-group">
             <label>Credits</label>
             <input
               type="text"
-              {...register("credits")}
+              {...register('credits')}
               defaultValue={credits}
             />
           </div>
@@ -117,11 +117,11 @@ function ClassInfo({ selClass }) {
                   <Switch
                     value={valueProp}
                     onChange={(event, val) => {
-                      setValue("fall", val);
+                      setValue('fall', val)
                     }}
                     defaultChecked={isFall}
                   />
-                );
+                )
               }}
             />
           </div>
@@ -137,11 +137,11 @@ function ClassInfo({ selClass }) {
                   <Switch
                     value={valueProp}
                     onChange={(event, val) => {
-                      setValue("winter", val);
+                      setValue('winter', val)
                     }}
                     defaultChecked={isWinter}
                   />
-                );
+                )
               }}
             />
           </div>
@@ -156,11 +156,11 @@ function ClassInfo({ selClass }) {
                   <Switch
                     value={valueProp}
                     onChange={(event, val) => {
-                      setValue("spring", val);
+                      setValue('spring', val)
                     }}
                     defaultChecked={isSpring}
                   />
-                );
+                )
               }}
             />
           </div>
@@ -175,17 +175,17 @@ function ClassInfo({ selClass }) {
                   <Switch
                     value={valueProp}
                     onChange={(event, val) => {
-                      setValue("summer", val);
+                      setValue('summer', val)
                     }}
                     defaultChecked={isSummer}
                   />
-                );
+                )
               }}
             />
 
             <br />
           </div>
-          <input className=" btn_update" type="submit" value="Update" />
+          <input className=" class-btn_update" type="submit" value="Update" />
         </form>
         {}
         {showPopup && (
@@ -197,6 +197,6 @@ function ClassInfo({ selClass }) {
         )}
       </div>
     </div>
-  );
+  )
 }
-export default ClassInfo;
+export default ClassInfo

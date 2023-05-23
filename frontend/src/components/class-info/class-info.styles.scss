@@ -1,3 +1,5 @@
+@import '../../mixins.scss';
+
 .class-info-container {
   text-align: center;
 }
@@ -34,11 +36,7 @@
 //   cursor: pointer;
 // }
 
-.btn_update {
-  background-color: #745cab;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.class-btn_update {
+  @include update_button(30px);
+  width: 100%;
 }

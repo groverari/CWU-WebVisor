@@ -2,13 +2,13 @@
 @import "../../../mixins.scss";
 
 .class-search-container {
-  text-align: centre;
+  text-align: auto;
+  text-indent: 10%;
 }
 
 .class-title {
-  margin-bottom: 20px margin-left auto;
+  text-indent: 25%;
 }
-
 .search-container {
   display: flex;
   align-items: center;

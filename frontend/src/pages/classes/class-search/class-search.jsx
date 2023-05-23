@@ -78,7 +78,7 @@ const ClassSearch = () => {
 
   return (
     <div className="class-search-container">
-      <h1 className="classs-title">Class Search</h1>
+      <h1 className="class-title">Class Search</h1>
       <div className="search-container">
         <SearchBox
           list={searchClasses}

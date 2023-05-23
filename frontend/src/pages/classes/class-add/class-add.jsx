@@ -61,15 +61,15 @@ const AddClass = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="class-form-container">
       <h1>Add Class</h1>
       <form onSubmit={handlePopUpOpen}>
-        <div className="form-group">
+        <div className="class-form-group">
           <label>Catalog Code:</label>
           <input type="text" {...register("catalog")} placeholder="EX: CS481" />
         </div>
 
-        <div className="form-group">
+        <div className="class-form-group">
           <label htmlFor="name">Name:</label>
           <input
             type="text"
@@ -78,11 +78,11 @@ const AddClass = () => {
           />
         </div>
 
-        <div className="form-group">
+        <div className="class-form-group">
           <label htmlFor="credits">Credits:</label>
           <input type="text" {...register("credits")} />
         </div>
-        <div>
+        <div className="class-form-group">
           <label>Quarters Offered:</label>
           <div>
             <label>Fall</label>

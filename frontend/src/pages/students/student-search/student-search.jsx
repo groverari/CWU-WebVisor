@@ -14,28 +14,29 @@ const StudentSearch = () => {
   const [selectedStudent, setSelectedStudent] = useState(0)
   const [isPlan, setPlan] = useState(false)
   const [isInfo, setInfo] = useState(false)
-  const [showPopup, setShowPopup] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const handlePopUpOpen = () =>
-  {
-    event.preventDefault();
-    setShowPopup(true);
+  const [showPopup, setShowPopup] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
+  const [advisors, setAdvisors] = useState([])
+  const [canEdit, setCanEdit] = useState(false)
+  const [programs, setPrograms] = useState([])
+
+  const handlePopUpOpen = () => {
+    event.preventDefault()
+    setShowPopup(true)
   }
 
-  const handlePopUpClose = () =>
-  {
-    setShowPopup(false);
+  const handlePopUpClose = () => {
+    setShowPopup(false)
   }
 
-  const handlePopUpButtonClick = (buttonValue) =>
-  {
-    setSelectedOption(buttonValue);
+  const handlePopUpButtonClick = (buttonValue) => {
+    setSelectedOption(buttonValue)
   }
   useEffect(() => {
     if (selectedOption) {
-      deactivator();
+      deactivator()
     }
-  }, [selectedOption]);
+  }, [selectedOption])
 
   let api_url = import.meta.env.VITE_API_URL
 
@@ -72,6 +73,19 @@ const StudentSearch = () => {
     setSelectedStudent(students[id])
     setInfo(false)
     setPlan(false)
+
+    //Gets info regarding student program and advisor
+    axios
+      .post(api_url + 'Student_program.php', {
+        request: 'programs_with_student'
+      })
+      .then((res) => {
+        res.data.map((row) => {
+          setAdvisors(Object.entries(advisors).concat(row.advisor_name))
+          setPrograms(Object.entries(program).concat(row.program_name))
+          if (row.advisor_id == localStorage.get('user_id')) setCanEdit(true)
+        })
+      })
   }
 
   const deactivator = () => {
@@ -86,7 +100,7 @@ const StudentSearch = () => {
           delete students[students.indexOf(selectedStudent)]
           setStudents(students)
           console.log('it works')
-          window.location.reload(true);
+          window.location.reload(true)
         }
       })
       .catch((error) => {
@@ -103,42 +117,44 @@ const StudentSearch = () => {
         value="Search"
         onChange={selectHandler}
       />
-      {selectedStudent != 0 && (
-        <div>
-          <h3>{selectedStudent.first + ' ' + selectedStudent.last}</h3>
-          <button
-            className="overview-btn"
-            onClick={() => {
-              setInfo(true)
-              setPlan(false)
-            }}
-          >
-            Info
-          </button>
+      <div className="student-info-wrapper">
+        {selectedStudent != 0 && (
+          <div className="student-overview-nav-wrapper">
+            <h3>{selectedStudent.first + ' ' + selectedStudent.last}</h3>
+            <button
+              className="overview-btn"
+              onClick={() => {
+                setInfo(true)
+                setPlan(false)
+              }}
+            >
+              Info
+            </button>
 
-          <button
-            className="overview-btn"
-            onClick={() => {
-              setInfo(false)
-              setPlan(true)
-            }}
-          >
-            Plan
-          </button>
-        </div>
-      )}
+            <button
+              className="overview-btn"
+              onClick={() => {
+                setInfo(false)
+                setPlan(true)
+              }}
+            >
+              Plan
+            </button>
+          </div>
+        )}
 
-      {selectedStudent != 0 && isInfo && (
-        <StudentInfo student={selectedStudent} />
-      )}
-      {selectedStudent != 0 && isPlan && (
-        <StudentPlan key={selectedStudent} student={selectedStudent} />
-      )}
-      {isInfo && (
-        <button className="deactivate-btn" onClick={handlePopUpOpen}>
-          Deactivate
-        </button>
-      )}
+        {selectedStudent != 0 && isInfo && (
+          <StudentInfo student={selectedStudent} />
+        )}
+        {selectedStudent != 0 && isPlan && (
+          <StudentPlan key={selectedStudent} student={selectedStudent} />
+        )}
+        {isInfo && (
+          <button className="student-deactivate-btn" onClick={handlePopUpOpen}>
+            Deactivate
+          </button>
+        )}
+      </div>
       {showPopup && (
         <ConfPopUp
           action="deactivate"

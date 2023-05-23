@@ -2,8 +2,7 @@
     include_once 'PDO-methods.php';
     include_once 'Journals.php';
 
-    class Student_Programs
-    {
+    
         function programs_with_student($student_id)
         {
             $query_string = "
@@ -175,5 +174,17 @@
             }
         }
 
-        
-    }
+        function add_student_to_advisor($user_id, $student_id, $program_id){
+            $query = "INSERT INTO student_programs (student_id, program_id, user_id
+                    VALUES (:student_id, :program_id, :user_id";
+
+            $rowsAffected = add_db_rows($query, ['$student_id'=>$student_id, ':program_id'=>$program_id, 'user_id'=>$user_id]);
+            if($rowsAffected > 0)
+            {
+                $journ = new Journals();
+                $note = "Set advisor to <user:$user_id> for <student:$student_id> in <program:$program_id>.";
+                $journ->record_update_student($user_id, $student_id, $note);
+                return true;
+            }
+            return false;
+        }

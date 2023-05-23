@@ -1,5 +1,27 @@
+@use '../../../App.scss';
+@import '../../../mixins.scss';
+
 .student-search-container {
   display: block;
   justify-content: center;
   padding: 5px;
+}
+.student-overview-nav-wrapper {
+  text-align: center;
+}
+
+.student-deactivate-btn {
+  @include deactivate-button;
+  margin: 20px 10px;
+}
+.overview-btn {
+  @include button-type-1;
+  padding: 10px;
+  width: 100px;
+}
+.student-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  text-align: center;
 }

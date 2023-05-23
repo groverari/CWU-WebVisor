@@ -29,7 +29,7 @@ function StudentInfo(props) {
       })
       .then((res) => {
         console.log(res.data)
-        window.location.reload(true);
+        window.location.reload(true)
       })
       .catch((error) => {
         console.log(error)
@@ -39,8 +39,7 @@ function StudentInfo(props) {
   const [student, setStudent] = useState(props)
 
   const [fname, setFname] = useState('')
- 
-  
+
   const {
     id,
     first,
@@ -55,7 +54,6 @@ function StudentInfo(props) {
     non_stem_majors
   } = props.student
 
-  
   if (fname != first) {
     setFname(first)
   }
@@ -67,29 +65,26 @@ function StudentInfo(props) {
   })
   const vet = veterans_benefits == 'Yes'
 
-  const [showPopup, setShowPopup] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [showPopup, setShowPopup] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
 
-  const handlePopUpOpen = () =>
-  {
-    event.preventDefault();
-    setShowPopup(true);
+  const handlePopUpOpen = () => {
+    event.preventDefault()
+    setShowPopup(true)
   }
 
-  const handlePopUpClose = () =>
-  {
-    setShowPopup(false);
+  const handlePopUpClose = () => {
+    setShowPopup(false)
   }
 
-  const handlePopUpButtonClick = (buttonValue) =>
-  {
-    setSelectedOption(buttonValue);
+  const handlePopUpButtonClick = (buttonValue) => {
+    setSelectedOption(buttonValue)
   }
   useEffect(() => {
     if (selectedOption) {
-      handleSubmit(onUpdate)();
+      handleSubmit(onUpdate)()
     }
-  }, [selectedOption]);
+  }, [selectedOption])
   return (
     <div>
       <form onSubmit={handlePopUpOpen}>
@@ -103,13 +98,14 @@ function StudentInfo(props) {
         </div>
         <div className="form-group">
           <label>Last Name</label>
-          <input {...register('last')} defaultValue={last} />
+          <input type="text" {...register('last')} defaultValue={last} />
         </div>
         <div className="form-group">
           <label>CWU ID</label>
           <input
             {...register('cwu_id')}
             pattern="[0-9]{8}"
+            type="text"
             defaultValue={cwu_id}
           />
         </div>
@@ -191,7 +187,11 @@ function StudentInfo(props) {
           />
           <br />
         </div>
-        <input type="submit" value="Update" />
+        <input
+          type="submit"
+          value="Update"
+          className="student-info-update-btn"
+        />
       </form>
       {/*Pop up shows once, but then does not show again--more details inside of conpopup.jsx */}
       {showPopup && (

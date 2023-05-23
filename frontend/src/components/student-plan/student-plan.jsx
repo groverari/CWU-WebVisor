@@ -29,14 +29,11 @@ function StudentPlan() {
    * */
   const classArr = []
   for (let i = startYear; i < endYear; i++) {
-    classArr.push(i)
+    let temp = { year: i, quarters: [1, 2, 3, 4] }
+    classArr.push(temp)
   }
 
   const [classes, setClasses] = useState(0)
-  const [fallClasses, setFall] = useState([])
-  const [winterClasses, setWinter] = useState([])
-  const [springClasses, setSpring] = useState([])
-  const [summerClasses, setSummer] = useState([])
 
   let api_url = import.meta.env.VITE_API_URL
   useEffect(() => {
@@ -47,34 +44,6 @@ function StudentPlan() {
         setClasses(res.data)
       })
   }, [])
-
-  useEffect(() => {
-    if (classes) {
-      setFall(
-        classes.filter((clss) => {
-          //console.log(clss.fall)
-          return clss.fall == 'Yes'
-        })
-      )
-
-      setWinter(
-        classes.filter((clss) => {
-          return clss.winter == 'Yes'
-        })
-      )
-
-      setSpring(
-        classes.filter((clss) => {
-          return clss.spring == 'Yes'
-        })
-      )
-      setSummer(
-        classes.filter((clss) => {
-          return clss.summer == 'Yes'
-        })
-      )
-    }
-  }, [classes])
 
   return (
     <div>
@@ -87,31 +56,10 @@ function StudentPlan() {
          * need to use an array
          */}
         {classArr.map((term) => (
-          <div className="plan-class-year" key={term}>
-            <PlanClassSelector
-              className="selector"
-              year={term}
-              quarter={1}
-              classes={fallClasses}
-            />
-            <PlanClassSelector
-              className="selector"
-              year={term + 1}
-              quarter={2}
-              classes={winterClasses}
-            />
-            <PlanClassSelector
-              className="selector"
-              year={term + 1}
-              quarter={3}
-              classes={springClasses}
-            />
-            <PlanClassSelector
-              className="selector"
-              year={term + 1}
-              quarter={4}
-              classes={summerClasses}
-            />
+          <div key={term.year} className="year-div-plan">
+            {term.quarters.map((quarter) => (
+              <h1 key={quarter}>{term.year + ' ' + quarter}</h1>
+            ))}
           </div>
         ))}
       </div>

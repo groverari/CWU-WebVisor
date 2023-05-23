@@ -194,6 +194,8 @@ include_once 'Journals.php';
         $year3 = 10*($year)+3;
         $year4 = 10*($year)+4;
 
+        global $YES;
+
         $query_string = "
             SELECT
                 classes.id,
@@ -209,18 +211,18 @@ include_once 'Journals.php';
                 classes.id=student_classes.class_id
                 AND
                 (
-                    student_classes.term=?
+                    student_classes.term=$year1
                     OR
-                    student_classes.term=?
+                    student_classes.term=$year2
                     OR
-                    student_classes.term=?
+                    student_classes.term=$year3
                     OR
-                    student_classes.term=?
+                    student_classes.term=$year4
                 )
                 AND
                 students.id=student_classes.student_id
                 AND
-                students.active=?
+                students.active=$YES
             GROUP BY
                 name_credits,
                 student_classes.term

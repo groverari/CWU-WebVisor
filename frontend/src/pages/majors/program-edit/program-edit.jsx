@@ -5,7 +5,7 @@ import SearchBox from '../../../components/search-box/search-box'
 import axios from 'axios'
 import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
 import ErrorPopUp from '../../../components/PopUp/error/errorPopUp'
-//import { program } from '@babel/types'
+import ClassSelector from '../../../components/class-selector/class-selector'
 
 /**
  *
@@ -21,7 +21,7 @@ function EditProgram() {
   const [searchMajors, setSearchMajors] = useState([])
   const [selectedMajorName, setSelectedMajorName] = useState()
   const [selectedMajorID, setSelectedMajorID] = useState(selectedProgram.major_id)
-  const [programClasses, setProgramClasses] = useState([])
+  const [programClasses, setProgramClasses] = useState(Object)
   const [programelectives, setProgramElectives] = useState([])
   const [searchElectives, setSearchElectives] = useState([])
   const [classes, setClasses] = useState([])
@@ -33,7 +33,6 @@ function EditProgram() {
   const [showInfo, setInfo] = useState(false)
   const [errorMessage, setErrorMesssage] = useState('');
   const [showError, setShowError] = useState(false);
-
  
 
   const handleErrorPopUpClose = () =>
@@ -97,10 +96,22 @@ function EditProgram() {
     })
   }
 
-  useEffect(() => {
-    console.log(selectedProgram.name)
-    if(selectedProgram.name !== undefined)
-    {
+   useEffect(() => {
+    axios
+      .post(api_url + 'Class.php', {
+        request: 'all_active_classes',
+      })
+      .then((res) => {
+        setClasses(res.data)
+        //console.log(res.data)
+      })
+  }, [])
+
+  const getProgramClassInfo = () => {
+    console.log(selectedProgram.name);
+    console.log(selectedProgram.program_id);
+  
+    if (selectedProgram.program_id !== undefined) {
       axios
         .post(api_url + 'Program_Class.php', {
           request: 'get_required_classes',
@@ -108,12 +119,18 @@ function EditProgram() {
           required: 'Yes'
         })
         .then((res) => {
-          const data = Array.isArray(res.data) ? res.data : [res.data];
-          setProgramClasses(data)
-          console.log(data);
+          const programClassesData = res.data;
+          console.log("inside program");
+          console.log(programClassesData);
+          setProgramClasses(programClassesData);
+          console.log(programClasses);
+          console.log("\n");
         })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-  }, [selectedProgram])
+  };
 
   const selectProgramHandler = ({ value }) => {
     //setName('')
@@ -133,6 +150,8 @@ function EditProgram() {
   }
 
   const buttonHandler = () => {
+    console.log(selectedProgram)
+    getProgramClassInfo();
     setInfo(true)
   }
   const updator = () => {
@@ -252,50 +271,14 @@ function EditProgram() {
               }}
             />
           </div> 
-          
+          {Object.keys(programClasses).length !== 0 &&
           <div>
-            {Object.keys(programClasses).length == 0 && <h1>no required classes assigned</h1>}
-            <h3 className="table-title">Require Program Classes</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Class name and credits</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.keys(programClasses).length !== 0 &&
-                  programClasses.map((classes) => {
-                    return (
-                      <tr key={Number(classes[1].id)}>
-                        <td>{classes[1].name_credits}</td>
-                      </tr>
-                    )
-                  })}
-              </tbody>
-            </table>
-          </div>
-
-          <div>
-            {Object.keys(programelectives).length == 0 && <h1>no elective classes assigned</h1>}
-            <h3 className="table-title">Require Program Classes</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Class name and credits</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Object.keys(programClasses).length !== 0 &&
-                  programClasses.map((classes) => {
-                    return (
-                      <tr key={Number(classes[1].id)}>
-                        <td>{classes[1].name_credits}</td>
-                      </tr>
-                    )
-                  })}
-              </tbody>
-            </table>
-          </div>
+            <ClassSelector
+              title = "Required Classes"
+              classes={classes}
+              alreadyInsertedClasses={programClasses}
+              />
+          </div>}
 
           <div>
             <button /*className="major-update-button"*/ onClick={updator}>

@@ -27,7 +27,11 @@ class Program_Classes
 		;";
         $dataArr =[':program_id'=>$program_id, ':required'=>$required];
 		$result = get_from_db($query_string, $dataArr);
-				
+		$resultCount = get_from_db_rows($query_string, $dataArr);
+		if($resultCount == 0)
+		{
+			return "Error: no retrieved data";
+		}
         foreach($result as $row)
         {
 			$id = $row['id'];

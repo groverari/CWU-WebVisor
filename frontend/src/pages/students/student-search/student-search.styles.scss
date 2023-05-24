@@ -33,3 +33,14 @@
   row-gap: 20px;
   text-align: center;
 }
+.warning {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+}
+.student-search-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+}

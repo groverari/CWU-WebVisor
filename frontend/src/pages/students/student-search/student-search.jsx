@@ -7,6 +7,7 @@ import StudentInfo from '../../../components/student-info/student-info'
 import StudentPlan from '../../../components/student-plan/student-plan'
 import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
 import ErrorPopUp from '../../../components/PopUp/error/errorPopup'
+import UserStudentWarning from '../../../components/add_student_user/add_student_user'
 
 const StudentSearch = () => {
   const [students, setStudents] = useState([])
@@ -18,7 +19,8 @@ const StudentSearch = () => {
   const [selectedOption, setSelectedOption] = useState(null)
   const [advisors, setAdvisors] = useState([])
   const [canEdit, setCanEdit] = useState(false)
-  const [programs, setPrograms] = useState([])
+  const [program, setProgram] = useState(0)
+  const [programID, setProgramID] = useState(0)
 
   const handlePopUpOpen = () => {
     event.preventDefault()
@@ -82,7 +84,9 @@ const StudentSearch = () => {
       .then((res) => {
         res.data.map((row) => {
           setAdvisors(Object.entries(advisors).concat(row.advisor_name))
-          setPrograms(Object.entries(program).concat(row.program_name))
+          setProgramID(row.program_id)
+          setProgram(row.program_name)
+
           if (row.advisor_id == localStorage.get('user_id')) setCanEdit(true)
         })
       })
@@ -110,13 +114,23 @@ const StudentSearch = () => {
 
   return (
     <div className="student-search-container">
-      <h1>Student Search</h1>
-      <SearchBox
-        list={searchStudents}
-        placeholder="Search for a Student"
-        value="Search"
-        onChange={selectHandler}
-      />
+      <div className="student-search-title-wrapper">
+        <h1>Student Search</h1>
+        <SearchBox
+          list={searchStudents}
+          placeholder="Search for a Student"
+          value="Search"
+          onChange={selectHandler}
+        />
+      </div>
+      <div className="warning">
+        {selectedStudent != 0 && !canEdit && (
+          <UserStudentWarning
+            studentId={selectedStudent.id}
+            programId={programID}
+          />
+        )}
+      </div>
       <div className="student-info-wrapper">
         {selectedStudent != 0 && (
           <div className="student-overview-nav-wrapper">

@@ -280,6 +280,15 @@ function EditProgram() {
               />
           </div>}
 
+          {Object.keys(programClasses).length == 0 &&
+          <div>
+            <ClassSelector
+              title = "No Required Classes"
+              classes={classes}
+              alreadyInsertedClasses={programClasses}
+              />
+          </div>}
+
           <div>
             <button /*className="major-update-button"*/ onClick={updator}>
               Update

@@ -30,7 +30,7 @@ class Program_Classes
 		$resultCount = get_from_db_rows($query_string, $dataArr);
 		if($resultCount == 0)
 		{
-			return "Error: no retrieved data";
+			return array();
 		}
         foreach($result as $row)
         {

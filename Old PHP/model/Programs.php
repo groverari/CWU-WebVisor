@@ -61,7 +61,7 @@ class Programs
     IMPORTANT!! I have left the user program code out for now. W
     I will add it if it I find out its needed.
     */
-    function all_programs($user_id){
+    function all_programs(){
         global $db; 
         $query = "
         SELECT 

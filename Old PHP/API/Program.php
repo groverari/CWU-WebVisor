@@ -24,7 +24,7 @@
             // echo json_encode($result);
             break;
         case 'all_programs':
-            $result = $programs->all_programs($data['user_id']);
+            $result = $programs->all_programs();
             echo json_encode($result);
             break;
         case 'get_program_info':

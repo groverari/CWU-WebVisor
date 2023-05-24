@@ -186,7 +186,7 @@ include_once 'Journals.php';
         return $bad_cwu_ids;
     }
 
-
+    function get_term_enrollment($term, $class_id)
     function get_enrollments($year) 
     {
         $year1 = 10*$year+1;

@@ -14,7 +14,7 @@ const AddStudent = () => {
   const handleErrorPopUpClose = () => {
     setShowError(false);
   };
-  const handlePopUpOpen = () => {
+  const handlePopUpOpen = (event) => {
     event.preventDefault();
     setShowPopup(true);
   };
@@ -78,7 +78,7 @@ const AddStudent = () => {
   return (
     <div className="form-container">
       <h1>Add Student</h1>
-      <form onSubmit={handlePopUpOpen}>
+      <form onSubmit={handlePopUpOpen(event)}>
         <div className="form-group">
           <label>First Name:</label>
           <input

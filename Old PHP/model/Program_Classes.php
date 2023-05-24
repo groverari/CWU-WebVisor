@@ -13,6 +13,7 @@ class Program_Classes
 			classes.id,
 			CONCAT(classes.name, ' (', classes.credits, ' cr)') AS name_credits,
 			classes.name,
+			classes.credits,
 			program_classes.minimum_grade,
 			program_classes.sequence_no,
 			program_classes.id as p_id

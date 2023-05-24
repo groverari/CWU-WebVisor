@@ -39,6 +39,7 @@ const Login = () => {
           localStorage.setItem('superUser', res.data[0]['superuser'] == 'Yes')
           localStorage.setItem('userId', res.data[0]['id'])
           localStorage.setItem('name', res.data[0]['first'])
+          localStorage.setItem('program', res.data[0]['program_id'])
           // set the cookies with a 1 day expiry
           Cookies.set('username', user, { expires: 1 })
           Cookies.set('pass', pass, { expires: 1 })

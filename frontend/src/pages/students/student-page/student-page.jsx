@@ -30,7 +30,12 @@ const StudentPage = () => {
   return (
     <div className="page-container">
       <div className="submenu-page-container">
-        <SubMenu className="submenu" baseurl={baseurl} links={links} />
+        <SubMenu
+          className="submenu"
+          title="Students"
+          baseurl={baseurl}
+          links={links}
+        />
       </div>
       <div className="page-content-container">
         <Outlet className="page-content" />

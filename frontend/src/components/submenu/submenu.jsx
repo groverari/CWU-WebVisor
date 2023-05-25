@@ -5,7 +5,7 @@ import './submenu.styles.scss'
 const SubMenu = (props) => {
   const location = useLocation()
   const baseurl = props.baseurl
-  const { links } = props
+  const { links, title } = props
 
   const [activeLink, setActiveLink] = useState(sessionStorage.getItem('link'))
 
@@ -24,7 +24,7 @@ const SubMenu = (props) => {
   }
   return (
     <div className="submenu-container">
-      <h3>Submenu</h3>
+      <h3>{title}</h3>
       {links.map((link) => {
         return (
           <div className="submenu-link-container" key={link.key}>

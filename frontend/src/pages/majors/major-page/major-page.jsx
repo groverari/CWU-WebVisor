@@ -29,7 +29,14 @@ const MajorPage = () => {
   ]
   return (
     <div className="page-container">
-      <SubMenu className="submenu" baseurl={baseurl} links={links} />
+      <div>
+        <SubMenu
+          className="submenu"
+          title="Majors"
+          baseurl={baseurl}
+          links={links}
+        />
+      </div>
       <Outlet className="page-content" />
     </div>
   )

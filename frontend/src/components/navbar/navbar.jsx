@@ -38,7 +38,7 @@ const NavBar = () => {
         {superUser && (
           <Link
             className={
-              location.pathname.includes('students')
+              location.pathname.includes('admin')
                 ? 'nav-link-clicked'
                 : 'nav-link-unclicked'
             }

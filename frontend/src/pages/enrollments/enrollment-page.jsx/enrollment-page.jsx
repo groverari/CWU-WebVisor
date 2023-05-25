@@ -1,34 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const ClassTable = () => {
-  const [classData, setClassData] = useState([]);
+  const [classData, setClassData] = useState([])
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('')
 
-  let api_url = import.meta.env.VITE_API_URL;
+  let api_url = import.meta.env.VITE_API_URL
 
   useEffect(() => {
     axios
-      .post(api_url + "Class.php", { request: "all_active_classes" })
+      .post(api_url + 'Class.php', { request: 'all_active_classes' })
       .then((res) => {
-        setClassData(res.data);
+        setClassData(res.data)
         //setSearchClasses(res.data) ------>set searchClasses to all classes initially
-      });
-  }, []);
+      })
+  }, [])
 
   const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
+    setSearchTerm(event.target.value)
+  }
 
   const filteredData = classData.filter((classItem) =>
-    classItem.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    classItem.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+  )
 
- // useEffect(() => {
- //    console.log(classData)
- // }, [classData]);
-
+  // useEffect(() => {
+  //    console.log(classData)
+  // }, [classData]);
 
   return (
     <div>
@@ -61,7 +60,7 @@ const ClassTable = () => {
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}
 
-export default ClassTable;
+export default ClassTable

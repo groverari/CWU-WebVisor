@@ -4,6 +4,8 @@ import axios from 'axios';
 const ClassTable = () => {
   const [classData, setClassData] = useState([]);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
   let api_url = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -15,13 +17,27 @@ const ClassTable = () => {
       });
   }, []);
 
-  useEffect(() => {
-     console.log(classData)
-  }, [classData]);
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredData = classData.filter((classItem) =>
+    classItem.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+ // useEffect(() => {
+ //    console.log(classData)
+ // }, [classData]);
 
 
   return (
     <div>
+      <input
+        type="text"
+        placeholder="Search by Class ID"
+        value={searchTerm}
+        onChange={handleSearch}
+      />
       <table>
         <thead>
           <tr>
@@ -33,7 +49,7 @@ const ClassTable = () => {
           </tr>
         </thead>
         <tbody>
-          {classData.map((classItem) => (
+          {filteredData.map((classItem) => (
             <tr key={classItem.id}>
               <td>{classItem.name}</td>
               <td>{classItem.fall}</td>

@@ -44,6 +44,12 @@
             $result = get_bad_cwu_ids();
             echo json_encode($result);
             break;
+//new api call for enrollments
+        case 'get_enrollments':
+            $result = get_enrollments($year);
+            echo json_encode($result);
+            break;
+
         case 'add':
             echo(json_encode($data));
             break;

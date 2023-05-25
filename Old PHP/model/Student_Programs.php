@@ -175,10 +175,10 @@
         }
 
         function add_student_to_advisor($user_id, $student_id, $program_id){
-            $query = "INSERT INTO student_programs (student_id, program_id, user_id
-                    VALUES (:student_id, :program_id, :user_id";
+            $query = "INSERT INTO student_programs (student_id, program_id, user_id)
+                    VALUES (:student_id, :program_id, :user_id)";
 
-            $rowsAffected = add_db_rows($query, ['$student_id'=>$student_id, ':program_id'=>$program_id, 'user_id'=>$user_id]);
+            $rowsAffected = add_db_rows($query, [':student_id'=>$student_id, ':program_id'=>$program_id, 'user_id'=>$user_id]);
             if($rowsAffected > 0)
             {
                 $journ = new Journals();

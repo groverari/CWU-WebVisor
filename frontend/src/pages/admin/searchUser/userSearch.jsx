@@ -53,7 +53,7 @@ const SearchUser = () => {
   useEffect(() => {
     if (users) {
       const temp = users.map((use) => ({
-        label: use.name,
+        label: use.login,
         value: users.indexOf(use),
       }));
       setSearchUsers(temp);

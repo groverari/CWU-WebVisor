@@ -8,7 +8,8 @@ import ConfPopUp from "../PopUp/confirmation/confPopUp";
 function UserInfo({ selUser }) {
   const { control, register, handleSubmit, setValue } = useForm();
   const api_url = import.meta.env.VITE_API_URL;
-  const onUpdate = (data) => {
+
+  const onUpdate = () => {
     console.log(selUser);
     //console.log(data.)
     axios

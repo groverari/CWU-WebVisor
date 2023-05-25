@@ -35,7 +35,17 @@ const NavBar = () => {
         </div>
       </div>
       <div className="nav-link-container">
-        {superUser && <Link>Admin </Link>}
+        {superUser && (
+          <Link
+            className={
+              location.pathname.includes('students')
+                ? 'nav-link-clicked'
+                : 'nav-link-unclicked'
+            }
+          >
+            Admin{' '}
+          </Link>
+        )}
         <Link
           className={
             location.pathname.includes('students')

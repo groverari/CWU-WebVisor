@@ -1,82 +1,142 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./student-add.scss";
-import ErrorPopUp from "../../../components/PopUp/error/ErrorPopUp";
-import ConfPopUp from "../../../components/PopUp/confirmation/confPopUp";
+import React, { useState, useEffect } from 'react'
+import { useForm, Controller } from 'react-hook-form'
+import axios from 'axios'
+import './student-add.scss'
+import ErrorPopUp from '../../../components/PopUp/error/ErrorPopUp'
+import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
+import SearchBox from '../../../components/search-box/search-box'
 
 const AddStudent = () => {
-  const api_url = import.meta.env.VITE_API_URL;
-  const [showPopup, setShowPopup] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [errorMessage, setErrorMesssage] = useState("");
-  const [showError, setShowError] = useState(false);
-
-  const handleErrorPopUpClose = () => {
-    setShowError(false);
-  };
-  const handlePopUpOpen = () => {
-    event.preventDefault();
-    setShowPopup(true);
-  };
-
-  const handlePopUpClose = () => {
-    setShowPopup(false);
-  };
-
-  const handlePopUpButtonClick = (buttonValue) => {
-    setSelectedOption(buttonValue);
-  };
+  const api_url = import.meta.env.VITE_API_URL
+  const [programs, setPrograms] = useState([])
+  const [searchPrograms, setSearchPrograms] = useState([])
+  const { control, register, handleSubmit, setValue } = useForm()
 
   useEffect(() => {
-    if (selectedOption) {
-      handleFormSubmit();
-    }
-  }, [selectedOption]);
-
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    cwuId: "",
-    email: "",
-  });
-
-  const handleFormSubmit = () => {
-    formData.email += "@cwu.edu";
     axios
-      .post(api_url + "Student.php", {
-        request: "add_student",
-        user_id: localStorage.getItem('userId'),
-        first: formData.firstName,
-        last: formData.lastName,
-        email: formData.email,
-        cwu_id: formData.cwuId,
+      .post(api_url + 'program.php', { request: 'all_programs' })
+      .then((res) => {
+        setPrograms(res.data)
+        //console.log(res.data)
+      })
+  }, [])
+
+  useEffect(() => {
+    if (programs) {
+      let temp = programs.map((program) => ({
+        label: program.name + ' ' + program.year,
+        value: programs.indexOf(program)
+      }))
+
+      temp.sort(function (a, b) {
+        return a.label.localeCompare(b.label)
+      })
+      setSearchPrograms(temp)
+    }
+  }, [programs])
+
+  const confirm = (data) => {
+    if (data.program == undefined) console.log('make sure to add a program')
+    else {
+      handleFormSubmit(data)
+    }
+  }
+
+  const handleFormSubmit = (data) => {
+    let user_id = localStorage.getItem('userId')
+    let stu_id = 0
+    data.email += '@cwu.edu'
+    axios
+      .post(api_url + 'Student.php', {
+        request: 'add_student',
+        user_id: user_id,
+        first: data.first,
+        last: data.last,
+        email: data.email,
+        cwu_id: data.cwu_id
       })
       .then((res) => {
-        console.log(res.data);
-        if (res.data.includes("Error")) {
-          console.log("handled error");
-          setErrorMesssage(res.data);
-          setShowError(true);
+        console.log(res.data)
+        if (res.data.includes('Error')) {
+          console.log('handled error')
+          //setErrorMesssage(res.data)
+          //setShowError(true)
         } else {
-          console.log("no error");
+          axios
+            .post(api_url + 'Student_program.php', {
+              request: 'add_student',
+              api_key: import.meta.env.API_KEY,
+              user_id: user_id,
+              student_id: res.data,
+              program_id: data.program
+            })
+            .then((res) => {
+              console.log(res.data)
+            })
         }
       })
       .catch((error) => {
-        console.log(error);
-        console.log("unhandled error");
-      });
-  };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+        console.log(error)
+        console.log('unhandled error')
+      })
+  }
 
   return (
-    <div className="form-container">
+    <div>
+      <h1>Add Student</h1>
+      <form onSubmit={handleSubmit(confirm)}>
+        <div className="student-add-select">
+          <label>Student Program: </label>
+          <Controller
+            control={control}
+            name="program"
+            required
+            render={() => {
+              return (
+                <SearchBox
+                  placeholder="Select a Program"
+                  list={searchPrograms}
+                  onChange={({ value }) => {
+                    const program = programs[parseInt(value)]
+                    setValue('program', program.program_id)
+                  }}
+                />
+              )
+            }}
+          ></Controller>
+        </div>
+        <div className="form-group">
+          <label>First Name</label>
+          <input type="text" {...register('first')} required />
+        </div>
+        <div className="form-group">
+          <label>Last Name</label>
+          <input type="text" {...register('last')} required />
+        </div>
+        <div className="form-group">
+          <label>CWU Email</label>
+          <input type="text" {...register('email')} required />
+        </div>
+        <div className="form-group">
+          <label>CWU ID</label>
+          <input
+            {...register('cwu_id')}
+            pattern="[0-9]{8}"
+            type="text"
+            required
+          />
+        </div>
+        <div className="add-submit-btn-wrapper">
+          <input className="submit-btn" type="submit" value="Add Student" />
+        </div>
+      </form>
+    </div>
+  )
+}
+export default AddStudent
+
+/**
+ * <div className="form-container">
       <h1>Add Student</h1>
       <form onSubmit={handlePopUpOpen}>
         <div className="form-group">
@@ -140,6 +200,4 @@ const AddStudent = () => {
         />
       )}
     </div>
-  );
-};
-export default AddStudent;
+ */

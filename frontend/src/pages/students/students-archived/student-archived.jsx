@@ -11,34 +11,32 @@ const ArchivedStudents = () => {
   const [searchStudents, setSearchStudents] = useState([])
   const [selectedStudent, setSelectedStudent] = useState(0)
   const [isInfo, setInfo] = useState(false)
-  const [showPopup, setShowPopup] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(null);
-  const handlePopUpOpen = () =>
-  {
-    event.preventDefault();
-    setShowPopup(true);
+  const [showPopup, setShowPopup] = useState(false)
+  const [selectedOption, setSelectedOption] = useState(null)
+  const handlePopUpOpen = () => {
+    event.preventDefault()
+    setShowPopup(true)
   }
 
-  const handlePopUpClose = () =>
-  {
-    setShowPopup(false);
+  const handlePopUpClose = () => {
+    setShowPopup(false)
   }
 
-  const handlePopUpButtonClick = (buttonValue) =>
-  {
-    setSelectedOption(buttonValue);
+  const handlePopUpButtonClick = (buttonValue) => {
+    setSelectedOption(buttonValue)
   }
   useEffect(() => {
     if (selectedOption) {
-      studentActivator();
+      studentActivator()
     }
-  }, [selectedOption]);
+  }, [selectedOption])
   let api_url = import.meta.env.VITE_API_URL
   useEffect(() => {
     axios
       .post(api_url + 'Student.php', { request: 'all_inactive_students' })
       .then((res) => {
         setStudents(res.data)
+        //console.log(res.data)
       })
   }, [])
 
@@ -76,7 +74,7 @@ const ArchivedStudents = () => {
           delete students[students.indexOf(selectedStudent)]
           setStudents(students)
           console.log('it works')
-          window.location.reload(true);
+          window.location.reload(true)
         }
       })
       .catch((error) => {
@@ -109,7 +107,7 @@ const ArchivedStudents = () => {
           Activate Student
         </button>
       )}
-       {showPopup && (
+      {showPopup && (
         <ConfPopUp
           action="activate"
           onClose={handlePopUpClose}

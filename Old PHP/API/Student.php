@@ -17,7 +17,7 @@
     //validate api key before moving forward
 
     $request = $data['request'];
-
+    
     switch($request){
         case 'all_active_students':
             $data =  get_all_active_students();

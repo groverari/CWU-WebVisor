@@ -1,3 +1,5 @@
+@use '../../../App.scss';
+@import '../../../mixins.scss';
 .form-container {
   max-width: 600px;
   margin: 0 auto;
@@ -18,12 +20,7 @@
 }
 
 .submit-btn {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  @include update_button(40px);
 }
 
 .submit-btn:hover {

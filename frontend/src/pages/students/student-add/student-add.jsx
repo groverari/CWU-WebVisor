@@ -196,7 +196,9 @@ const AddStudent = () => {
         onClose={confClose}
         open={conf}
         yesClick={confYes}
-        message="Are you sure you would like to add a student? Only super users can delete added students."
+        message="Are you sure you would like to add a student? 
+        Only super users can delete added students. 
+        This student will be assigned to you by default."
         button_text="Add Student"
       />
       <LoadingScreen open={isLoading} />

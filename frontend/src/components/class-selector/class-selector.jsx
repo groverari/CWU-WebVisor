@@ -126,12 +126,4 @@ function ClassSelector({ title, classes, alreadyInsertedClasses, handleExtraClas
   );
 }
 
-ClassSelector.propTypes = {
-  title: PropTypes.string.isRequired,
-  classes: PropTypes.array.isRequired,
-  alreadyInsertedClasses: PropTypes.object.isRequired,
-  extraClasses: PropTypes.array.isRequired,
-  missingClasses: PropTypes.array.isRequired,
-};
-
 export default ClassSelector;

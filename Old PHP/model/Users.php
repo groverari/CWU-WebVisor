@@ -2,7 +2,7 @@
     include_once 'PDO-methods.php';
     include_once 'Journals.php';
 
-    function update_user($user_id, $password, $name, $program_id)
+        function update_user($user_id, $password, $name, $program_id)
         {
             $query_string = "
                 UPDATE
@@ -28,6 +28,26 @@
                 ;";
                 $dataArr =[':password'=>$password, ':user_id'=>$user_id];
                 $query_result = add_db($query_string, $dataArr);
+            }
+        }
+
+        function update_user_simple($user_id, $password, $login, $superuser)
+        {
+            $query_string = "
+            UPDATE
+                users
+            SET
+                login=:login,
+                password=:password,
+                superuser=:superuser
+            WHERE
+                id=:user_id
+            ;";
+            $dataArr = [':user_id'=>$user_id, ':login'=>$login, ':password'=>$password, ':superuser'=>$superuser];
+            $query_result = add_db_rows($query_string, $dataArr);
+            if($query_result == 0)
+            {
+                return "Error: user does not exist";
             }
         }
 

@@ -5,12 +5,59 @@ include_once 'Journals.php';
 class Program_Classes
 {
 
+	function remove_class($user_id, $classID, $PID)
+	{
+		echo "im here in remove";
+		$query = "
+		DELETE FROM
+			program_classes
+		WHERE
+			program_classes.class_id = :classID
+			AND
+			program_classes.program_id = :PID;
+		";
+		$dataArr = [':classID'=>$classID, ':PID'=>$PID];
+		$result = remove_db_rows($query, $dataArr);
+		if ($result > 0)
+		{
+            $journ = new Journals();
+			$note = "Updated <program:$PID> classes.";
+			$journ->record_update_program($user_id, $PID, $note);
+		}
+		echo "program classes removed";
+		return "program classes removed";
+	}
+	function add_class($user_id, $classID, $PID, $minimum_grade, $required)
+	{
+		echo "im here in add";
+
+		$query = "
+		INSERT INTO program_classes 
+			(program_id, class_id, minimum_grade, required)
+		VALUES
+			(:PID, :class_id, :mGrade, :required)
+		;";
+		$dataArr = [':class_id'=>$classID, ':PID'=>$PID, "mGrade"=>$minimum_grade, ":required"=>$required];
+		$result = add_db_rows($query, $dataArr);
+		if ($result > 0)
+		{
+            $journ = new Journals();
+			$note = "Updated <program:$PID> classes.";
+			$journ->record_update_program($user_id, $PID, $note);
+		}
+		return "program class added";
+	}
+	function update_classes()
+	{
+
+	}
     function get_required_classes($program_id, $required)
 	{		
 		$required_classes = array();
 		$query_string = "
 		SELECT
 			classes.id,
+			classes.id as CID,
 			CONCAT(classes.name, ' (', classes.credits, ' cr)') AS name_credits,
 			classes.name,
 			classes.credits,

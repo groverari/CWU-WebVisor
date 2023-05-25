@@ -29,6 +29,7 @@ function EditProgram() {
   const [showPopup, setShowPopup] = useState(false);
   const [extraClasses, setExtraClasses] = useState([]);
   const [missingClasses, setMissingClasses] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
 
 
   const handleExtraClassesUpdate = (extraClasses) => {
@@ -141,6 +142,13 @@ function EditProgram() {
     handlePopUpOpen();
   };
 
+  useEffect(() => {
+    if (selectedOption) {
+      handleUpdate()
+    }
+  }, [selectedOption])
+
+
   const handleUpdate = () => {
     delete programs[programs.indexOf(selectedProgram)];
     setPrograms(programs.concat(selectedProgram));
@@ -167,6 +175,9 @@ function EditProgram() {
       });
   };
 
+  const handlePopUpOpen = () => {
+    setShowPopup(true)
+  }
 
   const handlePopUpClose = () => {
     setShowPopup(false);
@@ -177,13 +188,59 @@ function EditProgram() {
   };
 
   useEffect(() => {
-    console.log("fromm the parent; missing");
-    console.log(missingClasses);
+    console.log("from the parent; missing");
+    if(missingClasses[missingClasses.length - 1] !== undefined)
+    {
+      const lastClass = missingClasses[missingClasses.length - 1];
+      console.log(lastClass);
+      axios.post(api_url + 'Program_Class.php', {
+        request: 'remove_class',
+        user_id: localStorage.getItem('userId'),
+        class_id: lastClass.CID == undefined? lastClass.id : lastClass.CID,
+        program_id: selectedProgram.program_id,
+        })
+      .then((res) => {
+        if (typeof res.data === 'string' && res.data.includes('Error')) {
+          setErrorMesssage(res.data);
+          setShowError(true);
+        } 
+        else {
+          console.log(res.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
   }, [missingClasses]);
 
   useEffect(() => {
     console.log("from the parent; extra");
-    console.log(extraClasses);
+    if(extraClasses[extraClasses.length - 1] !== undefined)
+    {
+      const lastClass = extraClasses[extraClasses.length - 1];
+      console.log(lastClass);
+      axios.post(api_url + 'Program_Class.php', {
+        request: 'add_class',
+        user_id: localStorage.getItem('userId'),
+        class_id: lastClass.CID == undefined? lastClass.id : lastClass.CID,
+        program_id: selectedProgram.program_id,
+        minimum_grade: lastClass.minimum_grade == undefined ? "20": lastClass.minimum_grade,
+        required: 'YES'
+        })
+      .then((res) => {
+        if (typeof res.data === 'string' && res.data.includes('Error')) {
+          setErrorMesssage(res.data);
+          setShowError(true);
+        } 
+        else {
+          console.log(res.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }
   }, [extraClasses]);
 
   return (

@@ -29,9 +29,14 @@
         $result = $program_classes->get_required_classes($data['program_id'], $data['required']);
         echo json_encode($result);
         break;
-    case 'update_program_classes':
-        // $program_classes->update_program_classes($user_id, $program_id, $core_ids, $required_ids, $minimum_grade, $sequence_no, $YES, $NO);
-        // break;
+    case 'remove_class':
+        $result = $program_classes->remove_class($data['user_id'], $data['class_id'], $data['program_id']);
+        echo $result;
+        break;
+    case 'add_class':
+        $result = $program_classes->add_class($data['user_id'], $data['class_id'], $data['program_id'], $data['minimum_grade'], $data['required']);
+        echo $result;
+        break;
     default:
         echo 'request incorrrect';
         break;

@@ -18,6 +18,9 @@ import EditProgram from './pages/majors/program-edit/program-edit'
 import Enrollments from './pages/enrollments/enrollment-page.jsx/enrollment-page'
 import AddMajor from './pages/majors/major-add/major-add'
 import AddProgram from './pages/majors/program-add/program-add'
+import AddUser from './pages/admin/add-user/userAdd'
+import SearchUser from './pages/admin/searchUser/userSearch'
+import AdminPage from './pages/admin/adminPage/admin'
 
 function App() {
   return (
@@ -49,6 +52,11 @@ function App() {
             <Route path="addprogram" element={<AddProgram />} />
           </Route>
           <Route path="enrollments" element={<Enrollments />} />
+          <Route path="admin" element={<AdminPage />}>
+            <Route index element={<AdminPage />} />
+            <Route path="search" element={<SearchUser />} />
+            <Route path="add" element={<AddUser />} />
+          </Route>
         </Route>
       </Routes>
     </div>

@@ -42,8 +42,9 @@ const NavBar = () => {
                 ? 'nav-link-clicked'
                 : 'nav-link-unclicked'
             }
+            to="/home/admin/search"
           >
-            Admin{' '}
+            Admin
           </Link>
         )}
         <Link

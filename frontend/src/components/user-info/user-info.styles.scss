@@ -1,0 +1,42 @@
+@import '../../mixins.scss';
+
+.class-info-container {
+  text-align: center;
+}
+
+.class-info {
+  display: inline-block;
+  text-align: left;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #888297;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+// label {
+//   display: block;
+//   margin-bottom: 5px;
+// }
+
+// input[type="text"],
+// input[type="submit"] {
+//   padding: 8px;
+//   font-size: 14px;
+//   border: 1px solid #ccc;
+//   border-radius: 3px;
+//}
+
+// input[type="submit"] {
+//   background-color: #007bff;
+//   color: #fff;
+//   cursor: pointer;
+// }
+
+.class-btn_update {
+  @include update_button(30px);
+  width: 100%;
+}

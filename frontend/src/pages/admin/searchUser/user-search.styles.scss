@@ -1,0 +1,25 @@
+@use "../../../App.scss";
+@import "../../../mixins.scss";
+
+.class-search-container {
+  text-align: auto;
+  text-indent: 10%;
+}
+
+.class-title {
+  text-indent: 25%;
+}
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  margin-right: 10px;
+}
+.overviw-btn {
+  height: 40px;
+  @include button-type-1;
+}

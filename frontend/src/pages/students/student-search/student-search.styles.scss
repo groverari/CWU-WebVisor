@@ -2,7 +2,8 @@
 @import '../../../mixins.scss';
 
 .student-search-container {
-  display: block;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   padding: 5px;
 }

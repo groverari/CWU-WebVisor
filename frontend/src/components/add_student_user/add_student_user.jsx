@@ -1,46 +1,46 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import Box from '@mui/material/Box'
+import Confirmation from '../PopUp/conf/confirmation'
 import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import Modal from '@mui/material/Modal'
+import LoadingScreen from '../PopUp/LoadingScreen/loading'
 import './add_student_user.styles.scss'
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4
-}
 
 function UserStudentWarning({ studentId, programId }) {
-  const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
   const api_url = import.meta.env.VITE_API_URL
+  const [conf, setConf] = useState(false)
+  const [isLoading, setLoading] = useState(false)
+
+  const confOpen = (event) => {
+    event.preventDefault()
+    setConf(true)
+  }
+  const confClose = () => {
+    setConf(false)
+  }
+  const confYes = (data) => {
+    setConf(false)
+    assign_student()
+  }
 
   const pId = programId == 0 ? localStorage.getItem('program') : programId
 
-  const yesClick = () => {
-    handleClose()
+  const assign_student = () => {
+    setLoading(true)
     axios
       .post(api_url + 'Student_program.php', {
         request: 'add_student',
-        user_id: localStorage.getItem('user_id'),
-        studentId: studentId,
-        programId: pId
+        user_id: localStorage.getItem('userId'),
+        student_id: studentId,
+        program_id: pId
       })
       .then((res) => {
         if (res.data) {
+          setLoading(false)
           console.log(res.data)
         }
       })
       .catch((err) => {
+        setLoading(false)
         console.log(err)
       })
   }
@@ -55,40 +55,19 @@ function UserStudentWarning({ studentId, programId }) {
         variant="contained"
         color="success"
         className="addBtn"
-        onClick={handleOpen}
+        onClick={confOpen}
       >
         Assign Student to Me
       </Button>
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            align="center"
-          >
-            Warning
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Are you sure you would like to add student to yourself? This cannot
-            be undone.
-          </Typography>
-
-          <br />
-          <Button style={{ float: 'left' }} onClick={handleClose}>
-            Take Me Back
-          </Button>
-          <Button style={{ float: 'right' }} onClick={yesClick}>
-            Yes
-          </Button>
-        </Box>
-      </Modal>
+      <Confirmation
+        onClose={confClose}
+        open={conf}
+        message="Are you sure you would like to add this student to you? 
+        This action can be undone later"
+        button_text="Assign to me"
+        yesClick={confYes}
+      />
+      <LoadingScreen open={isLoading} />
     </div>
   )
 }

@@ -4,6 +4,8 @@ import { useForm, Controller } from 'react-hook-form'
 import Switch from '@mui/material/Switch'
 import axios from 'axios'
 import ConfPopUp from '../PopUp/confirmation/confPopUp'
+import GenericPopUp from '../PopUp/generic/generic-popup'
+import Confirmation from '../PopUp/conf/confirmation'
 
 function StudentInfo(props) {
   const { control, register, handleSubmit, setValue } = useForm()
@@ -35,9 +37,9 @@ function StudentInfo(props) {
         console.log(error)
       })
   }
+  const { programs, advisors } = props
 
   const [student, setStudent] = useState(props)
-
   const [fname, setFname] = useState('')
 
   const {
@@ -65,29 +67,38 @@ function StudentInfo(props) {
   })
   const vet = veterans_benefits == 'Yes'
 
-  const [showPopup, setShowPopup] = useState(false)
-  const [selectedOption, setSelectedOption] = useState(null)
-
-  const handlePopUpOpen = () => {
-    event.preventDefault()
-    setShowPopup(true)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [conf, setConf] = useState(false)
+  const [formData, setFormData] = useState([])
+  const handleSuccess = () => {
+    setSuccess(false)
+  }
+  const successOpen = () => {
+    setSuccess(true)
+  }
+  const errorClose = () => {
+    setError(false)
+  }
+  const errorOpen = () => {
+    setError(true)
+  }
+  const confOpen = (data) => {
+    setFormData(data)
+    setConf(true)
+  }
+  const confClose = () => {
+    setConf(false)
+  }
+  const confYes = () => {
+    setConf(false)
+    addStudent(formData)
   }
 
-  const handlePopUpClose = () => {
-    setShowPopup(false)
-  }
-
-  const handlePopUpButtonClick = (buttonValue) => {
-    setSelectedOption(buttonValue)
-  }
-  useEffect(() => {
-    if (selectedOption) {
-      handleSubmit(onUpdate)()
-    }
-  }, [selectedOption])
   return (
     <div>
-      <form onSubmit={handlePopUpOpen}>
+      <form className="student-info-form" onSubmit={handlePopUpOpen}>
         <div className="form-group">
           <label>First Name</label>
           <input
@@ -193,14 +204,46 @@ function StudentInfo(props) {
           className="student-info-update-btn"
         />
       </form>
-      {/*Pop up shows once, but then does not show again--more details inside of conpopup.jsx */}
-      {showPopup && (
-        <ConfPopUp
-          action="update"
-          onClose={handlePopUpClose}
-          onButtonClick={handlePopUpButtonClick}
-        />
-      )}
+      <h3>Program Info</h3>
+      <div className="program-info-wrapper">
+        <div className="student-programs pro-info">
+          <h4 className="program-label">Assigned Student Programs: </h4>
+          {programs.map((row) => (
+            <div className="program-row" key={row[0]}>
+              <p>{row}</p>
+            </div>
+          ))}
+          <button className="program-btn">Change Programs</button>
+        </div>
+        <div className="student-advisors pro-info">
+          <h4 className="program-label">Advisors for Student: </h4>
+          {advisors.map((row) => (
+            <div className="advisor-row " key={row[0]}>
+              <p>{row}</p>
+            </div>
+          ))}
+          <button className="program-btn">Unassign Student from Me</button>
+        </div>
+      </div>
+      <GenericPopUp
+        onClose={handleSuccess}
+        message="Successfully added a student"
+        title="Success!"
+        open={success}
+      />
+      <GenericPopUp
+        onClose={errorClose}
+        message={errorMessage}
+        title="Error"
+        open={error}
+      />
+      <Confirmation
+        onClose={confClose}
+        open={conf}
+        yesClick={confYes}
+        message="Are you sure you would like to update this student? "
+        button_text="Update Student"
+      />
     </div>
   )
 }

@@ -8,6 +8,8 @@ import StudentPlan from '../../../components/student-plan/student-plan'
 import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
 import ErrorPopUp from '../../../components/PopUp/error/errorPopup'
 import UserStudentWarning from '../../../components/add_student_user/add_student_user'
+import Confirmation from '../../../components/PopUp/conf/confirmation'
+import LoadingScreen from '../../../components/PopUp/LoadingScreen/loading'
 
 const StudentSearch = () => {
   const [students, setStudents] = useState([])
@@ -15,12 +17,12 @@ const StudentSearch = () => {
   const [selectedStudent, setSelectedStudent] = useState(0)
   const [isPlan, setPlan] = useState(false)
   const [isInfo, setInfo] = useState(false)
-  const [showPopup, setShowPopup] = useState(false)
   const [selectedOption, setSelectedOption] = useState(null)
   const [advisors, setAdvisors] = useState([])
-  const [canEdit, setCanEdit] = useState(false)
-  const [program, setProgram] = useState(0)
+  const [canEdit, setCanEdit] = useState(true)
+  const [programs, setPrograms] = useState(0)
   const [programID, setProgramID] = useState(0)
+  const [isLoading, setLoading] = useState(true)
 
   const handlePopUpOpen = () => {
     event.preventDefault()
@@ -34,6 +36,7 @@ const StudentSearch = () => {
   const handlePopUpButtonClick = (buttonValue) => {
     setSelectedOption(buttonValue)
   }
+
   useEffect(() => {
     if (selectedOption) {
       deactivator()
@@ -48,6 +51,7 @@ const StudentSearch = () => {
       .post(api_url + 'Student.php', { request: 'all_active_students' })
       .then((res) => {
         setStudents(res.data)
+        setLoading(false)
       })
   }, [])
   //if the sutdent array is set, this will create an array for the select statement
@@ -71,24 +75,36 @@ const StudentSearch = () => {
 
   //sets the selected student
   const selectHandler = ({ value }) => {
+    setLoading(true)
     let id = parseInt(value)
+    let newStudent = students[id]
     setSelectedStudent(students[id])
     setInfo(false)
     setPlan(false)
+    setCanEdit(false)
+    setPrograms([])
+    setAdvisors([])
 
     //Gets info regarding student program and advisor
     axios
       .post(api_url + 'Student_program.php', {
-        request: 'programs_with_student'
+        request: 'programs_with_student',
+        student_id: newStudent.id
       })
       .then((res) => {
         res.data.map((row) => {
           setAdvisors(Object.entries(advisors).concat(row.advisor_name))
-          setProgramID(row.program_id)
-          setProgram(row.program_name)
-
-          if (row.advisor_id == localStorage.get('user_id')) setCanEdit(true)
+          setProgramID(programID)
+          setPrograms(Object.entries(programs).concat(row.program_name))
+          if (row.advisor_id == localStorage.getItem('userId')) {
+            setCanEdit(true)
+          }
         })
+
+        setLoading(false)
+      })
+      .catch((err) => {
+        setLoading(false)
       })
   }
 
@@ -124,7 +140,7 @@ const StudentSearch = () => {
         />
       </div>
       <div className="warning">
-        {selectedStudent != 0 && !canEdit && (
+        {!canEdit && (
           <UserStudentWarning
             studentId={selectedStudent.id}
             programId={programID}
@@ -158,7 +174,11 @@ const StudentSearch = () => {
         )}
 
         {selectedStudent != 0 && isInfo && (
-          <StudentInfo student={selectedStudent} />
+          <StudentInfo
+            student={selectedStudent}
+            programs={programs}
+            advisors={advisors}
+          />
         )}
         {selectedStudent != 0 && isPlan && (
           <StudentPlan key={selectedStudent} student={selectedStudent} />
@@ -169,13 +189,7 @@ const StudentSearch = () => {
           </button>
         )}
       </div>
-      {showPopup && (
-        <ConfPopUp
-          action="deactivate"
-          onClose={handlePopUpClose}
-          onButtonClick={handlePopUpButtonClick}
-        />
-      )}
+      <LoadingScreen open={isLoading} />
     </div>
   )
 }

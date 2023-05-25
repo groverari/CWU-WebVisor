@@ -15,7 +15,7 @@
                 student_programs
                 JOIN programs ON student_programs.program_id=programs.id
                 JOIN majors ON majors.id = programs.major_id
-                LEFT JOIN users ON student_programs.user_id=Users.id
+                LEFT JOIN users ON student_programs.user_id=users.id
             WHERE
                 student_id=:student_id
             ORDER BY
@@ -25,13 +25,9 @@
             $dataArr = [':student_id'=>$student_id];
             $query_result = get_from_db($query_string, $dataArr);
             
-            $programs = array();
-            foreach($query_result as $row)
-            {
-                $programs[$row['program_id']] = $row;
-            }
+        
             
-            return $programs;
+            return $query_result;
         }
 
         function user_can_update_student($user_id, $student_id)

@@ -5,3 +5,26 @@
   width: 95%;
   margin: 10px;
 }
+
+.program-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 50px;
+}
+.pro-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: CENTER;
+  align-items: center;
+  column-gap: 30px;
+  background-color: #3e3d53;
+  color: white;
+  padding: 5px;
+  width: 100%;
+}
+
+.program-btn {
+  height: 30px;
+  @include button-type-1;
+  border: 2px solid black;
+}

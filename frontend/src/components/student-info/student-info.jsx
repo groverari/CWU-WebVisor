@@ -7,10 +7,14 @@ import ConfPopUp from '../PopUp/confirmation/confPopUp'
 import GenericPopUp from '../PopUp/generic/generic-popup'
 import Confirmation from '../PopUp/conf/confirmation'
 
+import LoadingScreen from '../PopUp/LoadingScreen/loading'
+
 function StudentInfo(props) {
   const { control, register, handleSubmit, setValue } = useForm()
+  const [isLoading, setLoading] = useState(false)
   const api_url = import.meta.env.VITE_API_URL
   const onUpdate = (data) => {
+    setLoading(true)
     console.log(data)
     axios
       .post(api_url + 'student.php', {
@@ -31,10 +35,10 @@ function StudentInfo(props) {
       })
       .then((res) => {
         console.log(res.data)
-        window.location.reload(true)
+        setLoading(false)
       })
       .catch((error) => {
-        console.log(error)
+        setErrorMessage('')
       })
   }
   const { programs, advisors } = props
@@ -67,6 +71,8 @@ function StudentInfo(props) {
   })
   const vet = veterans_benefits == 'Yes'
 
+  const test = (data) => {}
+
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -84,21 +90,22 @@ function StudentInfo(props) {
   const errorOpen = () => {
     setError(true)
   }
-  const confOpen = (data) => {
-    setFormData(data)
-    setConf(true)
-  }
   const confClose = () => {
     setConf(false)
   }
   const confYes = () => {
     setConf(false)
-    addStudent(formData)
+    onUpdate(formData)
+  }
+
+  const formSubmit = (data) => {
+    setConf(true)
+    setFormData(data)
   }
 
   return (
     <div>
-      <form className="student-info-form" onSubmit={handlePopUpOpen}>
+      <form className="student-info-form" onSubmit={handleSubmit(formSubmit)}>
         <div className="form-group">
           <label>First Name</label>
           <input
@@ -244,6 +251,7 @@ function StudentInfo(props) {
         message="Are you sure you would like to update this student? "
         button_text="Update Student"
       />
+      <LoadingScreen open={isLoading} />
     </div>
   )
 }

@@ -1,31 +1,11 @@
-.form-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+@import '../../../mixins.scss';
+.major-add-submit-btn {
+  @include update-button(30px);
 }
-
-.form-group {
+.major-add-container {
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.form-group label {
-  min-width: 100px;
-  margin-right: 10px;
-}
-
-.submit-btn {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.submit-btn:hover {
-  background-color: #0069d9;
+  flex-direction: column;
+  row-gap: 50px;
+  text-align: center;
+  justify-content: center;
 }

@@ -37,7 +37,9 @@ const MajorPage = () => {
           links={links}
         />
       </div>
-      <Outlet className="page-content" />
+      <div className="major-page-wrapper">
+        <Outlet className="page-content" />
+      </div>
     </div>
   )
 }

@@ -5,15 +5,20 @@ import './student-add.scss'
 import SearchBox from '../../../components/search-box/search-box'
 import Generic from '../../../components/PopUp/generic/generic-popup'
 import GenericPopUp from '../../../components/PopUp/generic/generic-popup'
+import Confirmation from '../../../components/PopUp/conf/confirmation'
+import LoadingScreen from '../../../components/PopUp/LoadingScreen/loading'
 
 const AddStudent = () => {
   const api_url = import.meta.env.VITE_API_URL
   const [programs, setPrograms] = useState([])
   const [searchPrograms, setSearchPrograms] = useState([])
-  const { control, register, handleSubmit, setValue } = useForm()
+  const { control, register, handleSubmit, setValue, reset } = useForm()
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [conf, setConf] = useState(false)
+  const [formData, setFormData] = useState([])
+  const [isLoading, setLoading] = useState(false)
 
   const handleSuccess = () => {
     setSuccess(false)
@@ -28,6 +33,17 @@ const AddStudent = () => {
   const errorOpen = (event) => {
     event.preventDefault()
     setError(true)
+  }
+  const confOpen = (event) => {
+    event.preventDefault()
+    setConf(true)
+  }
+  const confClose = () => {
+    setConf(false)
+  }
+  const confYes = (data) => {
+    setConf(false)
+    addStudent(formData)
   }
 
   useEffect(() => {
@@ -57,15 +73,19 @@ const AddStudent = () => {
     }
   }, [programs])
 
-  const confirm = (data) => {
-    if (data.program == undefined) console.log('make sure to add a program')
-    else {
-      handleFormSubmit(data)
+  const programCheck = (data) => {
+    if (data.program == undefined) {
+      setErrorMessage('Please add a program for the Student')
+      setError(true)
+    } else {
+      //handleFormSubmit(data)
+      setConf(true)
+      setFormData(data)
     }
   }
 
-  const handleFormSubmit = (data) => {
-    console.log('submitting')
+  const addStudent = (data) => {
+    setLoading(true)
     let user_id = localStorage.getItem('userId')
     let stu_id = 0
     let success = false
@@ -80,9 +100,11 @@ const AddStudent = () => {
         cwu_id: data.cwu_id
       })
       .then((res) => {
-        console.log(res.data)
+        //console.log(res.data)
         if (res.data.includes('Error')) {
-          console.log('handled error')
+          setLoading(false)
+          setErrorMessage(res.data)
+          setError(true)
         } else {
           axios
             .post(api_url + 'Student_program.php', {
@@ -94,8 +116,13 @@ const AddStudent = () => {
             })
             .then((res) => {
               console.log(res.data)
-              if (res.data) setSuccess(true)
+              if (res.data) {
+                setLoading(false)
+                setSuccess(true)
+                reset()
+              }
             })
+          setLoading(false)
         }
       })
       .catch((error) => {
@@ -107,7 +134,7 @@ const AddStudent = () => {
   return (
     <div>
       <h1>Add Student</h1>
-      <form onSubmit={errorOpen}>
+      <form onSubmit={handleSubmit(programCheck)}>
         <div className="student-add-select">
           <label>Student Program: </label>
           <Controller
@@ -165,6 +192,14 @@ const AddStudent = () => {
         message={errorMessage}
         open={error}
       />
+      <Confirmation
+        onClose={confClose}
+        open={conf}
+        yesClick={confYes}
+        message="Are you sure you would like to add a student? Only super users can delete added students."
+        button_text="Add Student"
+      />
+      <LoadingScreen open={isLoading} />
     </div>
   )
 }

@@ -68,6 +68,7 @@ include_once 'Journals.php';
             ;";
             
             $data_array = [':cwu_id'=>$cwu_id, ':email'=>$email];
+            echo "\n\n\n\n getRows\n\n\n\n";
             $query_result_rows = get_from_db_rows($query, $data_array);
             if ($query_result_rows > 0)
             {
@@ -87,17 +88,19 @@ include_once 'Journals.php';
         ;";
         $dataArr = [':cwu_id'=>$cwu_id, ':email'=>$email, ':first'=>$first, ':last'=>$last];
 
-        
+        echo "\n\n\nadd\n\n\n\n";
         $result = add_db($query_string, $dataArr);
         
         $query_result=get_from_db($query, $data_array);
-        
+        echo "\n\n\n\n\n";
+        print_r($query_result);
+        echo "\n\n\n\n\n";
 
         $id = $query_result[0]['id'];
 
         if ($result)
         {
-            
+            echo "\n\n\n in here\n\n\n\n";
             $journ = new Journals();
             $journ->record_update_student($user_id, $id, "Added <student:$id>");
         }
@@ -116,7 +119,7 @@ include_once 'Journals.php';
                 id,
                 CONCAT(COALESCE(last,'*'), ', ', COALESCE(first,'*'), ' (', cwu_id, ')') AS name
             FROM
-                Students
+                students
             WHERE
                 cwu_id != 0
             ORDER BY
@@ -183,15 +186,16 @@ include_once 'Journals.php';
         return $bad_cwu_ids;
     }
 
-    //function get_term_enrollment($term, $class_id)
+    function get_term_enrollment($term, $class_id)
+    {
+        //count from student_classes wherever the program_class.class_id == class_id
+    }
     function get_enrollments($year) 
     {
         $year1 = 10*$year+1;
         $year2 = 10*($year)+2;
         $year3 = 10*($year)+3;
         $year4 = 10*($year)+4;
-
-        global $YES;
 
         $query_string = "
             SELECT
@@ -208,18 +212,18 @@ include_once 'Journals.php';
                 classes.id=student_classes.class_id
                 AND
                 (
-                    student_classes.term=$year1
+                    student_classes.term=:year1
                     OR
-                    student_classes.term=$year2
+                    student_classes.term=:year2
                     OR
-                    student_classes.term=$year3
+                    student_classes.term=:year3
                     OR
-                    student_classes.term=$year4
+                    student_classes.term=:year4
                 )
                 AND
                 students.id=student_classes.student_id
                 AND
-                students.active=$YES
+                students.active='Yes'
             GROUP BY
                 name_credits,
                 student_classes.term
@@ -227,7 +231,8 @@ include_once 'Journals.php';
                 classes.name ASC,
                 student_classes.term
         ";
-        $query_result = get_from_db($query_string, [$year1, $year2, $year3, $year4, 'yes']);
+        $dataArr = [':year1'=>$year1, ':year2'=>$year2, ':year3'=>$year3, ':year4'=>$year4];
+        $query_result = get_from_db($query_string, $dataArr);
 
         $enrollments = array();
         foreach ($query_result as $row) {
@@ -242,64 +247,41 @@ include_once 'Journals.php';
         return $enrollments;
     }
 
-    //students file
     function students_for_user($user_id)
-    {
-      try {
-          $query = "SELECT
-                      students.id,
-                      CONCAT(COALESCE(last,'*'), ', ', COALESCE(first,'*'), ' (', cwu_id, ')') AS name
-                    FROM
-                      students
-                      JOIN
-                      student_programs
-                      ON students.id=student_programs.student_id
-                    WHERE
-                      cwu_id != 0
-                      AND
-                      student_programs.user_id=?
-                    ORDER BY
-                      active, last, first ASC";
+	{
+		$query_string = "
+		SELECT
+			students.id,
+			CONCAT(COALESCE(last,'*'), ', ', COALESCE(first,'*'), ' (', cwu_id, ')') AS name
+		FROM
+			students
+			JOIN
+			student_programs
+			ON students.id=student_programs.student_id
+		WHERE
+			cwu_id != 0
+			AND
+			student_programs.user_id=:user_id
+		ORDER BY
+			active, last, first ASC
+		;";
+        $dataArr = [':user_id'=>$user_id];
+		$query_result = get_from_db($query_string, $dataArr);;
+		
+		$all_students = array();
+		foreach($query_result as $row)
+		{
+			$id = $row['id'];
+			$name = $row['name'];
+			$all_students[$id] = $name;
+		}
 
-          beginTransaction();
+		return $all_students;
+	}
 
-          add_db($query, [$user_id]);
-          $query_result = fetchAll(PDO::FETCH_ASSOC);
-
-          $all_students = array();
-          foreach ($query_result as $row)
-          {
-              $id = $row['id'];
-              $name = $row['name'];
-              $all_students[$id] = $name;
-          }
-
-          commit();
-
-          return $all_students;
-      } catch (PDOException $e) {
-          rollBack();
-          throw $e;
-      }
-    }
-
-    //im almost sure this function cannot be used since it includes a table which 
-    //is not in the database
     function get_student_info($id, $cwu_id=0, $email='')
 	{	
 		$student_info = array();
-		if ($id != 0)
-		{
-			$where = "students.id=:id";
-		}
-		else if ($cwu_id != 0)
-		{
-			$where = "students.cwu_id=:cwu_id";
-		}
-		else if ($email != '')
-		{
-			$where = "students.email=:email";
-		}
 		
 		$query_string = "
 		SELECT
@@ -307,22 +289,39 @@ include_once 'Journals.php';
 		FROM
 			students
 		WHERE
-			$where
+            students.id=:id
+            OR
+            students.cwu_id=:cwu_id
+            OR
+            students.email=:email
 			;";
         $dataArr = [':id'=>$id, ':cwu_id'=>$cwu_id, ':email'=>$email];
-		$result = get_from_db($query_string, $dataArr);
-		
+		$query_result = get_from_db($query_string, $dataArr);;
+		$info = $query_result;
+
 		$query_string = "
 			SELECT
 				majors.name
 			FROM
-				majors JOIN student_majors ON majors.id=student_majors.major_id JOIN students ON students.id=student_majors.student_id
+				majors JOIN student_programs ON majors.id=student_programs.major_id JOIN students ON students.id=student_programs.student_id
 			WHERE
-				$where
+                students.id=:id
+                OR
+                students.cwu_id=:cwu_id
+                OR
+                students.email=:email
 			;";
-        $result = get_from_db($query_string, $dataArr);
+		$query_result = get_from_db($query_string, $dataArr);;
 		
-		return $result;
+		$program_array = array();
+		foreach($query_result as $row)
+		{
+			$program_array[] = $row['name'];
+		}
+		
+		$info['math_majors'] = implode(", ", $program_array);
+		
+		return $info;
 	}
 
     function get_all_active_students(){

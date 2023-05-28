@@ -2,39 +2,59 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class Replacements {
-    private $db;
-    private $table = 'replacement_classes';
 
-    // Adds a replacement class to a program.
-    public function addReplacement($user_id, $program_id, $replaced_id, $replacement_id) {
-        $query = "INSERT INTO " . $this->table . " (program_id, required_id, replacement_id) VALUES (?, ?, ?)";
-        $this->db->add_db($query, [$program_id, $replaced_id, $replacement_id]);
+    // // Adds a replacement class to a program.
+    // function addReplacement($user_id, $program_id, $replaced_id, $replacement_id) {
+    //     $query = "INSERT INTO " . $this->table . " (program_id, required_id, replacement_id) VALUES (?, ?, ?)";
+    //     $this->db->add_db($query, [$program_id, $replaced_id, $replacement_id]);
 
-        $note = "Added <replacement:$replacement_id> as replacement for <replaced:$replaced_id> in <program:$program_id>.";
-        $this->record_update_program($user_id, $program_id, $note);
-    }
+    //     $note = "Added <replacement:$replacement_id> as replacement for <replaced:$replaced_id> in <program:$program_id>.";
+    //     $this->record_update_program($user_id, $program_id, $note);
+    // }
 
-    // Removes a replacement class from a program.
-    public function removeReplacement($user_id, $program_id, $replaced_id, $replacement_id) {
-        $query = "DELETE FROM " . $this->table . " WHERE program_id = ? AND required_id = ? AND replacement_id = ?";
-        $this->db->delete_from_db($query, [$program_id, $replaced_id, $replacement_id]);
+    // // Removes a replacement class from a program.
+    // function removeReplacement($user_id, $program_id, $replaced_id, $replacement_id) {
+    //     $query = "DELETE FROM " . $this->table . " WHERE program_id = ? AND required_id = ? AND replacement_id = ?";
+    //     delete_from_db($query, [$program_id, $replaced_id, $replacement_id]);
 
-        $note = "Removed <replacement:$replacement_id> as replacement for <replaced:$replaced_id> in <program:$program_id>.";
-        $this->record_update_program($user_id, $program_id, $note);
-    }
+    //     $note = "Removed <replacement:$replacement_id> as replacement for <replaced:$replaced_id> in <program:$program_id>.";
+    //     $this->record_update_program($user_id, $program_id, $note);
+    // }
 
-    // Gets all replacement classes for a program.
-    public function getReplacementClasses($program_id) {
-        $query = "SELECT replacement_classes.required_id, replacement_classes.replacement_id, req.name AS required_name, rep.name AS replacement_name, replacement_classes.note AS note FROM " . $this->table . " JOIN classes AS rep ON replacement_classes.replacement_id = rep.id JOIN classes AS req ON replacement_classes.required_id = req.id WHERE replacement_classes.program_id = ?";
-        $replacement_classes = $this->db->get_from_db($query, [$program_id]);
-        return $replacement_classes;
-    }
+    function get_replacement_classes($program_id)
+	{
+		$replacement_classes = array();
+		$query_string = "
+		SELECT
+			replacement_classes.required_id,
+			replacement_classes.replacement_id,
+			Req.name AS required_name,
+			Rep.name AS replacement_name,
+			replacement_classes.note AS note
+		FROM
+			replacement_classes JOIN classes AS Rep ON replacement_classes.replacement_id=Rep.id JOIN classes AS Req ON replacement_classes.required_id = Req.id
+		WHERE
+			replacement_classes.program_id=:program_id
+		;";
+		$dataArr = [':program_id'=>$program_id];
+		$result = get_from_db($query_string, $dataArr);
+		
+		foreach ($result as $row)
+		{
+			$required_id = $row['required_id'];
+			$required_name = $row['required_name'];
+			$replacement_id = $row['replacement_id'];
+			$replacement_name = $row['replacement_name'];
+			$note = $row['note'];
+			if (!isset($replacement_classes[$required_id]))
+			{
+				$replacement_classes[$required_id] = array('name' => $required_name);
+				$replacement_classes[$required_id]['replacements'] = array();
+			}
+			$replacement_classes[$required_id]['replacements'][] = array('id' => $replacement_id, 'name' => $replacement_name, 'note' => $note);
+		}
+		
+		return $replacement_classes;
+	}
 
-    // Logs a program update with the given note.
-    private function record_update_program($user_id, $program_id, $note) {
-        $query = "INSERT INTO program_updates (user_id, program_id, note) VALUES (?, ?, ?)";
-        $this->db->add_db($query, [$user_id, $program_id, $note]);
-    }
-}
 

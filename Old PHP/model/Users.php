@@ -74,6 +74,7 @@
             }
             else
             {
+                echo"user";
                 return $result;
             }
         }
@@ -154,31 +155,36 @@
             return $id;
         }
 
-        function get_user_info($login='', $password='', $database='', $setcookies = false)
+        function get_user_info($login='', $password='', $setcookies = false)
         {
-            global $db;
-            //TODO hash password here to compare it to the db password
+            // //TODO hash password here to compare it to the db password
             if ($login == '' && $password == '')
-                {
-                    $login = $_COOKIE['webvisor_login'];
-                    $password = $_COOKIE['webvisor_password'];
-                }
-            $query = "SELECT * FROM users
-                        WHERE login = :login AND
-                        password == :password";
+            {
+                $login = $_COOKIE['webvisor-login'];
+
+                $password = $_COOKIE['webvisor_password'];
+                
+            }
+
+            $query = "
+            SELECT * FROM users
+            WHERE 
+                login=:login
+                AND
+                password=:password;";
             $data_array = [':login'=> $login, ':password'=>$password ];
             $user = get_from_db($query, $data_array);
-            
+            $resultRows = get_from_db_rows($query, $data_array);
 
-            if(!$user){
-                $error = "Could not verify user info please check username and password again";
-                include("../errors/error.php");
+            if($resultRows == 0){
+                echo "Could not verify user info please check username and password again";
+                //include("../errors/error.php");
                 return false;
             }
             if ($setcookies)
             {
                 $two_weeks = time()+60*60*24*14;
-                setcookie('webvisor_login', $login, $two_weeks);
+                setcookie('webvisor-login', $login, $two_weeks);
                 setcookie('webvisor_password', $password, $two_weeks);
             }
             return $user;

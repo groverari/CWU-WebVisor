@@ -6,11 +6,14 @@
 <?php
 	
 	include_once("_html.php");
-	include_once("_sql.php");
-	
+	//include_once("_sql.php");
+	include_once("model/Users.php");
+	include_once("model/Majors.php");
+
+
 	$user_info = get_user_info();
-	$user_id = $user_info['id'];
-	$superuser = is_superuser($user_info);
+	$user_id = $user_info[0]['id'];
+	$superuser = $user_info[0]['superuser'];
 			
 	if (!$user_info || !$superuser)
 	{
@@ -29,6 +32,8 @@
 		$major_id = add_major($user_id, $new_name, $YES);
 	}
 	
+	$name = 0;
+
 	if (isset($_POST['update_major']))
 	{		
 		$name = $_POST['update_name'];
@@ -42,10 +47,9 @@
 	if ($major_id != 0)
 	{
 		$major_info = get_major_info($major_id);
-		$name = $major_info['name'];
-		$active = $major_info['active'];
+		$name = $major_info[0]['name'];
+		$active = $major_info[0]['active'];
 	}
-
 ?>
 
 <?php echo(messages()); ?>

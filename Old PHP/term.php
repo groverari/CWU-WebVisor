@@ -5,7 +5,9 @@
 <?php
 	
 	include_once("_html.php");
-	include_once("_sql.php");
+	//include_once("_sql.php");
+	include_once("model/Students.php");
+	include_once("model/Users.php");
 	
 	//! @todo maybe allow anonymous access here since there is no updating
 	if (!get_user_info())

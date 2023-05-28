@@ -9,8 +9,6 @@
     include_once '../config/Database.php';
     include_once '../model/Replacement.php';
 
-    $replacement = new Replacements();
-
     $request;
 
     //properties of table;

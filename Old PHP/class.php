@@ -8,12 +8,27 @@
 	
 	include_once("_html.php");
 	//include_once("_sql.php");
-	include_once("./model/Users.php");
+	include_once("model/Users.php");
+    include_once("model/Classes.php");
+    include_once("model/Student_classes.php");
+    include_once("model/Prerequisites.php");
 				
 	$user_info = get_user_info();
-	$user_id = $user_info['id'];
-	$superuser = is_superuser($user_info);
+	$user_id = $user_info[0]['id'];
+	$superuser = $user_info[0]['superuser'];
 	
+    // $class_info = 0;
+    // $name = '';
+    // $title = '';
+    // $credits = 0;
+    // $fall = '';
+    // $winter = '';
+    // $spring = '';
+    // $summer = '';
+    // $rosters = '';
+    // $prereqs = '';
+    // $all_grades = '';
+
 	if (!$user_info || !$superuser)
 	{
 		echo("<meta http-equiv='refresh' content='0; url=settings.php' />\n");
@@ -23,7 +38,7 @@
 	}
 	
 	$class_id = extract_int($_GET, 'id', extract_int($_POST, 'id', 0));
-	
+
 	if (isset($_POST['add_class']))
 	{
 		$name = $_POST['new_name'];
@@ -72,13 +87,13 @@
 	if ($class_id != 0)
 	{
 		$class_info = get_class_info($class_id);
-		$name = $class_info['name'];
-		$title = $class_info['title'];
-		$credits = $class_info['credits'];
-		$fall = $class_info['fall'];
-		$winter = $class_info['winter'];
-		$spring = $class_info['spring'];
-		$summer = $class_info['summer'];
+		$name = $class_info[0]['name'];
+		$title = $class_info[0]['title'];
+		$credits = $class_info[0]['credits'];
+		$fall = $class_info[0]['fall'];
+		$winter = $class_info[0]['winter'];
+		$spring = $class_info[0]['spring'];
+		$summer = $class_info[0]['summer'];
 		$rosters = get_class_rosters($class_id);
 		$prereqs = get_prereqs($class_id);
 		$all_grades = all_grades();
@@ -234,7 +249,7 @@
             <tr>
                 <td>Active:</td>
                 <td><input type='checkbox' name='update_active'
-                        <?php if ($class_info['active'] == $YES) { echo("checked='checked'"); } ?>>
+                        <?php if ($class_info[0]['active'] == $YES) { echo("checked='checked'"); } ?>>
             <tr>
                 <td />
                 <td><input type='submit' name='update_class' value='Update Class Info' /></td>

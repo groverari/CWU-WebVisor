@@ -5,8 +5,10 @@
 <?php
 	
 	include_once("_html.php");
-	include_once("_sql.php");
-	
+	//include_once("_sql.php");
+	include_once("model/Programs.php");
+	include_once("model/Users.php");
+
 	if (!get_user_info())
 	{
 		echo("<meta http-equiv='refresh' content='0; url=settings.php' />\n");
@@ -17,12 +19,13 @@
 	
 	$program_id = extract_int($_GET, 'program_id');
 
+	$roster = 0;
 	if ($program_id != 0)
 	{
 		$roster = get_program_roster($program_id);
 	}
-	
-	$all_programs_blank = array(0 => '') + all_programs();
+
+	$all_programs_blank = array(0 => '') + all_programs_oldPHP();
 ?>
 </head>
 <body>

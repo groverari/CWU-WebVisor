@@ -2,8 +2,6 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class Programs
-{
     function update_program($user_id, $program_id, $major_id, $year, $credits, $elective_credits, $active)
 	{
 		$query_string = "
@@ -62,7 +60,6 @@ class Programs
     I will add it if it I find out its needed.
     */
     function all_programs(){
-        global $db; 
         $query = "
         SELECT 
             programs.id AS program_id,
@@ -84,6 +81,54 @@ class Programs
         return $programs;
     }
 
+    function all_programs_oldPHP($user_id=0)
+	{
+		$query_string = "
+		SELECT
+			programs.id,
+			name,
+			year
+		FROM
+			programs JOIN majors ON programs.major_id=majors.id
+		WHERE
+			name != ''
+		ORDER BY
+			name
+		;";
+		$query_result = get_from_db($query_string);
+		
+		$all_programs = array();
+		foreach($query_result as $row)
+		{
+			$all_programs[$row['id']] = $row['name']." (".$row['year'].")";
+		}
+	
+		if ($user_id != 0)
+		{
+			$query_string = "
+			SELECT
+				program_id
+			FROM
+				user_programs
+			WHERE
+				user_id=$user_id
+			ORDER BY
+				sequence DESC
+			;";
+			$query_result = get_from_db($query_string);
+			
+			$favorite_programs = array(-1 => '-');
+			foreach ($query_result as $row)
+			{
+				$favorite_programs = array($row['program_id'] => $all_programs[$row['program_id']]) + $favorite_programs;
+			}
+			
+			$all_programs = $favorite_programs + $all_programs;
+		}
+		
+		return $all_programs;
+	}
+
     function get_program_info($program_id){
         global $db;
         $query = "SELECT p.id, p.major_id, p.year, p.credits, p.elective_credits, p.active, m.name 
@@ -103,35 +148,36 @@ class Programs
 
 
     function get_program_roster($program_id){
-        global $db;
-        $query = "SELECT
-                        s.last,
-                        s.first,
-                        CONCAT(s.last, \",\", s.first),
-                        s.cwu_id,
-                        s.email,
-                        u.name AS advisor
-                    FROM students s
-                        JOIN student_programs sp ON s.cwu_id = sp.student_id
-                        JOIN users u ON sp.user_id = u.id
-                    WHERE
-                        sp.program_id = :program_id
-                        AND
-                        s.active = 'YES'
-                    ORDER BY
-                        s.last, s.first ASC
-                        ";
+        echo $program_id;
+        $query = "
+        SELECT
+			students.last,
+			students.first,
+			CONCAT(students.last, \", \", students.first) AS name,
+			students.cwu_id,
+			students.email,
+			users.name AS advisor
+		FROM
+			students
+			JOIN student_programs ON students.id=student_programs.student_id
+			JOIN users ON student_programs.user_id=users.id
+		WHERE
+			student_programs.program_id=:program_id
+			AND
+			students.active='Yes'
+		ORDER BY
+			students.last, students.first ASC
+		";
         $roster = get_from_db($query, [':program_id'=> $program_id]);
         
-
         if(!$roster){
-            $error = "Cound not generate program roster";
+            echo "Cound not generate program roster";
             //include ('../errors/error.php');
         }
         else return $roster;
     }
 
-    function add_program($user_id, $major_id, $year, $template_id){
+    function add_program($major_id, $year, $template_id){
         $program_id = 0;
         if($template_id == 0){
             $query = " INSERT INTO 
@@ -147,4 +193,3 @@ class Programs
                         ";
         }
     }
-}

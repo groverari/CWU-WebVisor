@@ -2,13 +2,7 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class Electives 
-{
-    private $db;
-    private $table = 'electives';
-
-
-    public function get_electives_credits($student_id, $program_id)
+    function get_electives_credits($student_id, $program_id)
     {
         $query_string = "
         SELECT
@@ -45,4 +39,3 @@ class Electives
 
         return array('electives' => $electives, 'credits' => $credits);
     }
-}

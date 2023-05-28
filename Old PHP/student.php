@@ -6,8 +6,16 @@
     <?php
 	
 	include_once("_html.php");
-	include_once("_sql.php");
-	
+	//include_once("_sql.php");
+	include_once("model/Users.php");
+	include_once("model/Student_Programs.php");
+	include_once("model/Programs.php");
+	include_once("model/Students.php");
+
+	$login = extract_string($_POST, 'user_login');
+	$password = extract_string($_POST, 'user_password');
+
+
 	$user_info = get_user_info();
 
 	if (!$user_info)
@@ -18,10 +26,10 @@
 		die();
 	}
 	
-	$user_id = $user_info['id'];
-	$superuser = is_superuser($user_info);
+	$user_id = $user_info[0]['id'];
+	$superuser = $user_info[0]['superuser'];
 			
-	$program_id = extract_int($_POST, 'program_id', $user_info['program_id']);
+	$program_id = extract_int($_POST, 'program_id', $user_info[0]['program_id']);
 	
 //! HANDLE SUBMIT ACTIONS
 	
@@ -175,7 +183,7 @@
 
 
 //! LOAD DATA
-	$all_programs_blank = array('0' => '') + all_programs($user_id);
+	$all_programs_blank = array('0' => '') + all_programs_oldPHP();
 	
 	$all_students_blank = array('0' => '');
 	if ($user_id != 0)

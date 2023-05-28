@@ -11,8 +11,15 @@
 	
 	$login = extract_string($_POST, 'user_login');
 	$password = extract_string($_POST, 'user_password');
-	$programClass = new Programs();
-
+	//$programClass = new Programs();
+	
+	// if (!get_user_info())
+	// {
+	// 	echo("<meta http-equiv='refresh' content='0; url=settings.php' />\n");
+	// 	echo("</head>\n");
+	// 	echo("</html>\n");
+	// 	die();
+	// }
 	
 	if(isset($_POST['logout']))
 	{
@@ -21,7 +28,7 @@
 	}
 	else
 	{
-		$user_info = getUser($login, $password);
+		$user_info = get_user_info($login, $password, true);
 	}
 
 
@@ -46,7 +53,7 @@
 		$program_id = $user_info[0]['program_id'];
 		$advisor_name = $user_info[0]['name'];
 		
-		$all_programs = array('0' => '') + $programClass->all_programs();
+		$all_programs = array('0' => '') + all_programs_oldPHP();
 	}
 ?>
 	<title>Settings</title>

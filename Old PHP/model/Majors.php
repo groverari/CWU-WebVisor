@@ -7,11 +7,20 @@
         {
             $query = "
             SELECT
-                *
+			    id, name, active
             FROM
                 majors
-            ;";
-            return get_from_db( $query);
+            ORDER BY
+                name
+		    ;";
+            $result = get_from_db( $query);
+
+            $all_majors = array();
+            foreach($result as $row)
+            {
+                $all_majors[$row['id']] = $row['name'];
+            }
+            return $all_majors;
         }
 
          function create($name, $active)
@@ -76,7 +85,7 @@
             }
         }
 
-         function readSingle($id)
+         function get_major_info($id)
         {
             $query= "
             SELECT

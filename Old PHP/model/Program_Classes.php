@@ -2,8 +2,36 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class Program_Classes
-{
+	function get_program_classes($program_id)
+	{
+		$program_classes = array();
+		$query_string = "
+		SELECT
+			classes.id,
+			CONCAT(classes.name, ' (', classes.credits, ' cr)') AS name_credits,
+			classes.name,
+			program_classes.minimum_grade,
+			program_classes.sequence_no,
+			program_classes.required
+		FROM
+			classes JOIN program_classes ON program_classes.class_id=classes.id
+		WHERE
+			program_classes.program_id=:program_id
+		ORDER BY
+			sequence_no, name ASC
+		;";
+		$dataArr = [':program_id'=>$program_id];
+
+		$result = get_from_db($query_string, $dataArr);
+
+		foreach($result as $row)
+		{
+			$id = $row['id'];
+			$program_classes[$id] = $row;
+		}
+
+		return $program_classes;
+	}
 
 	function remove_class($user_id, $classID, $PID)
 	{
@@ -29,8 +57,6 @@ class Program_Classes
 	}
 	function add_class($user_id, $classID, $PID, $minimum_grade, $required)
 	{
-		echo "im here in add";
-
 		$query = "
 		INSERT INTO program_classes 
 			(program_id, class_id, minimum_grade, required)
@@ -174,4 +200,3 @@ class Program_Classes
 			$journ->record_update_program($user_id, $program_id, $note);
 		}
 	}
-}

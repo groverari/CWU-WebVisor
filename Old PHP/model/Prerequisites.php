@@ -2,12 +2,9 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class Prerequisites {
-    private $db;
-    private $table = 'prerequisites';
 
 
-    public function updatePrerequisites($class_id, $prereq_ids, $required_grades) {
+    function updatePrerequisites($class_id, $prereq_ids, $required_grades) {
         try {
             // Delete existing prerequisites for the given class
             $query = "DELETE FROM " . $this->table . " WHERE class_id = ?";
@@ -32,18 +29,29 @@ class Prerequisites {
         }
     }
 
-    public function getPrerequisites($class_id) {
-        try {
-            // Select prerequisites and their minimum grades for the given class
-            $query = "SELECT " . $this->table . ".prerequisite_id, classes.name, " . $this->table . ".minimum_grade FROM " . $this->table . " JOIN classes ON " . $this->table . ".prerequisite_id = Classes.id WHERE " . $this->table . ".class_id = ?";
-            $prereqs = $this->db->get_from_db($query, [$class_id]);
-
-            // Return an array of prerequisites and their minimum grades
-            return $prereqs;
-        } catch(PDOException $e) {
-            return false; // Return false if there is an error
-        }
-    }
-}
+    function get_prereqs($class_id)
+	{
+		$query_string = "
+		SELECT
+			prerequisites.prerequisite_id,
+			classes.name,
+			prerequisites.minimum_grade
+		FROM
+			prerequisites
+			JOIN classes ON prerequisites.prerequisite_id=classes.id
+		WHERE
+			prerequisites.class_id = :class_id
+		;";
+        $dataArr = [':class_id'=>$class_id];
+		$query_result = get_from_db($query_string, $dataArr);
+		
+		$prereqs = array();
+		foreach($query_result as $row)
+		{
+			$prereqs[$row['prerequisite_id']] = $row;
+		}
+		
+		return $prereqs;
+	}
 
 

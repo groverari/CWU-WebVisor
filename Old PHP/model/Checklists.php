@@ -2,11 +2,6 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class Checklists 
-{
-    private $db;
-    private $table = 'checklists';
-
 
     function add_checklist_item($user_id, $program_id, $name)
 	{
@@ -124,6 +119,5 @@ class Checklists
 			$journ->record_update_program($user_id, $program_id, $note);
 		}
 	}
-}
 
 

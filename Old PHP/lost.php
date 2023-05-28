@@ -12,12 +12,15 @@
 	include_once("model/Students.php");
 	include_once("model/Student_classes.php");
 
-	echo("<meta http-equiv='refresh' content='0; url=settings.php' />\n");
-	echo("</head>\n");
-	echo("</html>\n");
-	die();
+	if (!get_user_info())
+	{
+		echo("<meta http-equiv='refresh' content='0; url=settings.php' />\n");
+		echo("</head>\n");
+		echo("</html>\n");
+		die();
+	}
 
-	
+
 	$lost_students = get_lost_students();
 	$bad_cwu_ids = get_bad_cwu_ids();
 	

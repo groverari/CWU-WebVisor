@@ -6,10 +6,18 @@
 <?php
 	
 	include_once("_html.php");
-	include_once("_sql.php");
-	
+	//include_once("_sql.php");
+	include_once("model/Users.php");
+	include_once("model/Programs.php");
+	include_once("model/Majors.php");
+	include_once("model/Program_Classes.php");
+	include_once("model/Replacements.php");
+	include_once("model/Templates.php");
+	include_once("model/Checklists.php");
+	include_once("model/Classes.php");
 	$user_info = get_user_info();
-	$superuser = is_superuser($user_info);
+
+	$superuser = $user_info[0]['superuser'];
 	
 	if (!$user_info || !$superuser)
 	{
@@ -104,7 +112,7 @@
 		}
 	}
 	
-	$all_programs = all_programs();
+	$all_programs = all_programs_oldPHP();
 	$all_programs_blank = array('0' => '') + $all_programs;
 	$all_majors = all_majors();
 	$all_years = all_years();
@@ -114,12 +122,12 @@
 	if ($program_id != 0)
 	{
 		$program_info = get_program_info($program_id);
-		$major_id = $program_info['major_id'];
-		$major_name = $program_info['name'];
-		$program_year = $program_info['year'];
-		$credits = $program_info['credits'];
-		$elective_credits = $program_info['elective_credits'];
-		$active = ($program_info['active'] == $YES);
+		$major_id = $program_info[0]['major_id'];
+		$major_name = $program_info[0]['name'];
+		$program_year = $program_info[0]['year'];
+		$credits = $program_info[0]['credits'];
+		$elective_credits = $program_info[0]['elective_credits'];
+		$active = ($program_info[0]['active'] == $YES);
 		$program_classes = get_program_classes($program_id);
 		$all_grades = all_grades();
 		$all_replacements = get_replacement_classes($program_id);
@@ -142,7 +150,7 @@
 		$i = 1;
 		foreach ($checklist_items as $checklist_item)
 		{
-			$checklist_id_name[$checklist_items['id']] = $checklist_items['name'];
+			$checklist_id_name[$checklist_item[0]['id']] = $checklist_item[0]['name'];
 			$checklist_sequences[$i] = $i;
 			++$i;
 		}

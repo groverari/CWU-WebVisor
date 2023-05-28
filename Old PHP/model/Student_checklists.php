@@ -2,14 +2,9 @@
 <?php
 include_once 'pdo-methods.php';
 
-class Student_checklists 
-{
-    private $db;
-    
-    private $table = 'student_checklists';
 
       // clears all checklists for a given student and program id.
-      public function clearchecklist($user_id, $student_id, $program_id)
+      function clearchecklist($user_id, $student_id, $program_id)
       {
           $query = "delete student_checklists from student_checklists join checklists on student_checklists.checklist_id = checklists.id where student_id = ? and program_id = ?";
           $stmt = $this->db->add_db($query, [$student_id, $program_id]);
@@ -23,7 +18,7 @@ class Student_checklists
 
 
     // checks a given checklist item for a given student.
-    public function checkchecklist($user_id, $student_id, $checklist_id)
+    function checkchecklist($user_id, $student_id, $checklist_id)
     {
         $query = "insert into student_checklists (checklist_id, student_id) values (?, ?)";
         $stmt = $this->db->add_db($query, [$checklist_id, $student_id]);
@@ -36,7 +31,7 @@ class Student_checklists
     }
 
     // updates all checklists for a given student and program id, based on an array of checklist ids.
-    public function updatechecklist($user_id, $student_id, $program_id, $checklist_ids)
+    function updatechecklist($user_id, $student_id, $program_id, $checklist_ids)
     {
         $this->clearchecklist($user_id, $student_id, $program_id);
         
@@ -46,7 +41,7 @@ class Student_checklists
         }
     }
     //retrive a list of checked checklist items for  a given student and program
-    public function get_checked_items($user_id, $student_id, $program_id)
+    function get_checked_items($user_id, $student_id, $program_id)
     {
         $query = "select student_checklists.checklist_id
                   from student_checklists
@@ -66,4 +61,3 @@ class Student_checklists
 
         return $checked_items;
     }
-}

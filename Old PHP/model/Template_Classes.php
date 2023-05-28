@@ -2,13 +2,9 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class Template_Classes
-{
-    private $db;
-    private $table = 'template_classes';
 
     // Retrieves template classes based on the template ID.
-    public function get_template_classes($template_id)
+    function get_template_classes($template_id)
     {
         $query = "SELECT class_id, quarter, year FROM " . $this->table . " WHERE template_id = ?";
         $template_classes = $this->db->get_from_db($query, [$template_id]);
@@ -16,7 +12,7 @@ class Template_Classes
     }
 
     // Updates the template name and associated template classes.
-    public function update_template($template_id, $name, $template)
+    function update_template($template_id, $name, $template)
     {
         try {
             $this->db->beginTransaction();
@@ -45,7 +41,7 @@ class Template_Classes
     }
 //    Runction fills a student's class schedule with the classes 
 //    defined in a given template for a specified year.
-    public function fill_template($user_id, $student_id, $template_id, $template_year)
+    function fill_template($user_id, $student_id, $template_id, $template_year)
     {
         try {
             $this->db->beginTransaction();
@@ -99,7 +95,5 @@ class Template_Classes
             throw $e;
         }
     }
-
-}
 
 

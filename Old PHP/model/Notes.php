@@ -2,14 +2,9 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class Notes 
-{
-    private $db;
-    private $table = 'notes';
-
 
     // Retrieves all notes for a given student.
-    public function get_notes($student_id) 
+    function get_notes($student_id) 
     {
         $query = "SELECT notes.id, datetime, note, flagged, name 
                   FROM notes JOIN users ON notes.user_id=users.id 
@@ -36,7 +31,7 @@ class Notes
     }
 
     // Adds a new note to the database with the given information.
-    public function add_note($user_id, $student_id, $note, $flagged) 
+    function add_note($user_id, $student_id, $note, $flagged) 
     {
         $YES = "yes";
         $NO = "no";
@@ -56,7 +51,7 @@ class Notes
     }
 
     // Updates all notes for a given student to remove any existing flags, then adds flags to the notes specified in the array.
-    public function update_notes($student_id, $flagged_ids) 
+    function update_notes($student_id, $flagged_ids) 
     {
         $YES = "yes";
         $NO = "no";
@@ -70,5 +65,4 @@ class Notes
             $this->db->update_db($query, [$YES, $flagged_id]);
         }
     }
-}
 

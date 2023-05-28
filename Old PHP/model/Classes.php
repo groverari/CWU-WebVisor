@@ -2,31 +2,29 @@
     include_once 'Journals.php';
     include_once 'PDO-methods.php';
 
-    class Classes
-    {
-      private function points_to_grade($points)
-      {
-         $temp= all_grades();
-         return $temp[$points];
-      }
+      // function points_to_grade($points)
+      // {
+      //    $temp= all_grades();
+      //    return $temp[$points];
+      // }
 
-      private function all_grades()
-      {
-         return array(
-            40 => 'A',
-            37 => 'A-',
-            33 => 'B+',
-            30 => 'B',
-            27 => 'B-',
-            23 => 'C+',
-            20 => 'C',
-            17 => 'C-',
-            13 => 'D+',
-            10 => 'D',
-            7 => 'D-',
-            0 => 'F'
-         );
-      }
+      // function all_grades()
+      // {
+      //    return array(
+      //       40 => 'A',
+      //       37 => 'A-',
+      //       33 => 'B+',
+      //       30 => 'B',
+      //       27 => 'B-',
+      //       23 => 'C+',
+      //       20 => 'C',
+      //       17 => 'C-',
+      //       13 => 'D+',
+      //       10 => 'D',
+      //       7 => 'D-',
+      //       0 => 'F'
+      //    );
+      // }
       
       function get_class_info($id, $program_id=0)
       {
@@ -87,7 +85,7 @@
       }
 
       // creates the class and returns the class id of the new class
-      function add_class($user_id, $name, $credits, $title='', $fall='$NO', $winter='$NO', $spring='$NO', $summer='$NO')
+      function add_class_class_table($user_id, $name, $credits, $title='', $fall='$NO', $winter='$NO', $spring='$NO', $summer='$NO')
       {
          $query_string = "
          INSERT INTO classes
@@ -124,9 +122,9 @@
                program_classes.minimum_grade,
                COALESCE(program_classes.sequence_no, 1000) AS seqno
             FROM
-               classes LEFT JOIN program_classes ON classes.id=Program_classes.class_id
+               classes LEFT JOIN program_classes ON classes.id=program_classes.class_id
             WHERE
-               program_classes.program_id=$program_id
+               program_classes.program_id=:program_id
             ORDER BY
                active, seqno, name ASC";
             $dataArr = [':program_id'=>$program_id];
@@ -145,7 +143,7 @@
             $query_string = "
             SELECT
                classes.id,
-               CONCAT(Classes.name, ' (', classes.credits, ' cr)') AS name
+               CONCAT(classes.name, ' (', classes.credits, ' cr)') AS name
             FROM
                classes
             ORDER BY
@@ -202,4 +200,3 @@
          $query = "SELECT * FROM classes WHERE active = 'Yes'" ;
          return get_from_db($query);
       }
-    }

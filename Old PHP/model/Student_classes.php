@@ -2,10 +2,6 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class Student_classes 
-{
-
-	private $db;
 
 	function get_class_conflicts($class1_id, $class2_id, $term, $activeStudent)
 	{		
@@ -83,9 +79,7 @@ class Student_classes
 	}
 
 	function get_class_roster($class_id, $term)
-	{
-		$rosters = array();
-		
+	{		
 		$query_string = "
 		SELECT
 			CONCAT(students.last, ', ', students.first) AS name,
@@ -102,10 +96,10 @@ class Student_classes
 		ORDER BY
 			students.last, students.first ASC
 			;";
-		$dataArr =[':class_id'=>$class_id, ':term'=>$term];
+		$dataArr = [':class_id'=>$class_id, [':term']=>$term];
 		$query_result = get_from_db($query_string, $dataArr);
 		$roster = array();
-		foreach ($query_result as $row)
+		foreach($query_result as $row)
 		{
 			$roster[] = $row;
 		}
@@ -132,7 +126,7 @@ class Student_classes
 			;";
 		$dataArr = [':class_id'=>$class_id];
 		$result = get_from_db($query_string, $dataArr);
-		$term_ids = array();
+		$term_id = array();
 		foreach($result as $row)
 		{
 			$term_id = $row['term'];
@@ -251,7 +245,7 @@ class Student_classes
 		$journ->record_update_student($user_id, $student_id, $note);
 	}
     
-    public function add_student_elective($student_class_id, $program_id)
+    function add_student_elective($student_class_id, $program_id)
     {
         $query =
         "
@@ -331,53 +325,50 @@ class Student_classes
     }
 
 	//student_classes file
-	public function get_lost_students()
+	function get_lost_students()
 	{
-		$NO = 'No';
-		$YES = 'Yes';
-
 		$query_string = "
 		SELECT
 			student_classes.term,
 			CONCAT(classes.name, ' (', classes.credits, ' cr)') AS class_name,
-			CONCAT(Students.first, ' ', students.last) AS student_name,
+			CONCAT(students.first, ' ', students.last) AS student_name,
 			students.cwu_id,
 			classes.id AS class_id
 		FROM
 			student_classes
-			JOIN classes ON student_classes.class_id=Classes.id
+			JOIN classes ON student_classes.class_id=classes.id
 			JOIN students ON student_classes.student_id=students.id
 		WHERE
 			(
 				(
 					RIGHT(term,1) = '1'
-					AND classes.fall = ?
+					AND classes.fall = 'YES'
 				)
 				OR
 				(
 					RIGHT(term,1) = '2'
-					AND classes.winter = ?
+					AND classes.winter = 'NO'
 				)
 				OR
 				(
 					RIGHT(term,1) = '3'
-					AND classes.spring=?
+					AND classes.spring= 'NO'
 				)
 				OR
 				(
 					RIGHT(term,1) = '4'
-					AND classes.summer = ?
+					AND classes.summer = 'NO'
 				)
 			)   
 			AND
 				LEFT(term,4) >= YEAR(CURDATE())    
 			AND
-				students.active = ?
+				students.active = 'YES'
 			ORDER BY
 				term
 		;";
 
-		$query_result = $this->db->get_from_db($query_string, [$NO, $NO, $NO, $NO, $YES]);
+		$query_result = get_from_db($query_string);
 
 		$info = array();
 		foreach ($query_result as $row)
@@ -387,5 +378,3 @@ class Student_classes
 
 		return $info;
 	}
-
-}

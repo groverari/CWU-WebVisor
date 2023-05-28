@@ -3,11 +3,16 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <?php
-	include("_sql.php");
+
+	//include("_sql.php");
 	include("_html.php");
+	include ("model/Users.php");
+	include ("model/Programs.php");
 	
 	$login = extract_string($_POST, 'user_login');
 	$password = extract_string($_POST, 'user_password');
+	$programClass = new Programs();
+
 	
 	if(isset($_POST['logout']))
 	{
@@ -16,8 +21,9 @@
 	}
 	else
 	{
-		$user_info = get_user_info($login, $password, '', true);
+		$user_info = getUser($login, $password);
 	}
+
 
 	if ($user_info)
 	{
@@ -36,11 +42,11 @@
 			update_user($user_id, $new_password, $name, $program_id);
 			$user_info = get_user_info($login, $password, '', true);
 		}
+
+		$program_id = $user_info[0]['program_id'];
+		$advisor_name = $user_info[0]['name'];
 		
-		$program_id = $user_info['program_id'];
-		$advisor_name = $user_info['name'];
-		
-		$all_programs = array('0' => '') + all_programs();
+		$all_programs = array('0' => '') + $programClass->all_programs();
 	}
 ?>
 	<title>Settings</title>

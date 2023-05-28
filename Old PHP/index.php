@@ -7,15 +7,13 @@
     <?php
 	
 	include_once("_html.php");
-	include_once("_sql.php");
+	include_once("config/Database.php");
 	
-	if (!get_user_info())
-	{
-		echo("<meta http-equiv='refresh' content='0; url=settings.php' />\n");
-		echo("</head>\n");
-		echo("</html>\n");
-		die();
-	}
+    echo("<meta http-equiv='refresh' content='0; url=settings.php' />\n");
+    echo("</head>\n");
+    echo("</html>\n");
+    die();
+
 ?>
 </head>
 

@@ -205,10 +205,10 @@
 	function messages()
 	{
 		global $MESSAGES;
-		
+		$result = "";
+
 		if (count($MESSAGES) > 0)
 		{
-			$result = "";
 			$result .= "<div id='message_start'><a href='#message_end'>Skip Messages</a></div>";
 			$result .= "<h2>Messages</h2>\n";
 			$result .= "<div class='messages'>\n";

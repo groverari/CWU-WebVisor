@@ -3,7 +3,7 @@
     //$query is a formatted string according to PDO rules
     //$data array is an associative array of all the variables to include in the query
 
-    include '../config/Database.php';
+    include 'config/Database.php';
     //Returns True or false depending on success
     function add_db( $query, $data_array = []){
         global $db;

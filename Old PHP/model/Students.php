@@ -68,7 +68,6 @@ include_once 'Journals.php';
             ;";
             
             $data_array = [':cwu_id'=>$cwu_id, ':email'=>$email];
-            echo "\n\n\n\n getRows\n\n\n\n";
             $query_result_rows = get_from_db_rows($query, $data_array);
             if ($query_result_rows > 0)
             {
@@ -88,13 +87,9 @@ include_once 'Journals.php';
         ;";
         $dataArr = [':cwu_id'=>$cwu_id, ':email'=>$email, ':first'=>$first, ':last'=>$last];
 
-        echo "\n\n\nadd\n\n\n\n";
         $result = add_db($query_string, $dataArr);
         
         $query_result=get_from_db($query, $data_array);
-        echo "\n\n\n\n\n";
-        print_r($query_result);
-        echo "\n\n\n\n\n";
 
         $id = $query_result[0]['id'];
 
@@ -323,6 +318,18 @@ include_once 'Journals.php';
 		
 		return $info;
 	}
+
+    function getStudentInfoSimple($student_id)
+    {
+        $query_string = "
+        SELECT * FROM students
+            WHERE
+            id = :id;";
+        $dataArr = [':id'=>$student_id];
+        $result = get_from_db($query_string, $dataArr);
+
+        return $result;
+    }
 
     function get_all_active_students(){
         $query = "SELECT * FROM students

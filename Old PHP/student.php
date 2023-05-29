@@ -11,6 +11,16 @@
 	include_once("model/Student_Programs.php");
 	include_once("model/Programs.php");
 	include_once("model/Students.php");
+	include_once("model/Student_classes.php");
+	include_once("model/Notes.php");
+	include_once("model/Electives.php");
+	include_once("model/Templates.php");
+	include_once("model/Program_Classes.php");
+	include_once("model/Replacements.php");
+	include_once("model/Checklists.php");
+	include_once("model/Student_checklists.php");
+	include_once("model/Classes.php");
+
 
 	$login = extract_string($_POST, 'user_login');
 	$password = extract_string($_POST, 'user_password');
@@ -129,7 +139,7 @@
 				{
 					$new_name = $_POST['new_name'];
 					$new_credits = $_POST['new_credits'];
-					$class_id = add_class($user_id, $new_name, $new_credits);
+					$class_id = add_indi_class($user_id, $new_name, $new_credits);
 				}
 				
 				$term = $matches[1];
@@ -221,15 +231,16 @@
 
 	if ($student_id != 0)
 	{
-		$student_info = get_student_info($student_id);
-		$cwu_id = $student_info['cwu_id'];
-		$email = $student_info['email'];
-		$name = $student_info['name'];
-		$first = $student_info['first'];
-		$last = $student_info['last'];
-		$active = $student_info['active'];
-		$phone = $student_info['phone'];
-		$address = $student_info['address'];
+		$student_info = getStudentInfoSimple($student_id);
+		print_r($student_info);
+		$cwu_id = $student_info[0]['cwu_id'];
+		$email = $student_info[0]['email'];
+		$name = $student_info[0]['name'];
+		$first = $student_info[0]['first'];
+		$last = $student_info[0]['last'];
+		$active = $student_info[0]['active'];
+		$phone = $student_info[0]['phone'];
+		$address = $student_info[0]['address'];
 
 		$postbaccalaureate = $student_info['postbaccalaureate'];
 		$withdrawing = $student_info['withdrawing'];
@@ -250,8 +261,8 @@
 		$end_year = max($start_year + 1, extract_int($_POST, 'end_year', $end_year));
 
 		$plan = get_plan($student_id, $start_year, $end_year);
-		$classes = $plan['by term'];
-		$class_ids = $plan['by id'];
+		$classes = $plan[0]['by term'];
+		$class_ids = $plan[0]['by id'];
 		
 		$notes = get_notes($student_id);
 		
@@ -261,22 +272,22 @@
 			$student_advisor = get_student_program_advisor($student_id, $program_id);
 			if ($student_advisor)
 			{
-				$advisor_id = $student_advisor['id'];
-				$advisor_name = $student_advisor['name'];
+				$advisor_id = $student_advisor[0]['id'];
+				$advisor_name = $student_advisor[0]['name'];
 			}
 			
 			$electives_credits = get_electives_credits($student_id, $program_id);
-			$electives = $electives_credits['electives'];
-			$elective_credits = $electives_credits['credits'];
+			$electives = $electives_credits[0]['electives'];
+			$elective_credits = $electives_credits[0]['credits'];
 //			print_array($elective_credits);
 			
 			$program_info = get_program_info($program_id);
-			$program_name = $program_info['name'];
-			$program_elective_credits = $program_info['elective_credits'];
+			$program_name = $program_info[0]['name'];
+			$program_elective_credits = $program_info[0]['elective_credits'];
 			
 			$all_templates = array('0' => '') + get_named_templates($program_id);
 			
-			$required_classes = get_required_classes($program_id);
+			$required_classes = get_required_classes_oldPHP($program_id);
 			$replacement_classes = get_replacement_classes($program_id);
 			
 			$checklist_items = get_checklist($program_id);

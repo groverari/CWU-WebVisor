@@ -4,7 +4,7 @@
 
 
     // Retrieves templates for a given program ID.
-    function get_templates($program_id)
+    function get_named_templates($program_id)
 	{
 		$query_string = "
 		SELECT

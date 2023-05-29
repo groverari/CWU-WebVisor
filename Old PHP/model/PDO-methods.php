@@ -11,6 +11,19 @@
         return $statement->execute($data_array);
     }
 
+    function add_db_id($query, $data_array = [])
+    {
+        global $db;
+        $statement = $db->prepare($query);
+        $result = $statement->execute($data_array);
+        
+        if ($result) {
+            return $db->lastInsertId();
+        } else {
+            return false;
+        }
+    }
+
     function remove_db($query, $data_array = [])
     {
         return add_db($query, $data_array);

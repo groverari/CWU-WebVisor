@@ -10,6 +10,7 @@
 	//include_once("config/Database.php");
 	include_once("model/Users.php");
 
+
     if (get_user_info())
 	{
 		echo("<meta http-equiv='refresh' content='0; url=settings.php' />\n");

@@ -114,6 +114,43 @@ include_once 'Journals.php';
 		return $required_classes;
 	}
 
+	function get_required_classes_oldPHP($program_id)
+	{		
+		$required_classes = array();
+		$query_string = "
+		SELECT
+			classes.id,
+			classes.id as CID,
+			CONCAT(classes.name, ' (', classes.credits, ' cr)') AS name_credits,
+			classes.name,
+			classes.credits,
+			program_classes.minimum_grade,
+			program_classes.sequence_no,
+			program_classes.id as p_id
+		FROM
+			classes JOIN program_classes ON program_classes.class_id=classes.id
+		WHERE
+			program_classes.program_id = :program_id
+			AND
+			program_classes.required = 'Yes'
+		ORDER BY
+			classes.name ASC
+		;";
+        $dataArr =[':program_id'=>$program_id];
+		$result = get_from_db($query_string, $dataArr);
+		$resultCount = get_from_db_rows($query_string, $dataArr);
+		if($resultCount == 0)
+		{
+			return array();
+		}
+        foreach($result as $row)
+        {
+			$id = $row['id'];
+			$required_classes[$id] = $row;
+        }
+		return $required_classes;
+	}
+
     //remove global $YES and global $NO as variables and instead added them to parameters.
     //look in sql.php to see what's original
     function update_program_classes($user_id, $program_id, $core_ids, $required_ids, $required_grades, $sequence_numbers, $YES, $NO)

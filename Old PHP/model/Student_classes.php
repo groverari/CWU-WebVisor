@@ -163,7 +163,7 @@ include_once 'Journals.php';
 			classes.id
 		FROM
 			student_classes
-			JOIN Classes ON student_classes.class_id=classes.id
+			JOIN classes ON student_classes.class_id=classes.id
 		WHERE
 			student_classes.student_id=:student_id
 		ORDER BY

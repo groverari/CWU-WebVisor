@@ -41,23 +41,26 @@ include_once 'pdo-methods.php';
         }
     }
     //retrive a list of checked checklist items for  a given student and program
-    function get_checked_items($user_id, $student_id, $program_id)
-    {
-        $query = "select student_checklists.checklist_id
-                  from student_checklists
-                  join checklists on student_checklists.checklist_id=checklists.id
-                  where student_id=?
-                  and program_id=?";
-        $stmt = $this->db->get_from_db($query, [$student_id, $program_id]);
+    function get_checked_items($student_id, $program_id)
+	{
+        $query_string = "
+        SELECT
+            student_checklists.checklist_id
+        FROM
+            student_checklists JOIN checklists ON student_checklists.checklist_id=checklists.id
+        WHERE
+            student_id=:student_id
+            AND
+            program_id=:program_id
+        ;";
+        $dataArr = [':student_id'=>$student_id, ':program_id'=>$program_id];
+        $query_result = get_from_db($query_string, $dataArr);;
         
         $checked_items = array();
-        foreach ($stmt as $row)
+        foreach ($query_result as $row)
         {
             $checked_items[] = $row['checklist_id'];
         }
-
-        $note = "retrieved checked items for <student:$student_id>.";
-        record_update_student($user_id, $student_id, $note);
-
+        
         return $checked_items;
     }

@@ -85,7 +85,7 @@
       }
 
       // creates the class and returns the class id of the new class
-      function add_class_class_table($user_id, $name, $credits, $title='', $fall='$NO', $winter='$NO', $spring='$NO', $summer='$NO')
+      function add_indi_class($user_id, $name, $credits, $title='', $fall='$NO', $winter='$NO', $spring='$NO', $summer='$NO')
       {
          $query_string = "
          INSERT INTO classes
@@ -93,10 +93,10 @@
          VALUES
             (:name, :title, :credits, :fall, :winter, :spring, :summer)
          ;";
+
          $dataArr =[':name'=>$name, ':title'=>$title, ':credits'=>$credits, ':fall'=>$fall, ':winter'=>$winter, ':spring'=>$spring, ':summer'=>$summer];
-         $result = add_db($query_string, $dataArr);
-         
-         $class_id = $result['id'];
+         $result = add_db_id($query_string, $dataArr);
+         $class_id = $result;
          
          if ($class_id > 0)
          {

@@ -79,21 +79,27 @@
             }
         }
 
-        //Get All Users in Database
-        function read()
+        function all_users() 
         {
-            //create query
-            $query = '
+            $query_string = "
             SELECT
                 *
             FROM
                 users
             ORDER BY
                 name ASC
-            ;';
-            $result = get_from_db( $query);
-
-            return $result;
+            ;";
+            $query_result = get_from_db($query_string);;
+            
+            $users = array();
+            foreach ($query_result as $row)
+            {
+                $user_id = $row['id'];
+                $name = $row['name'];
+                $users[$user_id] = $name;
+            }
+            
+            return $users;
         }
 
         function find_user($cwu_id, $email, $first, $last)

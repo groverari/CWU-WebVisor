@@ -13,6 +13,8 @@
     include_once("model/Student_classes.php");
     include_once("model/Prerequisites.php");
 				
+    error_reporting(E_ERROR);
+
 	$user_info = get_user_info();
 	$user_id = $user_info[0]['id'];
 	$superuser = $user_info[0]['superuser'];

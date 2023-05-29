@@ -15,7 +15,7 @@
                 student_programs
                 JOIN programs ON student_programs.program_id=programs.id
                 JOIN majors ON majors.id = programs.major_id
-                LEFT JOIN users ON student_programs.user_id=Users.id
+                LEFT JOIN users ON student_programs.user_id=users.id
             WHERE
                 student_id=:student_id
             ORDER BY

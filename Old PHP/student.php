@@ -25,6 +25,9 @@
 	$login = extract_string($_POST, 'user_login');
 	$password = extract_string($_POST, 'user_password');
 
+	$next_year = 0;
+	$body_class = 0;
+	$name = '';
 
 	$user_info = get_user_info();
 
@@ -235,18 +238,18 @@
 		print_r($student_info);
 		$cwu_id = $student_info[0]['cwu_id'];
 		$email = $student_info[0]['email'];
-		$name = $student_info[0]['name'];
 		$first = $student_info[0]['first'];
 		$last = $student_info[0]['last'];
+		$name = $first . $last;
 		$active = $student_info[0]['active'];
 		$phone = $student_info[0]['phone'];
 		$address = $student_info[0]['address'];
 
-		$postbaccalaureate = $student_info['postbaccalaureate'];
-		$withdrawing = $student_info['withdrawing'];
-		$veterans_benefits = $student_info['veterans_benefits'];
+		$postbaccalaureate = $student_info[0]['postbaccalaureate'];
+		$withdrawing = $student_info[0]['withdrawing'];
+		$veterans_benefits = $student_info[0]['veterans_benefits'];
 		
-		$non_stem_majors = $student_info['non_stem_majors'];
+		$non_stem_majors = $student_info[0]['non_stem_majors'];
 		
 		$start_year = $end_year = date('Y');
 		if (date('m') < 6)
@@ -261,8 +264,8 @@
 		$end_year = max($start_year + 1, extract_int($_POST, 'end_year', $end_year));
 
 		$plan = get_plan($student_id, $start_year, $end_year);
-		$classes = $plan[0]['by term'];
-		$class_ids = $plan[0]['by id'];
+		$classes = $plan['by term'];
+		$class_ids = $plan['by id'];
 		
 		$notes = get_notes($student_id);
 		
@@ -277,8 +280,8 @@
 			}
 			
 			$electives_credits = get_electives_credits($student_id, $program_id);
-			$electives = $electives_credits[0]['electives'];
-			$elective_credits = $electives_credits[0]['credits'];
+			$electives = $electives_credits['electives'];
+			$elective_credits = $electives_credits['credits'];
 //			print_array($elective_credits);
 			
 			$program_info = get_program_info($program_id);
@@ -610,6 +613,7 @@
                 <td colspan='2' />
             </tr>
             <?php
+			
 	foreach ($classes as $year => $terms)
 	{		
 		if ($year == 0)
@@ -650,6 +654,7 @@
 			{
 				$term_name = 'summer';
 			}
+			//print_r($terms);
 			$term_classes = $terms[$term_number];
 			$slots = max(count($term_classes)+1, 6);
 ?>

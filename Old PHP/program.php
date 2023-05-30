@@ -140,7 +140,7 @@
 			}
 		}
 		
-		$templates = get_templates($program_id);
+		$templates = get_named_templates($program_id);
 		$all_templates_blank = array('0' => '') + $templates;
 
 		$checklist_items = get_checklist($program_id);		

@@ -5,6 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel='stylesheet' type='text/css' href='_style.css' />
     <?php
+
+    error_reporting(E_ALL ^ E_WARNING); 
 	
 	include_once("_html.php");
 	//include_once("_sql.php");
@@ -13,7 +15,6 @@
     include_once("model/Student_classes.php");
     include_once("model/Prerequisites.php");
 				
-    error_reporting(E_ERROR);
 
 	$user_info = get_user_info();
 	$user_id = $user_info[0]['id'];
@@ -278,7 +279,7 @@
 		{
 ?>
                 <?php
-			if (count($term[$term_number]) > 0)
+			if ($term[$term_number] != null && count($term[$term_number]) > 0)
 			{
 ?>
                 <td class='enrolled'>
@@ -291,7 +292,7 @@
 			{
 ?>
                 <td class='empty'>
-                    <?php echo(count($term[$term_number])); ?>
+                    <?php echo(0/*count($term[$term_number])*/); ?>
                 </td>
                 <?php
 			}

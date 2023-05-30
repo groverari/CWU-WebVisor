@@ -581,7 +581,7 @@
 					hover over requirement to see what was substituted.</td>
 			</tr>
 		</table>
-		
+
         <h2>Student Plan</h2>
 
         <table class='schedule'>
@@ -850,7 +850,7 @@
                 <td />
                 <?php
 			}
-			if ($row < count($elective_names) + 1)
+			if ($elective_names != null && $row < count($elective_names) + 1)
 			{
 ?>
                 <td class='spacer' />

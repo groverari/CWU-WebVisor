@@ -3,7 +3,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <?php
-	
+	error_reporting(E_ALL ^ E_WARNING); 
+
 	include_once("_html.php");
 	//include_once("_sql.php");
 	include_once("model/Students.php");
@@ -59,16 +60,16 @@ Year Starting Fall:
 	{
 		$name = $info['name'];
 		$enrollment = $info['enrollment'];
-		if ($class == 'even')
-		{
-			$class = 'odd';
-		}
-		else
-		{
-			$class = 'even';
-		}
+		// if ($class == 'even')
+		// {
+		// 	$class = 'odd';
+		// }
+		// else
+		// {
+		// 	$class = 'even';
+		// }
 ?>
-	<tr class='<?php echo($class); ?>'>
+	<tr class='<?php echo("What does this do?"); ?>'>
 		<td><a href='class.php?id=<?php echo($class_id); ?>'><?php echo($name); ?></a></td>
 <?php
 		for ($i = 1; $i < 5; ++$i)

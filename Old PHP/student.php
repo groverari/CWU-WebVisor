@@ -4,7 +4,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <?php
-	
+	error_reporting(E_ALL ^ E_WARNING); 
+
 	include_once("_html.php");
 	//include_once("_sql.php");
 	include_once("model/Users.php");
@@ -235,7 +236,7 @@
 	if ($student_id != 0)
 	{
 		$student_info = getStudentInfoSimple($student_id);
-		print_r($student_info);
+		//print_r($student_info);
 		$cwu_id = $student_info[0]['cwu_id'];
 		$email = $student_info[0]['email'];
 		$first = $student_info[0]['first'];
@@ -424,23 +425,6 @@
 		}
 ?>
 
-        <h2>Key for Color Coding</h2>
-
-        <table>
-            <tr>
-                <td style='background:Red'>Bad Input, hover over region to see the error.</td>
-            </tr>
-            <tr>
-                <td style='background:Orange'>Data not saved, work on and save each section separately.</td>
-            </tr>
-            <tr>
-                <td style='background:Pink'>Requirement not met with plan</td>
-            </tr>
-            <tr>
-                <td style='background-color:rgba(230, 167, 236, 1);'>Substitution was used to satisfy this requirement,
-                    hover over requirement to see what was substituted.</td>
-            </tr>
-        </table>
 
         <h2>Student Information</h2>
 
@@ -581,7 +565,23 @@
         <input type='hidden' name='student_id' value='<?php echo($student_id); ?>' />
         <input type='hidden' name='program_id' value='<?php echo($program_id); ?>' />
 
-
+		<h2>Key for Color Coding</h2>
+		<table>
+			<tr>
+				<td style='background:Red'>Bad Input, hover over region to see the error.</td>
+			</tr>
+			<tr>
+				<td style='background:Orange'>Data not saved, work on and save each section separately.</td>
+			</tr>
+			<tr>
+				<td style='background:Pink'>Requirement not met with plan</td>
+			</tr>
+			<tr>
+				<td style='background-color:rgba(230, 167, 236, 1);'>Substitution was used to satisfy this requirement,
+					hover over requirement to see what was substituted.</td>
+			</tr>
+		</table>
+		
         <h2>Student Plan</h2>
 
         <table class='schedule'>
@@ -613,7 +613,7 @@
                 <td colspan='2' />
             </tr>
             <?php
-			
+
 	foreach ($classes as $year => $terms)
 	{		
 		if ($year == 0)

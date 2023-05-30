@@ -3,7 +3,8 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <?php
-	
+	error_reporting(E_ALL ^ E_WARNING); 
+
 	include_once("_html.php");
 	//include_once("_sql.php");
 	include_once("model/Programs.php");

@@ -104,7 +104,7 @@ function StudentInfo(props) {
   }
 
   return (
-    <div>
+    <div className="info-wrapper">
       <form className="student-info-form" onSubmit={handleSubmit(formSubmit)}>
         <div className="form-group">
           <label>First Name</label>

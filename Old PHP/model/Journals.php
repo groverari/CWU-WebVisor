@@ -3,24 +3,11 @@
 include_once 'PDO-methods.php';
 include_once 'Journals.php';
 
-class Journals 
-{
-    private $conn;
-    private $table = 'journal';
 
-    public $id;
-    public $user_id;
-    public $date;
-    public $note;
-    public $student_id;
-    public $class_id;
-    public $program_id;
-    public $major_id;
-   
 
 // Retrieves a list of journal entries, 
 //including details about the user, student, class, program, major, and note.
-    public function read()
+     function read()
     {
         $query = "
             SELECT
@@ -52,7 +39,7 @@ class Journals
     
     //Inserts a new journal entry indicating that a user updated a major, including 
     //the user ID, major ID, and note.
-    public function record_update_major($user_id, $major_id, $note)
+     function record_update_major($user_id, $major_id, $note)
     {
         $query = "
             INSERT INTO journal (user_id, major_id, note)
@@ -65,7 +52,7 @@ class Journals
     }
 // Inserts a new journal entry indicating that a user updated a program, 
 //including the user ID, program ID, and note.
-    public function record_update_program($user_id, $program_id, $note)
+     function record_update_program($user_id, $program_id, $note)
     {
         $query = "
             INSERT INTO journal (user_id, program_id, note)
@@ -78,7 +65,7 @@ class Journals
     }
 //Inserts a new journal entry indicating that a user updated a class,
 // including the user ID, class ID, and note.
-    public function record_update_class($user_id, $class_id, $note)
+     function record_update_class($user_id, $class_id, $note)
     {
         $query = "
             INSERT INTO journal (user_id, class_id, note)
@@ -90,7 +77,7 @@ class Journals
     }
 //Inserts a new journal entry indicating that a user updated a student, 
 //including the user ID, student ID, and note.
-    public function record_update_student($user_id, $student_id, $note)
+     function record_update_student($user_id, $student_id, $note)
     {
         $query = "
             INSERT INTO journal (user_id, student_id, note)
@@ -100,4 +87,3 @@ class Journals
         $result = add_db( $query, $dataArr);
         return $result;
     }
-}

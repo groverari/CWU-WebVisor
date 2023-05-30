@@ -28,3 +28,10 @@
   @include button-type-1;
   border: 2px solid black;
 }
+
+.student-info-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}

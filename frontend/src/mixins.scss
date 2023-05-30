@@ -34,34 +34,13 @@ $corner-radius: 5px;
   &:hover {
     scale: 1.4;
     background: #70dfc5;
-  }
-  &:before,
-  :after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 2px;
-    width: 0;
-    background: #1aab8a;
-    transition: 400ms ease all;
-  }
-  &:after {
-    right: inherit;
-    top: inherit;
-    left: 0;
-    bottom: 0;
-  }
-  &:hover:before,
-  :hover:after {
-    width: 100%;
-    transition: 800ms ease all;
+    color: black;
   }
 }
 
-@mixin deactivate-button {
-  background: #ff4742;
-  border: 1px solid #ff4742;
+@mixin deactivate-button($color) {
+  background: $color;
+  border: 2px solid $color;
   border-radius: 12px;
   box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
   box-sizing: border-box;

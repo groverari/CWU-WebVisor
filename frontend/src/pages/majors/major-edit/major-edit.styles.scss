@@ -1,4 +1,4 @@
-@use '../../../App.scss';
+@use '../../../Global.scss';
 @import '../../../mixins.scss';
 
 .major-search {
@@ -21,11 +21,10 @@
   margin: 30px 30px;
   padding: 20px;
   display: flex;
-  flex-direction: row;
-  column-gap: 30px;
+  flex-direction: column;
+  row-gap: 30px;
   justify-content: center;
   align-items: center;
-  height: 40px;
 }
 .major-name-label {
   font-size: 20px;
@@ -34,18 +33,19 @@
   border-radius: 4px;
   height: 30px;
 }
-
-.major-update-button {
-  @include button-type-1;
-  height: 30px;
-}
-
-.major-info-container {
+.major-edit-field {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
+  flex-direction: row;
+  column-gap: 30px;
 }
+.major-update-button {
+  @include update-button(30px);
+  border: 1px solid black;
+}
+
 .major-deactivate-button {
-  @include deactivate-button;
+  @include deactivate-button(Global.$deactive-color);
+}
+.major-activate-button {
+  @include deactivate-button(Global.$active-color);
 }

@@ -1,23 +1,5 @@
 @use '../../../App.scss';
 @import '../../../mixins.scss';
-.form-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.form-group {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.form-group label {
-  min-width: 100px;
-  margin-right: 10px;
-}
 
 .submit-btn {
   @include update_button(40px);

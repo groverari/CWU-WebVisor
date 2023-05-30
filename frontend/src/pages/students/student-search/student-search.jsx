@@ -94,7 +94,7 @@ const StudentSearch = () => {
       .then((res) => {
         res.data.map((row) => {
           setAdvisors(Object.entries(advisors).concat(row.advisor_name))
-          setProgramID(programID)
+          setProgramID(row.programID)
           setPrograms(Object.entries(programs).concat(row.program_name))
           if (row.advisor_id == localStorage.getItem('userId')) {
             setCanEdit(true)

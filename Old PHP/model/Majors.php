@@ -69,9 +69,8 @@
             $dataArr = [':name'=>$name, ':active'=>$active, ':id'=>$id];
             
             if(add_db( $query, $dataArr)){
-                $journ = new Journals();
                 $note = "Updated Major: ".$id." by user: ".$user_id;
-                $journ->record_update_major($user_id, $id, $note);
+                record_update_major($user_id, $id, $note);
                 return true;
             }
         }
@@ -90,5 +89,16 @@
             $result = get_from_db( $query, $dataArr);
 
             return $result;
+        }
+
+        function update_activation($major_id, $active, $user_id){
+            $query = "UPDATE majors SET active=:active WHERE id = :major_id";
+            $rows = get_from_db_rows($query, [":active"=>$active, ":major_id"=>$major_id]);
+            if($rows > 0){
+                $note = "User: ".$user_id." changed major activation for major: ".$major_id;
+                record_update_major($user_id, $major_id, $note);
+                return true;
+            }
+            return "Error: No changes were made";
         }
     

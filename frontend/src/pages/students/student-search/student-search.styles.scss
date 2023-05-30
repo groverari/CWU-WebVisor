@@ -1,4 +1,4 @@
-@use '../../../App.scss';
+@use '../../../Global.scss';
 @import '../../../mixins.scss';
 
 .student-search-container {
@@ -12,7 +12,7 @@
 }
 
 .student-deactivate-btn {
-  @include deactivate-button;
+  @include deactivate-button(Global.$deactive-color);
   margin: 20px 10px;
 }
 @mixin overview-btn {
@@ -25,7 +25,7 @@
 }
 .overview-btn-active {
   @include overview-btn;
-  background-color: App.$button-highlight;
+  background-color: Global.$button-highlight;
   scale: 1.2;
 }
 .student-info-wrapper {

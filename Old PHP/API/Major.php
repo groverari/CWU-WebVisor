@@ -34,6 +34,10 @@
             $result = update($data['id'], $data['name'], $data['active'], $data['user_id']);
             echo json_encode($result);
             break;
+        case 'change_activation':
+            $result = update_activation( $data['major_id'], $data['active'], $data['user_id']);
+            echo json_encode($result);
+            break; 
         default:
             echo 'request incorrrect';
             break;

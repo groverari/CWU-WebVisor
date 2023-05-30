@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import './major-edit.styles.scss'
-import MajorInfo from '../../../components/major-info/major-info'
 import SearchBox from '../../../components/search-box/search-box'
 import axios from 'axios'
-import ConfPopUp from '../../../components/PopUp/confirmation/confPopUp'
-import ErrorPopUp from '../../../components/PopUp/error/errorPopUp'
+import Confirmation from '../../../components/PopUp/conf/confirmation'
+import LoadingScreen from '../../../components/PopUp/LoadingScreen/loading'
+import GenericPopUp from '../../../components/PopUp/generic/generic-popup'
 
 /**
  *
@@ -14,18 +14,52 @@ import ErrorPopUp from '../../../components/PopUp/error/errorPopUp'
 function EditMajor() {
   const [majors, setMajors] = useState([])
   const [searchMajors, setSearchMajors] = useState([])
-  const [selectedMajor, setSelectedMajor] = useState([])
+  const [selectedMajor, setSelectedMajor] = useState(0)
   const [showInfo, setInfo] = useState(false)
   const [updatedName, setName] = useState('')
-  const [errorMessage, setErrorMesssage] = useState('');
-  const [showError, setShowError] = useState(false);
+  const [conf, setConf] = useState(false)
+  const [activeConf, setActiveConf] = useState(false)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMesssage] = useState('')
+  const [successMessage, setSuccessMesssage] = useState('')
+  const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  const handleErrorPopUpClose = () =>
-  {
-    setShowError(false);
-    //window.location.reload(true);
+  const handleSuccess = () => {
+    setSuccess(false)
   }
-
+  const successOpen = (event) => {
+    event.preventDefault()
+    setSuccess(true)
+  }
+  const errorClose = () => {
+    setError(false)
+  }
+  const errorOpen = (event) => {
+    event.preventDefault()
+    setError(true)
+  }
+  const confOpen = (event) => {
+    event.preventDefault()
+    setConf(true)
+  }
+  const confClose = () => {
+    setConf(false)
+  }
+  const confYes = () => {
+    setConf(false)
+    handleUpdate
+  }
+  const activeConfOpen = () => {
+    setActiveConf(true)
+  }
+  const activeConfClose = () => {
+    setActiveConf(false)
+  }
+  const activeYes = () => {
+    setActiveConf(false)
+    changeActivation()
+  }
   const api_url = import.meta.env.VITE_API_URL
   useEffect(() => {
     axios
@@ -34,6 +68,12 @@ function EditMajor() {
       })
       .then((res) => {
         setMajors(res.data)
+        setLoading(false)
+      })
+      .catch((error) => {
+        setErrorMesssage(error.data)
+        setLoading(false)
+        setError(true)
       })
   }, [])
 
@@ -43,89 +83,106 @@ function EditMajor() {
         label: major.name,
         value: majors.indexOf(major)
       }))
+      temp.sort(function (a, b) {
+        return a.label.localeCompare(b.label)
+      })
       setSearchMajors(temp)
     }
   }, [majors])
 
-  if (searchMajors) {
-    searchMajors.sort(function (a, b) {
-      return a.label.localeCompare(b.label)
-    })
-  }
-
   const selectHandler = ({ value }) => {
     setName('')
     setSelectedMajor(majors[value])
+    console.log(majors[value])
     setInfo(false)
   }
 
-  const deactivator = () => {
-    console.log('To be deleted')
+  const changeActivation = () => {
+    setLoading(true)
+    let activation = selectedMajor.active == 'Yes' ? 'No' : 'Yes'
+    console.log('NEW ACTIVATION: ' + activation)
+    axios
+      .post(api_url + 'Major.php', {
+        request: 'change_activation',
+        api_key: import.meta.env.API_KEY,
+        user_id: localStorage.getItem('userId'),
+        active: activation,
+        major_id: selectedMajor.id
+      })
+      .then((res) => {
+        if (typeof res.data == 'string' && res.data.includes('error')) {
+          setErrorMesssage(res.data)
+          setLoading(false)
+          setError(true)
+        } else {
+          setSuccessMesssage(
+            activation == 'Yes'
+              ? 'Activation Successful'
+              : 'Deactivation Successful'
+          )
+          setLoading(false)
+          setSuccess(true)
+          delete majors[majors.indexOf(selectedMajor)]
+          selectedMajor.active = activation
+          majors.push(selectedMajor)
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        setErrorMesssage(err.data)
+        setLoading(false)
+        setError(true)
+      })
   }
 
   const buttonHandler = () => {
-    setInfo(true)
+    if (selectedMajor) {
+      setInfo(true)
+    } else {
+      setErrorMesssage('First select a major to edit')
+      setError(true)
+    }
   }
   const updator = () => {
     if (updatedName == '' || selectedMajor.name == updatedName) {
-      console.log('No Changes Yet')
+      setErrorMesssage('No changes were made')
+      setError(true)
     } else {
-      handlePopUpOpen()
+      setConf(true)
     }
   }
 
   const handleUpdate = () => {
+    setLoading(true)
     delete majors[majors.indexOf(selectedMajor)]
     selectedMajor.name = updatedName
     setMajors(majors.concat(selectedMajor))
-    console.log(majors)
-    console.log(searchMajors)
-    axios.post(api_url + 'Major.php', {
-      request: 'update',
-      user_id: localStorage.getItem('userId'),
-      id: selectedMajor.id,
-      name: updatedName,
-      active: 'Yes'
-    })
-   .then((res) => {
-      console.log(res.data)
-      if(typeof res.data === 'string' && res.data.includes('Error'))
-      {
-        console.log("handled error");
-        setErrorMesssage(res.data);
-        setShowError(true);
-      }
-      else
-      {
-        window.location.reload(true);
-        console.log("no error")
-      }
-    })
-  .catch((error)=>
-    {
-      console.log(error);
-    })
+    axios
+      .post(api_url + 'Major.php', {
+        request: 'update',
+        user_id: localStorage.getItem('userId'),
+        id: selectedMajor.id,
+        name: updatedName,
+        active: 'Yes'
+      })
+      .then((res) => {
+        setLoading(false)
+        console.log(res.data)
+        if (typeof res.data === 'string' && res.data.includes('Error')) {
+          setErrorMesssage(res.data)
+          setError(true)
+        } else {
+          setSuccessMesssage('Successfully Updated the Major')
+          setSuccess(true)
+          setName('')
+        }
+      })
+      .catch((error) => {
+        setErrorMesssage(error.data)
+        setLoading(false)
+        setError(true)
+      })
   }
-  // Code to generate Popup
-  const [showPopup, setShowPopup] = useState(false)
-  const [selectedOption, setSelectedOption] = useState(null)
-
-  const handlePopUpOpen = () => {
-    setShowPopup(true)
-  }
-
-  const handlePopUpClose = () => {
-    setShowPopup(false)
-  }
-
-  const handlePopUpButtonClick = (buttonValue) => {
-    setSelectedOption(buttonValue)
-  }
-  useEffect(() => {
-    if (selectedOption) {
-      handleUpdate()
-    }
-  }, [selectedOption])
 
   return (
     <div className="major-search">
@@ -144,36 +201,67 @@ function EditMajor() {
       {showInfo && (
         <div className="major-info-container">
           <div className="major-info">
-            <label className="major-name-label">Name: </label>
-            <input
-              type="text"
-              className="major-name"
-              defaultValue={selectedMajor.name}
-              onChange={(event) => {
-                setName(event.target.value)
-              }}
-            />
-            <button className="major-update-button" onClick={updator}>
-              Update
-            </button>
-          </div>
-          <div>
-            <button className="major-deactivate-button">Deactivate</button>
+            <h3>
+              You can edit the name of the major by changing the name<br></br>{' '}
+              in the textbox and clicking update
+            </h3>
+            <div className="major-edit-field">
+              <label className="major-name-label">Name: </label>
+              <input
+                type="text"
+                className="major-name"
+                defaultValue={selectedMajor.name}
+                onChange={(event) => {
+                  setName(event.target.value)
+                }}
+              />
+              <button className="major-update-button" onClick={updator}>
+                Update
+              </button>
+            </div>
+            <div>
+              <button
+                className={
+                  selectedMajor.active == 'Yes'
+                    ? 'major-deactivate-button'
+                    : 'major-activate-button'
+                }
+                onClick={activeConfOpen}
+              >
+                {selectedMajor.active == 'Yes' ? 'Deactivate' : 'Activate'}
+              </button>
+            </div>
           </div>
         </div>
       )}
-      {showPopup && (
-        <ConfPopUp
-          action="update"
-          onClose={handlePopUpClose}
-          onButtonClick={handlePopUpButtonClick}
-        />
-      )}
-      {showError && 
-      (<ErrorPopUp 
-        popUpContent={errorMessage}
-        onClose={handleErrorPopUpClose}
-      />)}
+
+      <GenericPopUp
+        onClose={handleSuccess}
+        title="Success!"
+        message={successMessage}
+        open={success}
+      />
+      <GenericPopUp
+        onClose={errorClose}
+        title="Error"
+        message={errorMessage}
+        open={error}
+      />
+      <Confirmation
+        onClose={confClose}
+        open={conf}
+        yesClick={confYes}
+        message="Are you sure you would like to change the name of this major?"
+        button_text="Update"
+      />
+      <Confirmation
+        onClose={activeConfClose}
+        open={activeConf}
+        yesClick={activeYes}
+        message="Are you sure you would like to change the activation of this major?"
+        button_text="Change Activation"
+      />
+      <LoadingScreen open={loading} />
     </div>
   )
 }

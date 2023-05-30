@@ -5,3 +5,20 @@ $button-highlight: #b092ff;
 $buttonHover: white;
 $text: #ffffff;
 $textClicked: black;
+
+$deactive-color: #ff4742;
+$active-color: #1aab8a;
+
+.form-group {
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  column-gap: 40px;
+  margin: 5px auto;
+  & label {
+    width: 150px;
+  }
+  & input {
+    width: 200px;
+  }
+}

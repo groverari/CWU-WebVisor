@@ -1,0 +1,32 @@
+@use '../../../Global.scss';
+@import '../../../mixins.scss';
+
+.arch-student-search-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 30px;
+}
+.student-activate-btn {
+  @include deactivate-button(Global.$active-color);
+}
+.arch-student-search-btn {
+  @include button-type-1;
+  height: 40px;
+}
+.archived-search-box {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+.archived-student-info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  justify-content: center;
+}
+.archived-info-wrapper {
+  text-align: center;
+}

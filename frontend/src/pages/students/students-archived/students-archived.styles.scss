@@ -26,7 +26,15 @@
   flex-direction: column;
   row-gap: 20px;
   justify-content: center;
+  text-align: center;
 }
 .archived-info-wrapper {
   text-align: center;
+}
+
+.warning-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 30px auto;
 }

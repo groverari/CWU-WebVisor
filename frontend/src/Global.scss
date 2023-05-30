@@ -14,11 +14,20 @@ $active-color: #1aab8a;
   display: flex;
   flex-direction: row;
   column-gap: 40px;
-  margin: 5px auto;
+  margin: 10px auto;
+  align-items: center;
   & label {
     width: 150px;
   }
   & input {
     width: 200px;
+    background-color: $button-highlight;
+    border: none;
+    border-radius: 12px;
+    padding: 5px 10px;
+    &:hover,
+    :focus {
+      background-color: $buttonHover;
+    }
   }
 }

@@ -205,11 +205,13 @@ function StudentInfo(props) {
           />
           <br />
         </div>
-        <input
-          type="submit"
-          value="Update"
-          className="student-info-update-btn"
-        />
+        <div className="submit-btn-wrapper">
+          <input
+            type="submit"
+            value="Update"
+            className="student-info-update-btn"
+          />
+        </div>
       </form>
       <h3>Program Info</h3>
       <div className="program-info-wrapper">

@@ -30,39 +30,54 @@ include_once 'Journals.php';
         return $formatted_notes;
     }
 
-    // Adds a new note to the database with the given information.
-    function add_note($user_id, $student_id, $note, $flagged) 
-    {
-        $YES = "yes";
-        $NO = "no";
-
-        $escaped_note = htmlspecialchars(strip_tags($note));
-
-        $flagged_text = ($flagged ? $YES : $NO);
-        $query = "INSERT INTO notes (user_id, student_id, note, flagged, datetime) VALUES (?, ?, ?, ?, NOW())";
-        $this->db->add_db($query, [$user_id, $student_id, $escaped_note, $flagged_text]);
-        $note_id = $this->db->lastInsertId();
-
-        if ($this->db->rowCount() > 0) 
-        {
-            $note_text = "<note:$note_id> added to <student:$student_id>.";
-            record_update_student($user_id, $student_id, $note_text);
-        }
-    }
+    function add_note($user_id, $student_id, $note, $flagged)
+	{	
+		$note = '';
+		
+		$flagged_text = ($flagged ? 'Yes' : 'No');
+		$query_string = "
+		INSERT INTO notes
+			(user_id, student_id, note, flagged, datetime)
+		VALUES
+			(:user_id, :student_id, :note, :flagged_text, NOW())
+		";
+        $dataArr = [':user_id'=>$user_id, ':student_id'=>$student_id, ':note'=>$note, ':flagged_text'=>$flagged_text];
+		$query_result_id = add_db_id($query_string, $dataArr);;
+		
+		
+		if ($query_result_id > 0)
+		{
+			$note = "<note:$query_result_id> added to <student:$student_id>.";
+            $journ = new Journals();
+			$journ->record_update_student($user_id, $student_id, $note);
+		}
+	}
 
     // Updates all notes for a given student to remove any existing flags, then adds flags to the notes specified in the array.
-    function update_notes($student_id, $flagged_ids) 
-    {
-        $YES = "yes";
-        $NO = "no";
-
-        $query = "UPDATE notes SET flagged=? WHERE student_id=?";
-        $this->db->update_db($query, [$NO, $student_id]);
-
-        foreach ($flagged_ids as $flagged_id) 
-        {
-            $query = "UPDATE notes SET flagged=? WHERE id=?";
-            $this->db->update_db($query, [$YES, $flagged_id]);
-        }
-    }
+    function update_notes($student_id, $flagged_ids)
+	{
+		
+		global $link; $query_string = "
+		UPDATE notes
+		SET
+			flagged='No'
+		WHERE
+			student_id=:student_id
+		;";
+        $dataArr = [':student_id'=>$student_id];
+		$query_result = add_db($query_string, $dataArr);
+		
+		foreach ($flagged_ids as $flagged_id)
+		{
+			$query_string = "
+			UPDATE notes
+			SET
+				flagged='Yes'
+			WHERE
+				id=:flagged_id
+			;";
+            $dataArr = [':flagged_id'=>$flagged_id];
+			$query_result = add_db($query_string, $dataArr);
+		}
+	}
 

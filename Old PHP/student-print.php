@@ -6,8 +6,21 @@
 	
 	include_once("_common.php");
 	include_once("_html.php");
-	include_once("_sql.php");
-	
+	//include_once("_sql.php");
+	include_once("model/Users.php");
+	include_once("model/Student_Programs.php");
+	include_once("model/Programs.php");
+	include_once("model/Students.php");
+	include_once("model/Student_classes.php");
+	include_once("model/Notes.php");
+	include_once("model/Electives.php");
+	include_once("model/Templates.php");
+	include_once("model/Program_Classes.php");
+	include_once("model/Replacements.php");
+	include_once("model/Checklists.php");
+	include_once("model/Student_checklists.php");
+	include_once("model/Classes.php");
+
 	$user_info = get_user_info();
 	
 	if (!$user_info)
@@ -18,32 +31,32 @@
 		die();
 	}
 	
-	$user_name = $user_info['name'];
+	$user_name = $user_info[0]['name'];
 	
 	$student_id = cwu_id_to_student_id(extract_int($_GET, 'cwu_id', 0));
 	$program_id = extract_int($_GET, 'program_id', 0);
 
-	if ($student_id == 0 || $program_id == 0)
+	/*if ($student_id == 0 || $program_id == 0)
 	{
 ?>
 	<meta http-equiv='refresh' content='0; url=http://webwork.math.cwu.edu/webvisor/student.php' />
 <?php
-	}
+	}*/
 
 	$student_info = get_student_info($student_id);
-	$cwu_id = $student_info['cwu_id'];
-	$email = $student_info['email'];
-	$name = $student_info['name'];
-	$first = $student_info['first'];
-	$last = $student_info['last'];
-	$active = $student_info['active'];
-	$phone = $student_info['phone'];
-	$address = $student_info['address'];
+	$cwu_id = $student_info[0]['cwu_id'];
+	$email = $student_info[0]['email'];
+	$name = $student_info[0]['name'];
+	$first = $student_info[0]['first'];
+	$last = $student_info[0]['last'];
+	$active = $student_info[0]['active'];
+	$phone = $student_info[0]['phone'];
+	$address = $student_info[0]['address'];
 
-	$postbaccalaureate = $student_info['postbaccalaureate'];
-	$second_major = $student_info['second_major'];
-	$withdrawing = $student_info['withdrawing'];
-	$veterans_benefits = $student_info['veterans_benefits'];
+	$postbaccalaureate = $student_info[0]['postbaccalaureate'];
+	$second_major = $student_info[0]['second_major'];
+	$withdrawing = $student_info[0]['withdrawing'];
+	$veterans_benefits = $student_info[0]['veterans_benefits'];
 	
 	$start_year = $end_year = date('Y');
 	if (date('m') < 7)

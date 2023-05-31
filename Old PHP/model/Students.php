@@ -16,7 +16,7 @@ include_once 'Journals.php';
         $dataArr =[':cwu_id'=>$cwu_id];
 		$query_result = get_from_db($query_string, $dataArr);
 		
-		return $query_result['id'];
+		return $query_result[0]['id'];
 	} 
 
     function update_student($user_id, $student_id, $first, $last, $cwu_id, $email, $phone, $address, $postbaccalaureate, $withdrawing, $veterans_benefits, $active)

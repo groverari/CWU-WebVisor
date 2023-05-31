@@ -2388,6 +2388,7 @@
 		
 		return $checked_items;
 	}
+	
 	//niranjan
 	function clear_checklist($user_id, $student_id, $program_id)
 	{
@@ -2409,6 +2410,7 @@
 			record_update_student($user_id, $student_id, $note);
 		}
 	}
+
 	//niranjan
 	function check_checklist($user_id, $student_id, $checklist_id)
 	{

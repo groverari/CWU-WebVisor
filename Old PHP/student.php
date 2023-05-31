@@ -663,17 +663,19 @@
 			$term_credits = 0;
 			for ($j = 0; $j < $slots; ++$j)
 			{
+				//print_r($term_classes);
 				$class_id = $term_classes[$j]['class_id'];
 				$student_class_id = $term_classes[$j]['student_class_id'];
 				$class_info = get_class_info($class_id);
 				$style = "";
 				$title = "";
-				if ($class_id != 0 && $class_info[$term_name] != $YES)
+				if ($class_id != 0 && $class_info[0][$term_name] != $YES)
 				{
 					$style=" class='error'";
 					$title = "title='Class not offered this term.'";
 				}
-				$term_credits += $class_info['credits'];
+				//print_r($class_info);
+				$term_credits += $class_info[0]['credits'];
 				$slot_name = "$year$term_number-$j";
 				$class_menu = "<span$style$title>".array_menu("\t\t\t\t", $all_classes, "slot-$slot_name", $class_id)."</span>";
 				$elective_checkbox = '';

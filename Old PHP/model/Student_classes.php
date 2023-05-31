@@ -285,20 +285,20 @@ include_once 'Journals.php';
 		DELETE FROM
 			student_classes
 		WHERE
-			student_id = 'student_id'
+			student_id = :student_id
 			AND
 			term = 000
 		;";
-        $dataArr = [':$student_id' => $student_id];
-		$query_result = remove_db($dataArr, $query_string);
+        $dataArr = [':student_id' => $student_id];
+		$query_result = remove_db($query_string, $dataArr);
 		
 		foreach ($requirements_taken as $requirement_id)
 		{
 			$query_string = "
-			INSERT INTO Student_Classes
+			INSERT INTO student_classes
 				(student_id, class_id, term)
 			VALUES
-				($student_id, $requirement_id, 000)
+				(:student_id, :requirement_id, 000)
 			;";
             $dataArr = [':student_id'=>$student_id, ':requirement_id'=>$requirement_id];
 			$query_result = add_db($query_string, $dataArr);

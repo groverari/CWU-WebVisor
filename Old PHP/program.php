@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<link rel='stylesheet' type='text/css' href='_style.css' />
 <?php
-	error_reporting(E_ALL ^ E_WARNING); 
+	//error_reporting(E_ALL ^ E_WARNING); 
 
 	include_once("_html.php");
 	//include_once("_sql.php");
@@ -17,6 +17,7 @@
 	include_once("model/Checklists.php");
 	include_once("model/Classes.php");
 	$user_info = get_user_info();
+	$user_id = $user_info[0]['id'];
 
 	$superuser = $user_info[0]['superuser'];
 	
@@ -115,6 +116,7 @@
 	
 	$all_programs = all_programs_oldPHP();
 	$all_programs_blank = array('0' => '') + $all_programs;
+	print_r($all_programs_blank);
 	$all_majors = all_majors();
 	$all_years = all_years();
 	$this_year = date("Y");

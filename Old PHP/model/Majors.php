@@ -2,7 +2,29 @@
     include_once 'PDO-methods.php';
     include_once 'Journals.php';
 
-    
+        	//InProcess-Josh
+        function add_major($user_id, $name, $active)
+        {		
+             $query_string = "
+                INSERT INTO
+                    majors(name, active)
+                VALUES
+                    (:name, :active)
+                ;";
+            $data_array = [':name' => $name, ':active' => $active];    
+            $query_result = add_db_id( $query_string, $data_array);
+            
+            
+            
+            if ($query_result > 0)
+            {
+                $note = "<major:$query_result> added.";
+                $journ = new Journals();
+                $journ->record_update_major($user_id, $query_result, $note);
+            }
+            
+            return $query_result;
+        }
          function all_majors()
         {
             $query = "
@@ -48,6 +70,32 @@
             $dataArr = [':name'=>$name, ':active'=>$active];
             return add_db_rows( $query, $dataArr);
         }
+
+            //InProcess-Josh
+        function update_major($user_id, $major_id, $name, $active)
+        {		
+            $query_string = "
+                UPDATE
+                    majors
+                SET
+                    name=:name,
+                    active=:active
+                WHERE
+                    id=:major_id
+                ;";
+        
+            $data_array = [':name' => $name, ':active' => $active, ':major_id' => $major_id];     
+            $query_result = add_db_rows($query_string, $data_array);
+
+            if ($query_result> 0)
+            {
+                $journ = new Journals();
+                $note = "<major:$major_id> updated.";
+                $journ->record_update_major($user_id, $major_id, $note);
+            }
+        }    
+
+
 
          function update($id, $name, $active, $user_id)
         {

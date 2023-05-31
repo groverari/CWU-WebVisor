@@ -18,14 +18,14 @@
 	}
 	
 	//! @TODO https://stackoverflow.com/questions/1581610/how-can-i-store-my-users-passwords-safely
-	/*
+	
 	function get_user_info($login='', $password='', $database='', $setcookies = false)
 	{
 		$master_login = '';
 		$master_password = '';
 		$database = 'advising';		
 
-		$link = mysql_connect('localhost', $master_login, $master_password);
+		//$link = mysql_connect('localhost', $master_login, $master_password);
 		if (!$link)
 		{
 			add_message("Error: could not link to server, please contact Aaron.<br />");
@@ -70,7 +70,7 @@
 			return mysql_fetch_assoc($query_result);
 		}
 	}
-	*/
+	
 	
 	function is_superuser($user_info)
 	{

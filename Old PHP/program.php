@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<link rel='stylesheet' type='text/css' href='_style.css' />
 <?php
-	//error_reporting(E_ALL ^ E_WARNING); 
+	error_reporting(E_ALL ^ E_WARNING); 
 
 	include_once("_html.php");
 	//include_once("_sql.php");
@@ -37,7 +37,7 @@
 		$new_year = extract_int($_POST, 'new_year');
 		$new_template_id = extract_int($_POST, 'new_template_id');
 		
-		$program_id = add_program($user_id, $new_major_id, $new_year, $new_template_id);
+		$program_id = add_program_oldPHP($user_id, $new_major_id, $new_year, $new_template_id);
 	}
 
 	if (isset($_POST['update_program']))
@@ -116,7 +116,7 @@
 	
 	$all_programs = all_programs_oldPHP();
 	$all_programs_blank = array('0' => '') + $all_programs;
-	print_r($all_programs_blank);
+	//print_r($all_programs_blank);
 	$all_majors = all_majors();
 	$all_years = all_years();
 	$this_year = date("Y");

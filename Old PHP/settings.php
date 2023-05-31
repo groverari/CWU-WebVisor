@@ -4,6 +4,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <?php
 
+	error_reporting(E_ALL ^ E_WARNING); 
+
 	//include("_sql.php");
 	include("_html.php");
 	include ("model/Users.php");

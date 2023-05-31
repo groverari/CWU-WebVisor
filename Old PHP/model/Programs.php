@@ -180,7 +180,8 @@ include_once 'Journals.php';
     function add_program($major_id, $year, $template_id){
         $program_id = 0;
         if($template_id == 0){
-            $query = " INSERT INTO 
+            $query = " 
+            INSERT INTO 
                         programs(major_id, year)
                         VALUES
                         :major_id, :year";
@@ -193,3 +194,83 @@ include_once 'Journals.php';
                         ";
         }
     }
+
+    function add_program_oldPHP($user_id, $major_id, $year, $template_id)
+	{
+		$program_id = 0;
+		
+		if ($template_id == 0)
+		{
+			$query_string = "
+			INSERT INTO
+				programs(major_id, year)
+			VALUES
+				(:major_id, :year)
+			;";
+			
+            $dataArr = [':major_id'=>$major_id, ':year'=>$year];
+			$program_id = add_db_id($query_string, $dataArr);
+		}
+		else
+		{
+			$query_string = "
+			INSERT INTO
+				programs(major_id, year, credits, elective_credits)
+			SELECT
+				:major_id, :year, credits, elective_credits
+			FROM
+				programs
+			WHERE
+				id=:template_id
+			;";
+            $dataArr = [':major_id'=>$major_id, ':year'=>$year, ':template_id'=>$template_id];
+			$program_id = add_db_id($query_string, $dataArr);;
+						
+			$query_string = "
+			INSERT INTO
+				checklists(program_id, sequence, name)		
+			SELECT
+				:program_id, sequence, name
+			FROM
+				checklists
+			WHERE
+				program_id=:template_id
+			;";
+            $dataArr = [':program_id'=>$program_id, ':template_id'=>$template_id];
+			$query_result = add_db($query_string,$dataArr);;
+			
+			$query_string = "
+			INSERT INTO
+				program_classes(program_id, class_id, minimum_grade, sequence_no, template_qtr, template_year, required)
+			SELECT
+				:program_id, class_id, minimum_grade, sequence_no, template_qtr, template_year, required
+			FROM
+				program_classes
+			WHERE
+				program_id=:template_id
+			;";
+
+			$query_result = add_db($query_string, $dataArr);;
+			
+			$query_string = "
+			INSERT INTO
+				replacement_classes(program_id, required_id, replacement_id)
+			SELECT
+				:program_id, required_id, replacement_id
+			FROM
+				replacement_classes
+			WHERE
+				program_id=:template_id
+			;";
+			$query_result = add_db($query_string, $dataArr);;
+		}
+		
+		if ($program_id > 0)
+		{
+			$note = "Added <program:$program_id>.";
+            $journ = new Journals();
+			$journ->record_update_program($user_id, $program_id, $note);
+		}
+		
+		return $program_id;
+	}

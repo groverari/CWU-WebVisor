@@ -21,6 +21,7 @@ import AddProgram from './pages/majors/program-add/program-add'
 import AddUser from './pages/admin/add-user/userAdd'
 import SearchUser from './pages/admin/searchUser/userSearch'
 import AdminPage from './pages/admin/adminPage/admin'
+import Help from './pages/help/help'
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
             <Route path="search" element={<SearchUser />} />
             <Route path="add" element={<AddUser />} />
           </Route>
+          <Route path="help" element={<Help />} />
         </Route>
       </Routes>
     </div>

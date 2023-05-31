@@ -3,9 +3,6 @@ import { GiGears } from 'react-icons/gi'
 import React, { useEffect, useState } from 'react'
 import './navbar.styles.scss'
 import '../../App.scss'
-import ConfPopUp from '../PopUp/confirmation/confPopUp'
-import ErrorPopUp from '../PopUp/error/ErrorPopUp'
-import superUser from '../../pages/login-page/login.page'
 import { set } from 'react-hook-form'
 
 const NavBar = () => {
@@ -87,10 +84,17 @@ const NavBar = () => {
         >
           Enrollments
         </Link>
+        <Link
+          className={
+            location.pathname.includes('help')
+              ? 'nav-link-clicked'
+              : 'nav-link-unclicked'
+          }
+          to="/home/help"
+        >
+          Help
+        </Link>
       </div>
-      {/* <div>
-            <ConfPopUp action = "deactivate"/>
-      </div> */}
       <Outlet />
     </>
   )

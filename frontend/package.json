@@ -11,17 +11,21 @@
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.12.3",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.3",
     "axios": "^1.4.0",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
+    "react-collapse": "^5.1.1",
+    "react-collapsed": "^4.0.2",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.10.0",
     "react-select": "^5.7.2",
     "sass": "^1.62.0",
-    "select": "^1.1.2"
+    "select": "^1.1.2",
+    "vite-plugin-env-compatible": "^1.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

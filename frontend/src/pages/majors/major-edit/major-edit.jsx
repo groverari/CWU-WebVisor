@@ -48,7 +48,7 @@ function EditMajor() {
   }
   const confYes = () => {
     setConf(false)
-    handleUpdate
+    handleUpdate()
   }
   const activeConfOpen = () => {
     setActiveConf(true)

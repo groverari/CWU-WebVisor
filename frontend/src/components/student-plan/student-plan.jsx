@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './student-plan.styles.scss'
-import Select from 'react-select'
+
 import axios from 'axios'
-import ClassSelector from '../class-selector/class-selector'
-import PlanClassSelector from '../plan-class-selector/plan-class-selector'
 
 function StudentPlan() {
   const [startYear, setStartYear] = useState(0)

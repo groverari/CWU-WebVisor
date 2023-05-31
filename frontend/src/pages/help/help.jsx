@@ -1,4 +1,5 @@
 import React from 'react'
+import './help.styles.scss'
 import {
   StudentHelp,
   ClassHelp,
@@ -9,9 +10,11 @@ function Help() {
   return (
     <div>
       <h1>Help Page</h1>
-      <div>
+      <div className="help-wrapper">
         <StudentHelp />
+
         <ClassHelp />
+
         <MajorHelp />
       </div>
     </div>

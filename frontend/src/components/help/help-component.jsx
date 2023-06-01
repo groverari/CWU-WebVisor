@@ -180,25 +180,26 @@ function ClassHelp() {
               Class Search
             </Typography>
             <Typography sx={{ color: "text.secondary" }}>
-              This is where you can edit a student's info or change thier plan
+              This is where you can edit a class's info or change the offered
+              quarter
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              <strong>Searching for a Student: </strong> Use the search box to
-              find a student by name or id. Then click on the student to pull up
-              thier information
+              <strong>Searching for a Class: </strong> Use the search box to
+              find a class by name. Then click on the class to pull up thier
+              information
               <br />
-              <strong>Updating student Info: </strong> To edit any info for the
-              student, click on the info tab and change the corresponding text
-              box and click the update button
+              <strong>Updating class Info: </strong> To edit any info for the
+              class, change the corresponding text on the class info field and
+              slider tool for term offered. Once you are done making necessary
+              changes, click the update button.
               <br />
-              <strong>Changing a Student Plan: </strong> To edit a student's
-              plan, click on the plan tab. Here you can change the number of
-              years you would like to plan for the student. The form will auto
-              generate the select boxes from which you can select the classes to
-              assign the student. Clicking the update button at the bottom of
-              the page will save the progress so far
+              <strong>Enrollment Table: </strong> This table shows you the
+              number of enrollement for the selected class with the by term and
+              year. Note:- The update functionality on the page has nothing to
+              with this table--there is no way you can edit the number of
+              enrollement on from here.
               <br />
               <strong>
                 YOU MUST UPDATE BEFORE CLICKING OFF THE PLAN OTHERWISE IT WILL
@@ -220,26 +221,27 @@ function ClassHelp() {
               Add Class
             </Typography>
             <Typography sx={{ color: "text.secondary" }}>
-              This is where new students are added to the program
+              This is where new classes are added
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              <strong>Step 1:</strong> Select a program to add the student to
-              from the drop down select box <br />
-              <strong>Step 2:</strong> Fill out the corresponding information
-              about the student
+              <strong>Step 1:</strong> Type the catalog code you would like to
+              define the the class you would like add. Place holder is a
+              example. <br />
+              <strong>Step 2:</strong> Writ the full name of the class as shown
+              in the text field as shown in the placeholder.
               <br />
-              <strong>
-                If the student id or the email aready are assigned to another
-                student an error will show
-              </strong>
+              <strong>Step 3:</strong> Type the credit equivalency for the
+              class.
               <br />
-              <strong>Step 3:</strong> Click on the add student button and wait
-              for the popup for confirmation.
+              <strong>Step 4:</strong>Select the quarter offered for the class
+              you are adding. Review Step1 through Step 4 and Click Add class
+              button. Always wait until the confirmation.
               <br />
+              <strong>If the class already exists error pops out</strong>
               <strong>Errors: </strong> If an error shows up, fix the
-              corresponding field and click the add student button again
+              corresponding field and click the add class button again
             </Typography>
           </AccordionDetails>
         </Accordion>

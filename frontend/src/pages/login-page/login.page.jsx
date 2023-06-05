@@ -50,7 +50,7 @@ const Login = () => {
       })
       .catch((error) => {
         console.log(error)
-        console.log('It is simply, and indeed quite undeniably...fucked')
+        console.log('It is simply, and indeed quite undeniably...broke')
       })
   }
   //check if cookies are set

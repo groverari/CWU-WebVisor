@@ -81,8 +81,7 @@
 	
 	function update_user($user_id, $password, $name, $program_id)
 	{
-		global $link;
-		global $link; $query_string = "
+	 	$query_string = "
 			UPDATE
 				Users
 			SET
@@ -91,7 +90,7 @@
 			WHERE
 				id=$user_id
 			;";
-		$query_result = mysqli_query($link, $query_string);;
+		$query_result = mysql_query($query_string);;
 		
 		if ($password != '')
 		{
@@ -103,7 +102,7 @@
 				WHERE
 					id=$user_id
 			;";
-			$query_result = mysqli_query($link, $query_string);;
+			$query_result = mysql_query($query_string);;
 		}
 	}
 

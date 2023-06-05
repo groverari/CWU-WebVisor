@@ -32,13 +32,13 @@
 
 	$user_info = get_user_info();
 
-	if (!$user_info)
-	{
-		echo("<meta http-equiv='refresh' content='0; url=settings.php' />\n");
-		echo("</head>\n");
-		echo("</html>\n");
-		die();
-	}
+	// if (!$user_info)
+	// {
+	// 	echo("<meta http-equiv='refresh' content='0; url=settings.php' />\n");
+	// 	echo("</head>\n");
+	// 	echo("</html>\n");
+	// 	die();
+	// }
 	
 	$user_id = $user_info[0]['id'];
 	$superuser = $user_info[0]['superuser'];

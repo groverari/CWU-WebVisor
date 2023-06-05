@@ -21,10 +21,6 @@
             $result = getUser($data['login'], $data['password']);
             echo json_encode($result);
             break;
-        case 'read':
-            $result = read();
-            echo json_encode($result);
-            break;
         case 'update_user_simple':
             $result = update_user_simple($data['user_id'], $data['password'], $data['login'], $data['superuser']);
             echo json_encode($result);

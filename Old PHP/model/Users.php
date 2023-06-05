@@ -51,7 +51,8 @@
             }
         }
 
-        //this function is not for PHP! PHP function down below :)
+        //I've made a fool of you. This function is not for PHP! PHP function down below >:)
+
         function getUser($login, $password)
         {
             //create query
@@ -193,6 +194,7 @@
                 setcookie('webvisor-login', $login, $two_weeks);
                 setcookie('webvisor_password', $password, $two_weeks);
             }
+            print_r($user);
             return $user;
         }
         

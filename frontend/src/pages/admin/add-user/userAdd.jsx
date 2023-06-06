@@ -8,6 +8,7 @@ import Switch from "@mui/material/Switch";
 import ErrorPopUp from "../../../components/PopUp/error/errorPopUp";
 import ConfPopUp from "../../../components/PopUp/confirmation/confPopUp";
 
+//Add User Component
 const AddUser = () => {
   const api_url = import.meta.env.VITE_API_URL;
   const [showPopup, setShowPopup] = useState(false);
@@ -15,27 +16,35 @@ const AddUser = () => {
   const [errorMessage, setErrorMesssage] = useState(" ");
   const [showError, setShowError] = useState(false);
   const { control, register, handleSubmit, setValue } = useForm();
-
+  // Function to handle closing the error popup
   const handleErrorPopUpClose = () => {
     setShowError(false);
   };
+
+  // Function to open the confirmation popup
+
   const handlePopUpOpen = () => {
     event.preventDefault();
     setShowPopup(true);
   };
 
+  // Function to close the confirmation popup
+
   const handlePopUpClose = () => {
     setShowPopup(false);
   };
+  // Function to handle button click in the confirmation popup
   const handlePopUpButtonClick = (buttonValue) => {
     setSelectedOption(buttonValue);
   };
+  // Perform the class addition when the selected option changes
   useEffect(() => {
     if (selectedOption) {
       handleSubmit(addClass)();
       setSelectedOption(false);
     }
   }, [selectedOption]);
+  // Function to add a class
 
   const addClass = (data) => {
     console.log(data);
@@ -59,7 +68,7 @@ const AddUser = () => {
         console.log("no, here");
       });
   };
-
+  // JSX rendering
   return (
     <div className="class-form-container">
       <h1>Add Class</h1>

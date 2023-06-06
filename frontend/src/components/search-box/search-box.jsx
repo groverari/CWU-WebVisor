@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import './search-box.scss'
-import Select from 'react-select'
+import React, { useState } from "react";
+import "./search-box.scss";
+import Select from "react-select";
 
 function SearchBox(props) {
-  const [selected, setSelected] = useState(0)
+  // State variable to store the selected option
+  const [selected, setSelected] = useState(0);
 
-  //const handleSelect = (selected) =>{setSelected(selected)}
-
+  // Function to handle option selection
   return (
     <div className="search-box-container">
       <Select
@@ -18,7 +18,7 @@ function SearchBox(props) {
         onChange={props.onChange}
       />
     </div>
-  )
+  );
 }
 
-export default SearchBox
+export default SearchBox;

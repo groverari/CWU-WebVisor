@@ -5,10 +5,11 @@ import Switch from "@mui/material/Switch";
 import axios from "axios";
 import ConfPopUp from "../PopUp/confirmation/confPopUp";
 
+// UserInfo component
 function UserInfo({ selUser }) {
   const { control, register, handleSubmit, setValue } = useForm();
   const api_url = import.meta.env.VITE_API_URL;
-
+  // Function to handle the update of user information
   const onUpdate = () => {
     console.log(selUser);
     //console.log(data.)
@@ -30,28 +31,29 @@ function UserInfo({ selUser }) {
   };
 
   // const [class, setClass] = useState(props)
+  // Extract login, password, and superuser from selUser
+  const { login, password, superuser } = selUser;
 
-  const {login, password, superuser} = selUser;
-
+  // Check if the user is a superuser
   const isSuperUser = superuser == "Yes";
-
+  // State for managing the popup visibility and selected option
   const [showPopup, setShowPopup] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-
+  // Function to open the popup
   const handlePopUpOpen = () => {
     event.preventDefault();
     setShowPopup(true);
   };
-
+  // Function to close the popup
   const handlePopUpClose = () => {
     setShowPopup(false);
   };
+  // Function to handle button click in the popup
 
   const handlePopUpButtonClick = (buttonValue) => {
     setSelectedOption(buttonValue);
   };
-
-
+  // Perform the update when the selected option changes
   useEffect(() => {
     if (selectedOption) {
       handleSubmit(onUpdate)();
@@ -69,7 +71,11 @@ function UserInfo({ selUser }) {
 
           <div className="form-group">
             <label>Password</label>
-            <input type="text" {...register("password")} defaultValue={password} />
+            <input
+              type="text"
+              {...register("password")}
+              defaultValue={password}
+            />
           </div>
 
           <div superuser="form-group">
@@ -91,7 +97,7 @@ function UserInfo({ selUser }) {
               }}
             />
           </div>
-            <br />
+          <br />
           <input className=" class-btn_update" type="submit" value="Update" />
         </form>
         {showPopup && (

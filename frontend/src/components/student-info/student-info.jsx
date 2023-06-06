@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import './student-info.styles.scss'
-import { useForm, Controller } from 'react-hook-form'
-import Switch from '@mui/material/Switch'
-import axios from 'axios'
-import ConfPopUp from '../PopUp/confirmation/confPopUp'
-import GenericPopUp from '../PopUp/generic/generic-popup'
-import Confirmation from '../PopUp/conf/confirmation'
+import React, { useEffect, useState } from "react";
+import "./student-info.styles.scss";
+import { useForm, Controller } from "react-hook-form";
+import Switch from "@mui/material/Switch";
+import axios from "axios";
+import ConfPopUp from "../PopUp/confirmation/confPopUp";
+import GenericPopUp from "../PopUp/generic/generic-popup";
+import Confirmation from "../PopUp/conf/confirmation";
 
-import LoadingScreen from '../PopUp/LoadingScreen/loading'
+import LoadingScreen from "../PopUp/LoadingScreen/loading";
 
 function StudentInfo(props) {
-  const { control, register, handleSubmit, setValue } = useForm()
-  const [isLoading, setLoading] = useState(false)
-  const api_url = import.meta.env.VITE_API_URL
+  // Destructuring properties from props
+  const { control, register, handleSubmit, setValue } = useForm();
+  const [isLoading, setLoading] = useState(false);
+  const api_url = import.meta.env.VITE_API_URL;
   const onUpdate = (data) => {
-    setLoading(true)
-    console.log(data)
+    setLoading(true);
+    console.log(data);
     axios
-      .post(api_url + 'student.php', {
-        request: 'update_student',
+      .post(api_url + "student.php", {
+        request: "update_student",
         user_id: 41792238,
         id: id,
         first: data.first,
@@ -27,24 +28,25 @@ function StudentInfo(props) {
         email: data.email,
         phone: data.phone,
         address: data.address,
-        postbac: data.postbac ? 'Yes' : 'No',
-        withdrawing: data.withdrawing ? 'Yes' : 'No',
-        veterans: data.veterans ? 'Yes' : 'No',
-        active: 'Yes',
-        non: data.non
+        postbac: data.postbac ? "Yes" : "No",
+        withdrawing: data.withdrawing ? "Yes" : "No",
+        veterans: data.veterans ? "Yes" : "No",
+        active: "Yes",
+        non: data.non,
       })
       .then((res) => {
-        console.log(res.data)
-        setLoading(false)
+        console.log(res.data);
+        setLoading(false);
       })
       .catch((error) => {
-        setErrorMessage('')
-      })
-  }
-  const { programs, advisors } = props
+        setErrorMessage("");
+      });
+  };
+  const { programs, advisors } = props;
 
-  const [student, setStudent] = useState(props)
-  const [fname, setFname] = useState('')
+  // State variables
+  const [student, setStudent] = useState(props);
+  const [fname, setFname] = useState("");
 
   const {
     id,
@@ -57,51 +59,53 @@ function StudentInfo(props) {
     postbaccalaureate,
     veterans_benefits,
     withdrawing,
-    non_stem_majors
-  } = props.student
+    non_stem_majors,
+  } = props.student;
 
+  // Check if the first name has changed
   if (fname != first) {
-    setFname(first)
+    setFname(first);
   }
+  // State variables for switches
   const [post, setPost] = useState(() => {
-    return postbaccalaureate == 'Yes'
-  })
+    return postbaccalaureate == "Yes";
+  });
   const [withdraw, setWithdraw] = useState(() => {
-    return withdrawing == 'Yes'
-  })
-  const vet = veterans_benefits == 'Yes'
+    return withdrawing == "Yes";
+  });
+  const vet = veterans_benefits == "Yes";
 
-  const test = (data) => {}
-
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
-  const [conf, setConf] = useState(false)
-  const [formData, setFormData] = useState([])
+  const test = (data) => {};
+  // State variables for pop-ups
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [conf, setConf] = useState(false);
+  const [formData, setFormData] = useState([]);
   const handleSuccess = () => {
-    setSuccess(false)
-  }
+    setSuccess(false);
+  };
   const successOpen = () => {
-    setSuccess(true)
-  }
+    setSuccess(true);
+  };
   const errorClose = () => {
-    setError(false)
-  }
+    setError(false);
+  };
   const errorOpen = () => {
-    setError(true)
-  }
+    setError(true);
+  };
   const confClose = () => {
-    setConf(false)
-  }
+    setConf(false);
+  };
   const confYes = () => {
-    setConf(false)
-    onUpdate(formData)
-  }
+    setConf(false);
+    onUpdate(formData);
+  };
 
   const formSubmit = (data) => {
-    setConf(true)
-    setFormData(data)
-  }
+    setConf(true);
+    setFormData(data);
+  };
 
   return (
     <div className="info-wrapper">
@@ -110,18 +114,18 @@ function StudentInfo(props) {
           <label>First Name</label>
           <input
             type="text"
-            {...register('first')}
+            {...register("first")}
             defaultValue={props.student.first}
           />
         </div>
         <div className="form-group">
           <label>Last Name</label>
-          <input type="text" {...register('last')} defaultValue={last} />
+          <input type="text" {...register("last")} defaultValue={last} />
         </div>
         <div className="form-group">
           <label>CWU ID</label>
           <input
-            {...register('cwu_id')}
+            {...register("cwu_id")}
             pattern="[0-9]{8}"
             type="text"
             defaultValue={cwu_id}
@@ -129,21 +133,21 @@ function StudentInfo(props) {
         </div>
         <div className="form-group">
           <label>CWU Email</label>
-          <input type="text" {...register('email')} defaultValue={email} />
+          <input type="text" {...register("email")} defaultValue={email} />
         </div>
         <div className="form-group">
           <label>Address</label>
-          <input type="text" {...register('address')} defaultValue={address} />
+          <input type="text" {...register("address")} defaultValue={address} />
         </div>
         <div className="form-group">
           <label>Phone</label>
-          <input type="text" {...register('phone')} defaultValue={phone} />
+          <input type="text" {...register("phone")} defaultValue={phone} />
         </div>
         <div className="form-group">
           <label>Non-Stem</label>
           <input
             type="text"
-            {...register('non')}
+            {...register("non")}
             defaultValue={non_stem_majors}
           />
         </div>
@@ -158,11 +162,11 @@ function StudentInfo(props) {
                 <Switch
                   value={valueProp}
                   onChange={(event, val) => {
-                    setValue('postbac', val)
+                    setValue("postbac", val);
                   }}
                   defaultChecked={post}
                 />
-              )
+              );
             }}
           />
         </div>
@@ -178,10 +182,10 @@ function StudentInfo(props) {
                   defaultChecked={withdraw}
                   value={valueProp}
                   onChange={(event, val) => {
-                    setValue('withdrawing', val)
+                    setValue("withdrawing", val);
                   }}
                 />
-              )
+              );
             }}
           />
         </div>
@@ -196,11 +200,11 @@ function StudentInfo(props) {
                 <Switch
                   value={valueProp}
                   onChange={(event, val) => {
-                    setValue('veterans', val)
+                    setValue("veterans", val);
                   }}
                   defaultChecked={vet}
                 />
-              )
+              );
             }}
           />
           <br />
@@ -255,7 +259,7 @@ function StudentInfo(props) {
       />
       <LoadingScreen open={isLoading} />
     </div>
-  )
+  );
 }
 
-export default StudentInfo
+export default StudentInfo;

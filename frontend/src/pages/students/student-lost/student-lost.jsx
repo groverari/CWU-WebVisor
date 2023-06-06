@@ -1,17 +1,19 @@
-import './student-lost.styles.scss'
-import axios from 'axios'
-import React, { useState, useEffect } from 'react'
+import './student-lost.styles.scss';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
 const LostStudents = () => {
-  const [lost, setLost] = useState([])
-  const api_url = import.meta.env.VITE_API_URL
+  const [lost, setLost] = useState([]); // Holds the list of lost students
+  const api_url = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
+    // Fetch lost students from API
     axios
       .post(api_url + 'Student.php', { request: 'get_bad_cwu_ids' })
       .then((res) => {
-        setLost(res.data)
-      })
-  }, [])
+        setLost(res.data);
+      });
+  }, []);
 
   return (
     <div className="lost-table-wrapper">
@@ -45,12 +47,13 @@ const LostStudents = () => {
                     <td>{student.email}</td>
                     <td>{student.active}</td>
                   </tr>
-                )
+                );
               })}
           </tbody>
         </table>
       </div>
     </div>
-  )
-}
-export default LostStudents
+  );
+};
+
+export default LostStudents;

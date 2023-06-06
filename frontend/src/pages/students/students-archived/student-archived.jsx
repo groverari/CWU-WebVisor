@@ -9,19 +9,19 @@ import GenericPopUp from '../../../components/PopUp/generic/generic-popup'
 import UserStudentWarning from '../../../components/add_student_user/add_student_user'
 
 const ArchivedStudents = () => {
-  //These set the search box properly
+  // These set the search box properly
   const [students, setStudents] = useState([])
   const [searchStudents, setSearchStudents] = useState([])
-  //this is the value from the search box
+  // This is the value from the search box
   const [selectedStudent, setSelectedStudent] = useState(0)
-  //this boolean shows the info about the selected student
+  // This boolean shows the info about the selected student
   const [isInfo, setInfo] = useState(false)
-  //this is the info for the adivsors and programs the student belongs to
+  // This is the info for the advisors and programs the student belongs to
   const [advisors, setAdvisors] = useState([])
   const [canEdit, setCanEdit] = useState(true)
   const [programs, setPrograms] = useState(0)
   const [programID, setProgramID] = useState(0)
-  //this is for the all the different popups
+  // This is for all the different popups
   const [conf, setConf] = useState(false)
   const [activeConf, setActiveConf] = useState(false)
   const [error, setError] = useState(false)
@@ -30,7 +30,7 @@ const ArchivedStudents = () => {
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  //Methods to show and close popups
+  // Methods to show and close popups
   const handleSuccess = () => {
     setSuccess(false)
   }
@@ -67,7 +67,7 @@ const ArchivedStudents = () => {
     changeActivation()
   }
 
-  //API Methods
+  // API Methods
   let api_url = import.meta.env.VITE_API_URL
   useEffect(() => {
     axios
@@ -110,7 +110,7 @@ const ArchivedStudents = () => {
     setPrograms([])
     setAdvisors([])
 
-    //Gets info regarding student program and advisor
+    // Gets info regarding student program and advisor
     axios
       .post(api_url + 'Student_program.php', {
         request: 'programs_with_student',

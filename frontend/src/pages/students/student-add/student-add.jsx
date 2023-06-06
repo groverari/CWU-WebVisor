@@ -1,95 +1,97 @@
-import React, { useState, useEffect } from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import axios from 'axios'
-import './student-add.scss'
-import SearchBox from '../../../components/search-box/search-box'
-import Generic from '../../../components/PopUp/generic/generic-popup'
-import GenericPopUp from '../../../components/PopUp/generic/generic-popup'
-import Confirmation from '../../../components/PopUp/conf/confirmation'
-import LoadingScreen from '../../../components/PopUp/LoadingScreen/loading'
+import React, { useState, useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import axios from 'axios';
+import './student-add.scss';
+import SearchBox from '../../../components/search-box/search-box';
+import Generic from '../../../components/PopUp/generic/generic-popup';
+import GenericPopUp from '../../../components/PopUp/generic/generic-popup';
+import Confirmation from '../../../components/PopUp/conf/confirmation';
+import LoadingScreen from '../../../components/PopUp/LoadingScreen/loading';
 
 const AddStudent = () => {
-  const api_url = import.meta.env.VITE_API_URL
-  const [programs, setPrograms] = useState([])
-  const [searchPrograms, setSearchPrograms] = useState([])
-  const { control, register, handleSubmit, setValue, reset } = useForm()
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
-  const [conf, setConf] = useState(false)
-  const [formData, setFormData] = useState([])
-  const [isLoading, setLoading] = useState(false)
+  const api_url = import.meta.env.VITE_API_URL;
+  const [programs, setPrograms] = useState([]); // Holds the list of programs
+  const [searchPrograms, setSearchPrograms] = useState([]); // Holds the list of programs for searching
+  const { control, register, handleSubmit, setValue, reset } = useForm();
+  const [success, setSuccess] = useState(false); // Controls the visibility of the success popup
+  const [error, setError] = useState(false); // Controls the visibility of the error popup
+  const [errorMessage, setErrorMessage] = useState(''); // Holds the error message
+  const [conf, setConf] = useState(false); // Controls the visibility of the confirmation popup
+  const [formData, setFormData] = useState([]); // Holds the form data
+  const [isLoading, setLoading] = useState(false); // Controls the visibility of the loading screen
 
   const handleSuccess = () => {
-    setSuccess(false)
-  }
+    setSuccess(false);
+  };
   const successOpen = (event) => {
-    event.preventDefault()
-    setSuccess(true)
-  }
+    event.preventDefault();
+    setSuccess(true);
+  };
   const errorClose = () => {
-    setError(false)
-  }
+    setError(false);
+  };
   const errorOpen = (event) => {
-    event.preventDefault()
-    setError(true)
-  }
+    event.preventDefault();
+    setError(true);
+  };
   const confOpen = (event) => {
-    event.preventDefault()
-    setConf(true)
-  }
+    event.preventDefault();
+    setConf(true);
+  };
   const confClose = () => {
-    setConf(false)
-  }
+    setConf(false);
+  };
   const confYes = (data) => {
-    setConf(false)
-    addStudent(formData)
-  }
+    setConf(false);
+    addStudent(formData);
+  };
 
   useEffect(() => {
+    // Fetch programs from API
     axios
       .post(api_url + 'program.php', { request: 'all_programs' })
       .then((res) => {
-        setPrograms(res.data)
+        setPrograms(res.data);
         //console.log(res.data)
       })
       .catch((error) => {
-        setErrorMessage('Could Not Connect to the Database')
-        setError(true)
-      })
-  }, [])
+        setErrorMessage('Could Not Connect to the Database');
+        setError(true);
+      });
+  }, []);
 
   useEffect(() => {
+    // Update searchPrograms when programs change
     if (programs) {
       let temp = programs.map((program) => ({
         label: program.name + ' ' + program.year,
         value: programs.indexOf(program)
-      }))
+      }));
 
       temp.sort(function (a, b) {
-        return a.label.localeCompare(b.label)
-      })
-      setSearchPrograms(temp)
+        return a.label.localeCompare(b.label);
+      });
+      setSearchPrograms(temp);
     }
-  }, [programs])
+  }, [programs]);
 
   const programCheck = (data) => {
     if (data.program == undefined) {
-      setErrorMessage('Please add a program for the Student')
-      setError(true)
+      setErrorMessage('Please add a program for the Student');
+      setError(true);
     } else {
       //handleFormSubmit(data)
-      setConf(true)
-      setFormData(data)
+      setConf(true);
+      setFormData(data);
     }
-  }
+  };
 
   const addStudent = (data) => {
-    setLoading(true)
-    let user_id = localStorage.getItem('userId')
-    let stu_id = 0
-    let success = false
-    data.email += '@cwu.edu'
+    setLoading(true);
+    let user_id = localStorage.getItem('userId');
+    let stu_id = 0;
+    let success = false;
+    data.email += '@cwu.edu';
     axios
       .post(api_url + 'Student.php', {
         request: 'add_student',
@@ -102,9 +104,9 @@ const AddStudent = () => {
       .then((res) => {
         //console.log(res.data)
         if (res.data.includes('Error')) {
-          setLoading(false)
-          setErrorMessage(res.data)
-          setError(true)
+          setLoading(false);
+          setErrorMessage(res.data);
+          setError(true);
         } else {
           axios
             .post(api_url + 'Student_program.php', {
@@ -115,21 +117,21 @@ const AddStudent = () => {
               program_id: data.program
             })
             .then((res) => {
-              console.log(res.data)
+              console.log(res.data);
               if (res.data) {
-                setLoading(false)
-                setSuccess(true)
-                reset()
+                setLoading(false);
+                setSuccess(true);
+                reset();
               }
-            })
-          setLoading(false)
+            });
+          setLoading(false);
         }
       })
       .catch((error) => {
-        console.log(error)
-        console.log('unhandled error')
-      })
-  }
+        console.log(error);
+        console.log('unhandled error');
+      });
+  };
 
   return (
     <div>
@@ -147,11 +149,11 @@ const AddStudent = () => {
                   placeholder="Select a Program"
                   list={searchPrograms}
                   onChange={({ value }) => {
-                    const program = programs[parseInt(value)]
-                    setValue('program', program.program_id)
+                    const program = programs[parseInt(value)];
+                    setValue('program', program.program_id);
                   }}
                 />
-              )
+              );
             }}
           ></Controller>
         </div>
@@ -203,6 +205,7 @@ const AddStudent = () => {
       />
       <LoadingScreen open={isLoading} />
     </div>
-  )
-}
-export default AddStudent
+  );
+};
+
+export default AddStudent;

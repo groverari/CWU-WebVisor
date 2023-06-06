@@ -27,24 +27,26 @@ function App() {
   return (
     <div className="container">
       <Routes>
-        <Route path="/" element={<Login />}></Route>
+        {/* Login Page */}
+        <Route path="/" element={<Login />} />
+        {/* Main Layout with Navigation */}
         <Route path="/home" element={<NavBar />}>
           <Route index element={<StudentPage />} />
-          {/* This is where all the links go for navigation in the website */}
+          {/* Student Routes */}
           <Route path="students" element={<StudentPage />}>
-            {/* This is where all the submenu navigation goes */}
             <Route index element={<StudentSearch />} />
             <Route path="search" element={<StudentSearch />} />
             <Route path="add" element={<AddStudent />} />
             <Route path="archived" element={<ArchivedStudents />} />
             <Route path="lost" element={<LostStudents />} />
           </Route>
+          {/* Class Routes */}
           <Route path="class" element={<ClassPage />}>
-            {/* This is where all the class sub menus go */}
             <Route index element={<ClassSearch />} />
             <Route path="search" element={<ClassSearch />} />
             <Route path="add" element={<AddClass />} />
           </Route>
+          {/* Major Routes */}
           <Route path="major" element={<MajorPage />}>
             <Route index element={<EditMajor />} />
             <Route path="eMajor" element={<EditMajor />} />
@@ -52,12 +54,15 @@ function App() {
             <Route path="addMajor" element={<AddMajor />} />
             <Route path="addprogram" element={<AddProgram />} />
           </Route>
+          {/* Enrollments Route */}
           <Route path="enrollments" element={<Enrollments />} />
+          {/* Admin Routes */}
           <Route path="admin" element={<AdminPage />}>
             <Route index element={<AdminPage />} />
             <Route path="search" element={<SearchUser />} />
             <Route path="add" element={<AddUser />} />
           </Route>
+          {/* Help Route */}
           <Route path="help" element={<Help />} />
         </Route>
       </Routes>

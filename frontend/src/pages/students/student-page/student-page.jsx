@@ -3,27 +3,27 @@ import React from 'react'
 import './student-page.styles.scss'
 import SubMenu from '../../../components/submenu/submenu'
 
-const baseurl = '/home/students'
+const baseurl = '/home/students' // Base URL for student page
 const links = [
   {
     key: 1,
-    name: 'Student Search',
-    path: '/search'
+    name: 'Student Search', //actual button name
+    path: '/search' // URL path for student search
   },
   {
     key: 2,
-    name: 'Add Student',
-    path: '/add'
+    name: 'Add Student',//actual button name
+    path: '/add' // URL path for adding a student
   },
   {
     key: 3,
-    name: 'Achived Students',
-    path: '/archived'
+    name: 'Archived Students',//actual button name
+    path: '/archived' // URL path for archived students
   },
   {
     key: 4,
-    name: 'Lost Students',
-    path: '/lost'
+    name: 'Lost Students',//actual button name
+    path: '/lost' // URL path for lost students
   }
 ]
 const StudentPage = () => {
@@ -33,8 +33,8 @@ const StudentPage = () => {
         <SubMenu
           className="submenu"
           title="Students"
-          baseurl={baseurl}
-          links={links}
+          baseurl={baseurl} // Base URL for submenu links
+          links={links} // Array of submenu links
         />
       </div>
       <div className="page-content-container">

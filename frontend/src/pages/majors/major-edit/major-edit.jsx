@@ -7,61 +7,72 @@ import LoadingScreen from '../../../components/PopUp/LoadingScreen/loading'
 import GenericPopUp from '../../../components/PopUp/generic/generic-popup'
 
 /**
- *
- *
- * TODO: Generate an Error Popup that says
+ * EditMajor component for editing major information
  */
 function EditMajor() {
-  const [majors, setMajors] = useState([])
-  const [searchMajors, setSearchMajors] = useState([])
-  const [selectedMajor, setSelectedMajor] = useState(0)
-  const [showInfo, setInfo] = useState(false)
-  const [updatedName, setName] = useState('')
-  const [conf, setConf] = useState(false)
-  const [activeConf, setActiveConf] = useState(false)
-  const [error, setError] = useState(false)
-  const [errorMessage, setErrorMesssage] = useState('')
-  const [successMessage, setSuccessMesssage] = useState('')
-  const [success, setSuccess] = useState(false)
-  const [loading, setLoading] = useState(true)
+  // State variables
+  const [majors, setMajors] = useState([]) // Array of majors
+  const [searchMajors, setSearchMajors] = useState([]) // Array of majors for search functionality
+  const [selectedMajor, setSelectedMajor] = useState(0) // Index of selected major
+  const [showInfo, setInfo] = useState(false) // Flag to show major info
+  const [updatedName, setName] = useState('') // Updated major name
+  const [conf, setConf] = useState(false) // Flag for confirmation popup
+  const [activeConf, setActiveConf] = useState(false) // Flag for activation confirmation popup
+  const [error, setError] = useState(false) // Flag for error popup
+  const [errorMessage, setErrorMessage] = useState('') // Error message
+  const [successMessage, setSuccessMessage] = useState('') // Success message
+  const [success, setSuccess] = useState(false) // Flag for success popup
+  const [loading, setLoading] = useState(true) // Flag for loading state
 
   const handleSuccess = () => {
     setSuccess(false)
   }
+
   const successOpen = (event) => {
     event.preventDefault()
     setSuccess(true)
   }
+
   const errorClose = () => {
     setError(false)
   }
+
   const errorOpen = (event) => {
     event.preventDefault()
     setError(true)
   }
+
   const confOpen = (event) => {
     event.preventDefault()
     setConf(true)
   }
+
   const confClose = () => {
     setConf(false)
   }
+
   const confYes = () => {
     setConf(false)
     handleUpdate()
   }
+
   const activeConfOpen = () => {
     setActiveConf(true)
   }
+
   const activeConfClose = () => {
     setActiveConf(false)
   }
+
   const activeYes = () => {
     setActiveConf(false)
     changeActivation()
   }
+
   const api_url = import.meta.env.VITE_API_URL
+
   useEffect(() => {
+    // Fetch majors from API
     axios
       .post(api_url + 'Major.php', {
         request: 'read'
@@ -71,13 +82,14 @@ function EditMajor() {
         setLoading(false)
       })
       .catch((error) => {
-        setErrorMesssage(error.data)
+        setErrorMessage(error.data)
         setLoading(false)
         setError(true)
       })
   }, [])
 
   useEffect(() => {
+    // Update searchMajors when majors change
     if (majors) {
       const temp = majors.map((major) => ({
         label: major.name,
@@ -91,6 +103,7 @@ function EditMajor() {
   }, [majors])
 
   const selectHandler = ({ value }) => {
+    // Handle major selection
     setName('')
     setSelectedMajor(majors[value])
     console.log(majors[value])
@@ -98,6 +111,7 @@ function EditMajor() {
   }
 
   const changeActivation = () => {
+    // Change major activation
     setLoading(true)
     let activation = selectedMajor.active == 'Yes' ? 'No' : 'Yes'
     console.log('NEW ACTIVATION: ' + activation)
@@ -111,11 +125,11 @@ function EditMajor() {
       })
       .then((res) => {
         if (typeof res.data == 'string' && res.data.includes('error')) {
-          setErrorMesssage(res.data)
+          setErrorMessage(res.data)
           setLoading(false)
           setError(true)
         } else {
-          setSuccessMesssage(
+          setSuccessMessage(
             activation == 'Yes'
               ? 'Activation Successful'
               : 'Deactivation Successful'
@@ -129,23 +143,26 @@ function EditMajor() {
       })
       .catch((err) => {
         console.log(err)
-        setErrorMesssage(err.data)
+        setErrorMessage(err.data)
         setLoading(false)
         setError(true)
       })
   }
 
   const buttonHandler = () => {
+    // Handle search button click
     if (selectedMajor) {
       setInfo(true)
     } else {
-      setErrorMesssage('First select a major to edit')
+      setErrorMessage('First select a major to edit')
       setError(true)
     }
   }
+
   const updator = () => {
+    // Handle update button click
     if (updatedName == '' || selectedMajor.name == updatedName) {
-      setErrorMesssage('No changes were made')
+      setErrorMessage('No changes were made')
       setError(true)
     } else {
       setConf(true)
@@ -153,6 +170,7 @@ function EditMajor() {
   }
 
   const handleUpdate = () => {
+    // Handle major update
     setLoading(true)
     delete majors[majors.indexOf(selectedMajor)]
     selectedMajor.name = updatedName
@@ -169,16 +187,16 @@ function EditMajor() {
         setLoading(false)
         console.log(res.data)
         if (typeof res.data === 'string' && res.data.includes('Error')) {
-          setErrorMesssage(res.data)
+          setErrorMessage(res.data)
           setError(true)
         } else {
-          setSuccessMesssage('Successfully Updated the Major')
+          setSuccessMessage('Successfully Updated the Major')
           setSuccess(true)
           setName('')
         }
       })
       .catch((error) => {
-        setErrorMesssage(error.data)
+        setErrorMessage(error.data)
         setLoading(false)
         setError(true)
       })

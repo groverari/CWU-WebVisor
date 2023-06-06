@@ -7,44 +7,47 @@ import ClassSelector from '../../../components/class-selector/class-selector';
 
 function EditProgram() {
   const api_url = import.meta.env.VITE_API_URL;
-  const [programs, setPrograms] = useState([]);
-  const [searchPrograms, setSearchPrograms] = useState([]);
-  const [selectedProgram, setSelectedProgram] = useState([]);
-  const [majors, setMajors] = useState([]);
-  const [searchMajors, setSearchMajors] = useState([]);
-  const [selectedMajorName, setSelectedMajorName] = useState();
-  const [selectedMajorID, setSelectedMajorID] = useState(selectedProgram.major_id);
-  const [programClasses, setProgramClasses] = useState(Object);
-  const [programelectives, setProgramElectives] = useState([]);
-  const [searchElectives, setSearchElectives] = useState([]);
-  const [classes, setClasses] = useState([]);
-  const [searchClasses, setSearchClasses] = useState([]);
-  const [searchProgramClasses, setSearchProgramClasses] = useState([]);
-  const [year, setYear] = useState(selectedProgram.year);
-  const [credits, setCredits] = useState(selectedProgram.credits);
-  const [electiveCredits, setElectiveCredits] = useState(selectedProgram.elective_credits);
-  const [showInfo, setInfo] = useState(false);
-  const [errorMessage, setErrorMesssage] = useState('');
-  const [showError, setShowError] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
-  const [extraClasses, setExtraClasses] = useState([]);
-  const [missingClasses, setMissingClasses] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [programs, setPrograms] = useState([]); // Holds the list of programs
+  const [searchPrograms, setSearchPrograms] = useState([]); // Holds the list of programs for searching
+  const [selectedProgram, setSelectedProgram] = useState([]); // Holds the currently selected program
+  const [majors, setMajors] = useState([]); // Holds the list of majors
+  const [searchMajors, setSearchMajors] = useState([]); // Holds the list of majors for searching
+  const [selectedMajorName, setSelectedMajorName] = useState(); // Holds the name of the selected major
+  const [selectedMajorID, setSelectedMajorID] = useState(selectedProgram.major_id); // Holds the ID of the selected major
+  const [programClasses, setProgramClasses] = useState(Object); // Holds the classes required by the program
+  const [programelectives, setProgramElectives] = useState([]); // Holds the program electives
+  const [searchElectives, setSearchElectives] = useState([]); // Holds the program electives for searching
+  const [classes, setClasses] = useState([]); // Holds the list of all active classes
+  const [searchClasses, setSearchClasses] = useState([]); // Holds the list of all active classes for searching
+  const [searchProgramClasses, setSearchProgramClasses] = useState([]); // Holds the list of program classes for searching
+  const [year, setYear] = useState(selectedProgram.year); // Holds the year of the selected program
+  const [credits, setCredits] = useState(selectedProgram.credits); // Holds the number of credits for the selected program
+  const [electiveCredits, setElectiveCredits] = useState(selectedProgram.elective_credits); // Holds the number of elective credits for the selected program
+  const [showInfo, setInfo] = useState(false); // Controls the visibility of program information
+  const [errorMessage, setErrorMesssage] = useState(''); // Holds the error message
+  const [showError, setShowError] = useState(false); // Controls the visibility of the error popup
+  const [showPopup, setShowPopup] = useState(false); // Controls the visibility of the confirmation popup
+  const [extraClasses, setExtraClasses] = useState([]); // Holds the extra classes added to the program
+  const [missingClasses, setMissingClasses] = useState([]); // Holds the missing classes for the program
+  const [selectedOption, setSelectedOption] = useState(null); // Holds the selected option in the confirmation popup
 
-
+  // Function to handle the update of extra classes
   const handleExtraClassesUpdate = (extraClasses) => {
     setExtraClasses(extraClasses);
   };
   
+  // Function to handle the update of missing classes
   const handleMissingClassesUpdate = (missingClasses) => {
     setMissingClasses(missingClasses);
   };
 
+  // Function to handle the closing of the error popup
   const handleErrorPopUpClose = () => {
     setShowError(false);
   };
 
   useEffect(() => {
+    // Fetch programs from API
     axios.post(api_url + 'Program.php', {
       request: 'all_programs',
       user_id: localStorage.getItem('userId')
@@ -55,6 +58,7 @@ function EditProgram() {
   }, []);
 
   useEffect(() => {
+    // Update searchPrograms when programs change
     if (programs) {
       const temp = programs.map((program) => ({
         label: program.name + ' ' + program.year,
@@ -65,12 +69,14 @@ function EditProgram() {
   }, [programs]);
 
   if (searchPrograms) {
+    // Sort searchPrograms by label
     searchPrograms.sort(function (a, b) {
       return a.label.localeCompare(b.label);
     });
   }
 
   useEffect(() => {
+    // Fetch majors from API
     axios.post(api_url + 'Major.php', {
       request: 'read',
     })
@@ -80,6 +86,7 @@ function EditProgram() {
   }, []);
 
   useEffect(() => {
+    // Update searchMajors when majors change
     if (majors) {
       const temp = majors.map((major) => ({
         label: major.name,
@@ -90,12 +97,14 @@ function EditProgram() {
   }, [majors]);
 
   if (searchMajors) {
+    // Sort searchMajors by label
     searchMajors.sort(function (a, b) {
       return a.label.localeCompare(b.label);
     });
   }
 
   useEffect(() => {
+    // Fetch active classes from API
     axios.post(api_url + 'Class.php', {
       request: 'all_active_classes',
     })
@@ -106,6 +115,7 @@ function EditProgram() {
 
   const getProgramClassInfo = () => {
     if (selectedProgram.program_id !== undefined) {
+      // Fetch required classes for the selected program from API
       axios.post(api_url + 'Program_Class.php', {
         request: 'get_required_classes',
         program_id: selectedProgram.program_id,
@@ -122,6 +132,7 @@ function EditProgram() {
   };
 
   const selectProgramHandler = ({ value }) => {
+    // Handle program selection
     setSelectedProgram(programs[value]);
     setExtraClasses([]);
     setMissingClasses([]);
@@ -129,27 +140,31 @@ function EditProgram() {
   };
 
   const selectMajorHandler = ({ value }) => {
+    // Handle major selection
     setSelectedMajorID(majors[value].id);
     setSelectedMajorName(majors[value].name);
   };
 
   const buttonHandler = () => {
+    // Handle search button click
     getProgramClassInfo();
     setInfo(true);
   };
 
   const updator = () => {
+    // Handle update button click
     handlePopUpOpen();
   };
 
   useEffect(() => {
+    // Handle selected option change
     if (selectedOption) {
       handleUpdate()
     }
-  }, [selectedOption])
-
+  }, [selectedOption]);
 
   const handleUpdate = () => {
+    // Handle program update
     delete programs[programs.indexOf(selectedProgram)];
     setPrograms(programs.concat(selectedProgram));
     axios.post(api_url + 'Program.php', {
@@ -176,29 +191,31 @@ function EditProgram() {
   };
 
   const handlePopUpOpen = () => {
+    // Handle popup open
     setShowPopup(true)
-  }
+  };
 
   const handlePopUpClose = () => {
+    // Handle popup close
     setShowPopup(false);
   };
 
   const handlePopUpButtonClick = (buttonValue) => {
+    // Handle popup button click
     setSelectedOption(buttonValue);
   };
 
   useEffect(() => {
-    console.log("from the parent; missing");
+    // Handle missing classes update
     if(missingClasses[missingClasses.length - 1] !== undefined)
     {
       const lastClass = missingClasses[missingClasses.length - 1];
-      console.log(lastClass);
       axios.post(api_url + 'Program_Class.php', {
         request: 'remove_class',
         user_id: localStorage.getItem('userId'),
         class_id: lastClass.CID == undefined? lastClass.id : lastClass.CID,
         program_id: selectedProgram.program_id,
-        })
+      })
       .then((res) => {
         if (typeof res.data === 'string' && res.data.includes('Error')) {
           setErrorMesssage(res.data);
@@ -215,11 +232,10 @@ function EditProgram() {
   }, [missingClasses]);
 
   useEffect(() => {
-    console.log("from the parent; extra");
+    // Handle extra classes update
     if(extraClasses[extraClasses.length - 1] !== undefined)
     {
       const lastClass = extraClasses[extraClasses.length - 1];
-      console.log(lastClass);
       axios.post(api_url + 'Program_Class.php', {
         request: 'add_class',
         user_id: localStorage.getItem('userId'),
@@ -227,7 +243,7 @@ function EditProgram() {
         program_id: selectedProgram.program_id,
         minimum_grade: lastClass.minimum_grade == undefined ? "20": lastClass.minimum_grade,
         required: 'YES'
-        })
+      })
       .then((res) => {
         if (typeof res.data === 'string' && res.data.includes('Error')) {
           setErrorMesssage(res.data);

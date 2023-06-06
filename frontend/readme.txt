@@ -16,3 +16,10 @@ Now, how can you see the old UI? The issue with the old UI is that it uses funct
 
 We use an API that we made. Every AXIOS component call you see in react calls on some function within the API in the oldPHP within the model folder. Try looking at an axios call, look for the request page in the API folder, and then look for the request function--Hopefully you can ask your instructor if you can see our presentation where audibly explain this. 
 Good luck
+
+Contact info if you really need some questions or more explanation:
+
+360 225 9079
+564 219 2472
+360 869 1108
+360 843 0840

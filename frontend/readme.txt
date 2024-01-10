@@ -19,7 +19,3 @@ Good luck
 
 Contact info if you really need some questions or more explanation:
 
-360 225 9079
-564 219 2472
-360 869 1108
-360 843 0840
